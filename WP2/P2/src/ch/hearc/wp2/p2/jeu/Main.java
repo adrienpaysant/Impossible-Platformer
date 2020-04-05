@@ -5,7 +5,7 @@ import javax.swing.WindowConstants;
 
 public class Main {
 
-	public static Scene scene;
+	public static Map map;
 
 	public static void main(String[] args) {
 		JFrame window = new JFrame("Impossible Platformer");
@@ -14,8 +14,8 @@ public class Main {
 		window.setLocationRelativeTo(null);
 		window.setSize(640,400);
 
-		scene=new Scene();
-		window.setContentPane(scene);
+		map=new Map();
+		window.setContentPane(map);
 		window.setVisible(true);
 	}
 
