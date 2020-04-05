@@ -1,5 +1,5 @@
 
-package ch.hearc.wp2.p2.jeu;
+package ch.hearc.wp2.p2.jeu.tools;
 
 public class Chrono implements Runnable
 	{
