@@ -1,7 +1,11 @@
 package ch.hearc.wp2.p2.jeu;
 
+import java.awt.Dimension;
+
 import javax.swing.JFrame;
 import javax.swing.WindowConstants;
+
+import ch.hearc.wp2.p2.jeu.menus.MainMenu;
 
 public class Main {
 
@@ -12,10 +16,7 @@ public class Main {
 		window.setAlwaysOnTop(true);
 		window.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 		window.setLocationRelativeTo(null);
-		window.setSize(640,400);
-
-		map=new Map();
-		window.setContentPane(map);
+		window.setContentPane(new MainMenu());
 		window.setVisible(true);
 	}
 
