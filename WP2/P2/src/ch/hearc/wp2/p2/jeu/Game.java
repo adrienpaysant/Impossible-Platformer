@@ -2,6 +2,8 @@
 package ch.hearc.wp2.p2.jeu;
 
 import java.awt.Dimension;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
 
 import javax.swing.JFrame;
 import javax.swing.WindowConstants;
@@ -16,7 +18,9 @@ public class Game extends JFrame {
 		setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 		setLocationRelativeTo(null);
 		setMinimumSize(new Dimension(500, 500));
-		setContentPane(new MainMenu());
+		MainMenu mainMenu = new MainMenu();
+		setContentPane(mainMenu);
 		setVisible(true);
 	}
+	
 }

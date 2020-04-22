@@ -1,8 +1,11 @@
 package ch.hearc.wp2.p2.jeu.menus;
 
+import java.awt.Component;
 import java.awt.FlowLayout;
 import java.awt.Frame;
 import java.awt.Graphics;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
 import java.awt.Image;
 import java.awt.Window;
 import java.awt.image.ImageObserver;
@@ -11,6 +14,8 @@ import javax.imageio.ImageIO;
 import javax.swing.Box;
 import javax.swing.JButton;
 import javax.swing.JPanel;
+
+import ch.hearc.wp2.p2.jeu.JCenter;
 
 @SuppressWarnings("serial")
 public class MainMenu extends JPanel {
@@ -23,7 +28,7 @@ public class MainMenu extends JPanel {
 	
 	public MainMenu() {
 		try {
-			bgImage = ImageIO.read(getClass().getResource("/images/menubg.png"));
+			bgImage = ImageIO.read(getClass().getResource("/images/menubg2.jpg"));
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -32,8 +37,7 @@ public class MainMenu extends JPanel {
 		quit = new JButtonMenu("Quit");
 		about = new JButtonMenu("About");
 		options = new JButtonMenu("Options");
-		setLayout(new FlowLayout(FlowLayout.CENTER));
-		boxV.add(Box.createVerticalStrut(HEIGHT/3));
+		//setLayout(new FlowLayout(FlowLayout.CENTER));
 		boxV.add(play);
 		boxV.add(Box.createVerticalStrut(20));
 		boxV.add(options);
@@ -41,8 +45,7 @@ public class MainMenu extends JPanel {
 		boxV.add(about);
 		boxV.add(Box.createVerticalStrut(20));
 		boxV.add(quit);
-		boxV.add(Box.createVerticalStrut(HEIGHT/3));
-		add(boxV);
+		add(new JCenter(boxV));
 	}
 
 	@Override
