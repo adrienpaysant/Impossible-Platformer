@@ -1,29 +1,26 @@
 
 package ch.hearc.wp2.p2.jeu;
 
+import java.awt.Dimension;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
 
+import javax.swing.JFrame;
+import javax.swing.WindowConstants;
 
-public class Game
-	{
-	
-	/*------------------------------------------------------------------*\
-	|*							Constructeurs							*|
-	\*------------------------------------------------------------------*/
-	
-	/*------------------------------------------------------------------*\
-	|*							Methodes Public							*|
-	\*------------------------------------------------------------------*/
-	
-	/*------------------------------*\
-	|*				Get				*|
-	\*------------------------------*/
-	
-	/*------------------------------------------------------------------*\
-	|*							Methodes Private						*|
-	\*------------------------------------------------------------------*/
-	
-	/*------------------------------------------------------------------*\
-	|*							Attributs Private						*|
-	\*------------------------------------------------------------------*/
+import ch.hearc.wp2.p2.jeu.menus.MainMenu;
+
+@SuppressWarnings("serial")
+public class Game extends JFrame {
+	public Game(String name) {
+		super(name);
+		setAlwaysOnTop(true);
+		setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+		setLocationRelativeTo(null);
+		setMinimumSize(new Dimension(500, 500));
+		MainMenu mainMenu = new MainMenu();
+		setContentPane(mainMenu);
+		setVisible(true);
 	}
-
+	
+}
