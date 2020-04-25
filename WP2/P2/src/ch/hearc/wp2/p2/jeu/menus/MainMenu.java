@@ -27,7 +27,7 @@ public class MainMenu extends JPanel {
 
 	public MainMenu(Game game) {
 
-		this.game=game;
+		this.game = game;
 
 		try {
 			bgImage = ImageIO.read(getClass().getResource("/images/menubg2.jpg"));
@@ -39,7 +39,7 @@ public class MainMenu extends JPanel {
 		quit = new JButtonMenu("Quit");
 		about = new JButtonMenu("About");
 		options = new JButtonMenu("Options");
-		//setLayout(new FlowLayout(FlowLayout.CENTER));
+		// setLayout(new FlowLayout(FlowLayout.CENTER));
 		boxV.add(new JCenterH(play));
 		boxV.add(Box.createVerticalStrut(20));
 		boxV.add(new JCenterH(options));
@@ -49,33 +49,30 @@ public class MainMenu extends JPanel {
 		boxV.add(new JCenterH(quit));
 		add(new JCenter(boxV));
 
-		quit.addActionListener(new ActionListener()
-			{
+		quit.addActionListener(new ActionListener() {
 
 			@Override
-			public void actionPerformed(ActionEvent e)
-				{
+			public void actionPerformed(ActionEvent e) {
 				System.exit(0);
-				}
-			});
-		play.addActionListener(new ActionListener()
-			{
-			//demander au profs
+			}
+		});
+		play.addActionListener(new ActionListener() {
+			// demander au profs
 			@SuppressWarnings("deprecation")
 			@Override
-			public void actionPerformed(ActionEvent e)
-				{
-				game.resize(game.getWidth()+1,game.getHeight()+1);
+			public void actionPerformed(ActionEvent e) {
+				game.resize(game.getWidth() + 1, game.getHeight() + 1);
 				game.setContentPane(new Map());
-				game.resize(game.getWidth()-1,game.getHeight()-1);
-				}
-			});
+				game.resize(game.getWidth() - 1, game.getHeight() - 1);
+			}
+		});
 	}
 
 	@Override
 	protected void paintComponent(Graphics g) {
 		super.paintComponent(g);
-		//allow resizeEvent by deforming Image to the good width and height
-		g.drawImage(bgImage, 0,0,getWidth(),getHeight(),0,0,bgImage.getWidth(null),bgImage.getHeight(null), null);
+		// allow resizeEvent by deforming Image to the good width and height
+		g.drawImage(bgImage, 0, 0, getWidth(), getHeight(), 0, 0, bgImage.getWidth(null), bgImage.getHeight(null),
+				null);
 	}
 }
