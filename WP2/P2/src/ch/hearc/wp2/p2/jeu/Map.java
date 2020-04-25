@@ -41,10 +41,8 @@ public class Map extends JPanel {
 		add(boxV);
 
 		// green
-		g2d.setColor(new Color(51, 204, 51));
-		g2d.fill(new Rectangle2D.Double(0, 0, getWidth(), 2 * getHeight() / 3));
-		// brown
-		g2d.setColor(new Color(153, 102, 51));
-		g2d.fill(new Rectangle2D.Double(0, 2 * getHeight() / 3, getWidth(), getHeight() / 3));
+		g2d.setColor(new Color(51, 204, 250));
+		g2d.fill(new Rectangle2D.Double(0, 0, getWidth(), getHeight() ));
+
 	}
 }
