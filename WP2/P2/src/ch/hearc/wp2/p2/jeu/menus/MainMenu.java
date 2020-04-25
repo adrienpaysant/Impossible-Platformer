@@ -11,6 +11,7 @@ import javax.swing.Box;
 import javax.swing.JPanel;
 
 import ch.hearc.wp2.p2.jeu.Game;
+import ch.hearc.wp2.p2.jeu.Map;
 import ch.hearc.wp2.p2.jeu.tools.JCenter;
 import ch.hearc.wp2.p2.jeu.tools.JCenterH;
 
@@ -59,13 +60,14 @@ public class MainMenu extends JPanel {
 			});
 		play.addActionListener(new ActionListener()
 			{
-
+			//demander au profs
+			@SuppressWarnings("deprecation")
 			@Override
 			public void actionPerformed(ActionEvent e)
 				{
-				game.getTabbedPane().setEnabledAt(1, true);
-				game.getTabbedPane().setEnabledAt(0, false);
-				game.getTabbedPane().setSelectedComponent(game.getMap());
+				game.resize(game.getWidth()+1,game.getHeight()+1);
+				game.setContentPane(new Map());
+				game.resize(game.getWidth()-1,game.getHeight()-1);
 				}
 			});
 	}
@@ -74,6 +76,6 @@ public class MainMenu extends JPanel {
 	protected void paintComponent(Graphics g) {
 		super.paintComponent(g);
 		//allow resizeEvent by deforming Image to the good width and height
-		g.drawImage(bgImage, 0,1,getWidth(),getHeight(),0,0,bgImage.getWidth(null),bgImage.getHeight(null), null);
+		g.drawImage(bgImage, 0,0,getWidth(),getHeight(),0,0,bgImage.getWidth(null),bgImage.getHeight(null), null);
 	}
 }
