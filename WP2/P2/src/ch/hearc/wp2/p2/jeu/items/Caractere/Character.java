@@ -3,7 +3,7 @@ package ch.hearc.wp2.p2.jeu.items.Caractere;
 
 
 
-public class Caractere
+public class Character
 	{
 	
 	/*------------------------------------------------------------------*\
