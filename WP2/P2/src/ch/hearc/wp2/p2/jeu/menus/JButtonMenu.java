@@ -16,7 +16,6 @@ public class JButtonMenu extends JButton{
 	
 	JButtonMenu(String name){
 		super(name);
-		setSize(new Dimension(40,10));
 		setHorizontalAlignment(SwingConstants.CENTER);
         setHorizontalTextPosition(SwingConstants.CENTER);
         setContentAreaFilled(false);

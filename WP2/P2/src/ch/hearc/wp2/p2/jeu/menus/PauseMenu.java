@@ -10,22 +10,23 @@ import javax.imageio.ImageIO;
 import javax.swing.Box;
 import javax.swing.JPanel;
 
+import com.sun.tools.sjavac.comp.dependencies.PublicApiCollector;
+
 import ch.hearc.wp2.p2.jeu.Game;
 import ch.hearc.wp2.p2.jeu.Map;
 import ch.hearc.wp2.p2.jeu.tools.JCenter;
 import ch.hearc.wp2.p2.jeu.tools.JCenterH;
 
 @SuppressWarnings("serial")
-public class MainMenu extends JPanel {
+public class PauseMenu extends JPanel {
 
 	private Image bgImage;
-	private JButtonMenu quit;
-	private JButtonMenu play;
-	private JButtonMenu about;
+	private JButtonMenu exit;
+	private JButtonMenu resume;
 	private JButtonMenu options;
 	private Game game;
 
-	public MainMenu(Game game) {
+	public PauseMenu(Game game) {
 
 		this.game = game;
 
@@ -35,27 +36,17 @@ public class MainMenu extends JPanel {
 			e.printStackTrace();
 		}
 		Box boxV = Box.createVerticalBox();
-		play = new JButtonMenu("Play");
-		quit = new JButtonMenu("Quit");
-		about = new JButtonMenu("About");
+		resume = new JButtonMenu("Resume");
+		exit = new JButtonMenu("Exit To Menu");
 		options = new JButtonMenu("Options");
-		boxV.add(new JCenterH(play));
+		boxV.add(new JCenterH(resume));
 		boxV.add(Box.createVerticalStrut(20));
 		boxV.add(new JCenterH(options));
 		boxV.add(Box.createVerticalStrut(20));
-		boxV.add(new JCenterH(about));
-		boxV.add(Box.createVerticalStrut(20));
-		boxV.add(new JCenterH(quit));
+		boxV.add(new JCenterH(exit));
 		add(new JCenter(boxV));
-
-		quit.addActionListener(new ActionListener() {
-
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				System.exit(0);
-			}
-		});
-		play.addActionListener(new ActionListener() {
+		
+		resume.addActionListener(new ActionListener() {
 			// demander au profs
 			@SuppressWarnings("deprecation")
 			@Override
@@ -63,6 +54,19 @@ public class MainMenu extends JPanel {
 				game.resize(game.getWidth() + 1, game.getHeight() + 1);
 				game.setContentPane(new Map(game));
 				game.resize(game.getWidth() - 1, game.getHeight() - 1);
+			}
+		});
+		options.addActionListener(new ActionListener(){
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				
+			}
+		});
+		exit.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+
 			}
 		});
 	}
@@ -74,4 +78,3 @@ public class MainMenu extends JPanel {
 		g.drawImage(bgImage, 0, 0, getWidth(), getHeight(), 0, 0, bgImage.getWidth(null), bgImage.getHeight(null),
 				null);
 	}
-}

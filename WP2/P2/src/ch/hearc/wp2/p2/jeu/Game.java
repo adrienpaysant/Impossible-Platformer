@@ -4,17 +4,17 @@ package ch.hearc.wp2.p2.jeu;
 import java.awt.Dimension;
 
 import javax.swing.JFrame;
-import javax.swing.JTabbedPane;
 import javax.swing.WindowConstants;
 
 import ch.hearc.wp2.p2.jeu.menus.MainMenu;
+import ch.hearc.wp2.p2.jeu.menus.PauseMenu;
 
 @SuppressWarnings("serial")
 public class Game extends JFrame {
 
 
 	private MainMenu mainMenu;
-
+	private PauseMenu pauseMenu;
 
 	public Game(String name) {
 		super(name);
@@ -22,7 +22,7 @@ public class Game extends JFrame {
 		setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 		setLocationRelativeTo(null);
 		setMinimumSize(new Dimension(500, 500));
-
+		pauseMenu = new PauseMenu(this);
 		mainMenu = new MainMenu(this);
 		setContentPane(mainMenu);
 		setVisible(true);
@@ -31,5 +31,7 @@ public class Game extends JFrame {
 	public MainMenu getMainMenu() {
 		return this.mainMenu;
 	}
-
+	public PauseMenu getPauseMenu() {
+		return this.pauseMenu;
+	}
 }
