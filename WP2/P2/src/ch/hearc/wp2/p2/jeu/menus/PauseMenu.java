@@ -10,8 +10,6 @@ import javax.imageio.ImageIO;
 import javax.swing.Box;
 import javax.swing.JPanel;
 
-import com.sun.tools.sjavac.comp.dependencies.PublicApiCollector;
-
 import ch.hearc.wp2.p2.jeu.Game;
 import ch.hearc.wp2.p2.jeu.Map;
 import ch.hearc.wp2.p2.jeu.tools.JCenter;
@@ -78,3 +76,4 @@ public class PauseMenu extends JPanel {
 		g.drawImage(bgImage, 0, 0, getWidth(), getHeight(), 0, 0, bgImage.getWidth(null), bgImage.getHeight(null),
 				null);
 	}
+}

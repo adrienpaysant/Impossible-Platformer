@@ -19,7 +19,7 @@ public class JButtonMenu extends JButton{
 		setHorizontalAlignment(SwingConstants.CENTER);
         setHorizontalTextPosition(SwingConstants.CENTER);
         setContentAreaFilled(false);
-        setPreferredSize(new Dimension(100,50));
+        setPreferredSize(new Dimension(200,50));
 	}
 	protected void paintComponent(Graphics g)
 	{
