@@ -49,11 +49,11 @@ public abstract class Item {
 	}
 
 	public double getHeight() {
-		return pt1.y - pt0.y;
+		return Math.abs(pt1.y - pt0.y);
 	}
 
 	public double getWidth() {
-		return pt1.x - pt0.x;
+		return Math.abs(pt1.x - pt0.x);
 	}
 
 	public Rectangle2D.Double getRect() {
@@ -67,7 +67,8 @@ public abstract class Item {
 	// moving the rectanle to the point pt
 	public void moveTo(Point2D.Double pt) {
 		pt0 = pt;
-		rect.setRect(pt.x, pt.y, pt.x + this.getWidth(), pt.y + this.getHeight());
+		pt1=new Point2D.Double(pt1.x+pt.x,pt1.y+pt.y);
+		rect.setRect(new Rectangle2D.Double(pt0.x,pt0.y,pt1.x,pt1.y));
 	}
 
 	@Override
