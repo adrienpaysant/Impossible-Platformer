@@ -4,7 +4,7 @@ package ch.hearc.wp2.p2.jeu.items;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 
-public  class Item {
+public abstract class Item {
 
 	// origin-position0
 	private Point2D.Double pt0;
