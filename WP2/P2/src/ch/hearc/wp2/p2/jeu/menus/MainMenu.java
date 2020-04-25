@@ -62,7 +62,7 @@ public class MainMenu extends JPanel {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				game.resize(game.getWidth() + 1, game.getHeight() + 1);
-				game.setContentPane(new Map());
+				game.setContentPane(new Map(game));
 				game.resize(game.getWidth() - 1, game.getHeight() - 1);
 			}
 		});

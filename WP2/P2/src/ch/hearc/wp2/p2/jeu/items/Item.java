@@ -20,9 +20,9 @@ public abstract class Item {
 	// constructors
 	public Item(double x, double y, double w, double h, boolean v) {
 		this.pt0 = new Point2D.Double(x, y);
-		this.pt1 = new Point2D.Double(x + w, x + h);
+		this.pt1 = new Point2D.Double(x + w, y + h);
 		this.isVisible = v;
-		this.rect = new Rectangle2D.Double(pt0.x, pt0.y, pt1.x, pt1.y);
+		this.rect = new Rectangle2D.Double(pt0.x, pt0.y, getWidth(), getHeight());
 	}
 
 	public Item(Item it) {
@@ -31,8 +31,9 @@ public abstract class Item {
 
 	public Item(Rectangle2D.Double srect, boolean v) {
 		this.pt0 = new Point2D.Double(srect.x, srect.y);
-		this.pt1 = new Point2D.Double(srect.x + pt0.x, srect.y + pt0.y);
+		this.pt1 = new Point2D.Double(srect.width + pt0.x, srect.height + pt0.y);
 		this.isVisible = v;
+		this.rect=srect;
 	}
 
 	// getters & setters

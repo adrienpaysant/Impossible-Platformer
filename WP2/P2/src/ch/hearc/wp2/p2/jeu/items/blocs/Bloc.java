@@ -12,7 +12,7 @@ import ch.hearc.wp2.p2.jeu.items.Item;
 public class Bloc extends Item {
 
 	private Image texture;
-
+	
 	public Bloc(double x, double y, double w, double h, boolean v/* , Image texture */) {
 		super(x, y, w, h, v);
 		// this.texture = texture;
