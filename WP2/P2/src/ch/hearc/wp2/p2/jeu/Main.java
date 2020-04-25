@@ -5,11 +5,9 @@ import java.awt.geom.Point2D;
 
 import ch.hearc.wp2.p2.jeu.items.blocs.Bloc;
 
-public class Main
-	{
+public class Main {
 
-	public static void main(String[] args)
-		{
+	public static void main(String[] args) {
 		new Game("Impossible Platformer");
 		Bloc bloc1 = new Bloc(1, 1, 5, 5, true/* , texture */);
 		System.out.println(bloc1);
@@ -25,6 +23,6 @@ public class Main
 		System.out.println(bloc1.getPt0());
 		System.out.println(bloc1.getPt1());
 
-		}
-
 	}
+
+}

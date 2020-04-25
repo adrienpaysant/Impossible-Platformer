@@ -64,11 +64,18 @@ public abstract class Item {
 		this.isVisible = isVisible;
 	}
 
-	// moving the rectanle to the point pt
+	// moving the rectangle to the point pt
 	public void moveTo(Point2D.Double pt) {
 		pt0 = pt;
-		pt1=new Point2D.Double(pt1.x+pt.x,pt1.y+pt.y);
-		rect.setRect(new Rectangle2D.Double(pt0.x,pt0.y,pt1.x,pt1.y));
+		pt1 = new Point2D.Double(pt1.x + pt.x, pt1.y + pt.y);
+		rect.setRect(new Rectangle2D.Double(pt0.x, pt0.y, pt1.x, pt1.y));
+	}
+
+	public void moveByX(double x) {
+		this.moveTo(new Point2D.Double(x,pt0.y));
+	}
+	public void moveByY(double y) {
+		this.moveTo(new Point2D.Double(pt0.x,y));
 	}
 
 	@Override
