@@ -22,7 +22,7 @@ public class Game extends JFrame {
 		setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 		setLocationRelativeTo(null);
 ;
-		setMinimumSize(new Dimension(3*Main.WIDTH/5,2*Main.HEIGTH/3));
+		setMinimumSize(new Dimension(3*Main.WIDTH/5,2*Main.HEIGHT/3));
 		pauseMenu = new PauseMenu(this);
 		mainMenu = new MainMenu(this);
 		setContentPane(mainMenu);

@@ -9,7 +9,7 @@ import ch.hearc.wp2.p2.jeu.items.blocs.Bloc;
 public class Main {
 	
 	static Dimension dimension = java.awt.Toolkit.getDefaultToolkit().getScreenSize();
-	public static final int HEIGTH = (int)dimension.getHeight();
+	public static final int HEIGHT = (int)dimension.getHeight();
 	public static final int WIDTH  = (int)dimension.getWidth();
 	
 	
