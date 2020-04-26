@@ -6,7 +6,7 @@ import javax.swing.BoxLayout;
 @SuppressWarnings("serial")
 public class Options extends Box{
 	private static Options options=null;
-	public static Options getOptions() {
+	public static Options getInstance() {
 		if(options==null) 
 			options = new Options();
 		return options;

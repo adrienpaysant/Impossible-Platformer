@@ -22,14 +22,14 @@ public class Map extends JPanel {
 	private Bloc[] tabBloc;
 	private static Map map = null;
 
-	public static Map getMap() {
+	public static Map getInstance() {
 		if (map == null)
 			map = new Map();
 		return map;
 	}
 
 	private Map() {
-		this.game = Game.getGame();
+		this.game = Game.getInstance();
 		this.buttonExit = new JButton("Back to Menu");
 
 		tabBloc = new Bloc[100];
@@ -47,7 +47,7 @@ public class Map extends JPanel {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				game.setSize(game.getWidth() + 1, game.getHeight() + 1);
-				game.setContentPane(MainMenu.getMainMenu());
+				game.setContentPane(MainMenu.getInstance());
 				game.setSize(game.getWidth() - 1, game.getHeight() - 1);
 			}
 		});

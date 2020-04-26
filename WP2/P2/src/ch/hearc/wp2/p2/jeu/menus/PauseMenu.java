@@ -25,14 +25,14 @@ public class PauseMenu extends JPanel {
 	private Game game;
 	//singleton
 	private static PauseMenu pauseMenu=null;
-	public static PauseMenu getPauseMenu() {
+	public static PauseMenu getInstance() {
 		if (pauseMenu==null)
 			pauseMenu = new PauseMenu();
 		return pauseMenu;
 	}
 	private PauseMenu() {
 
-		this.game = Game.getGame();
+		this.game = Game.getInstance();
 
 		try {
 			bgImage = ImageIO.read(getClass().getResource("/images/menubg2.jpg"));
@@ -54,7 +54,7 @@ public class PauseMenu extends JPanel {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				game.setSize(game.getWidth() + 1, game.getHeight() + 1);
-				game.setContentPane(Map.getMap());
+				game.setContentPane(Map.getInstance());
 				game.setSize(game.getWidth() - 1, game.getHeight() - 1);
 			}
 		});

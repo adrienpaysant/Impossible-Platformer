@@ -26,14 +26,14 @@ public class MainMenu extends JPanel {
 	private Game game;
 	private static MainMenu mainMenu=null;
 	//singleton
-	public static MainMenu getMainMenu() {
+	public static MainMenu getInstance() {
 		if(mainMenu==null)
 			mainMenu = new MainMenu();
 		return mainMenu;
 	}
 	private MainMenu() {
 
-		this.game = Game.getGame();
+		this.game = Game.getInstance();
 
 		try {
 			bgImage = ImageIO.read(getClass().getResource("/images/menubg2.jpg"));
@@ -65,7 +65,7 @@ public class MainMenu extends JPanel {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				game.setSize(game.getWidth() + 1, game.getHeight() + 1);
-				game.setContentPane(Map.getMap());
+				game.setContentPane(Map.getInstance());
 				game.setSize(game.getWidth() - 1, game.getHeight() - 1);
 			}
 		});
@@ -73,7 +73,7 @@ public class MainMenu extends JPanel {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				game.setSize(game.getWidth() + 1, game.getHeight() + 1);
-				game.setContentPane(About.getAbout());
+				game.setContentPane(About.getInstance());
 				game.setSize(game.getWidth() - 1, game.getHeight() - 1);
 			}
 		});

@@ -22,7 +22,7 @@ public class About extends Box {
 	private JButtonMenu buttonExit;
 	private Image bgImage;
 	private static About about=null;
-	public static About getAbout() {
+	public static About getInstance() {
 		if(about==null)
 			about = new About();
 		return about;
@@ -34,7 +34,7 @@ public class About extends Box {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		this.game = Game.getGame();
+		this.game = Game.getInstance();
 		buttonExit = new JButtonMenu("Back to Menu");
 		add(new JCenterH(buttonExit));
 		add(Box.createVerticalGlue());
@@ -46,7 +46,7 @@ public class About extends Box {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				game.setSize(game.getWidth() + 1, game.getHeight() + 1);
-				game.setContentPane(MainMenu.getMainMenu());
+				game.setContentPane(MainMenu.getInstance());
 				game.setSize(game.getWidth() - 1, game.getHeight() - 1);
 			}
 		});

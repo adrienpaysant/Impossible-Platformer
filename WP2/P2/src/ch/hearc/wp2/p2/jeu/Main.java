@@ -13,8 +13,8 @@ public class Main {
 	
 	
 	public static void main(String[] args) {
-		Game game=Game.getGame();
-		game.setContentPane(MainMenu.getMainMenu());
+		Game game=Game.getInstance();
+		game.setContentPane(MainMenu.getInstance());
 		game.setVisible(true);
 //		Bloc bloc1 = new Bloc(1, 1, 5, 5, true/* , texture */);
 //		System.out.println(bloc1);

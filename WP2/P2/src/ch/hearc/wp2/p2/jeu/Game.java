@@ -10,7 +10,7 @@ import javax.swing.WindowConstants;
 public class Game extends JFrame {
 	//singleton
 	private static Game game=null;
-	public static Game getGame() {
+	public static Game getInstance() {
 		if(game==null)
 			game = new Game();
 		return game;
