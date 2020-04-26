@@ -1,12 +1,18 @@
 
 package ch.hearc.wp2.p2.jeu;
 
+import java.awt.Dimension;
 import java.awt.geom.Point2D;
 
 import ch.hearc.wp2.p2.jeu.items.blocs.Bloc;
 
 public class Main {
-
+	
+	static Dimension dimension = java.awt.Toolkit.getDefaultToolkit().getScreenSize();
+	public static final int HEIGTH = (int)dimension.getHeight();
+	public static final int WIDTH  = (int)dimension.getWidth();
+	
+	
 	public static void main(String[] args) {
 		new Game("Impossible Platformer");
 //		Bloc bloc1 = new Bloc(1, 1, 5, 5, true/* , texture */);
