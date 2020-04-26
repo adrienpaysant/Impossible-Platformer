@@ -14,6 +14,7 @@ import javax.swing.JButton;
 import javax.swing.JPanel;
 
 import ch.hearc.wp2.p2.jeu.items.blocs.Bloc;
+import ch.hearc.wp2.p2.jeu.menus.JButtonMenu;
 import ch.hearc.wp2.p2.jeu.menus.MainMenu;
 
 @SuppressWarnings("serial")
@@ -25,8 +26,8 @@ public class Map extends JPanel {
 
 	public Map(Game game) {
 		this.game = game;
-		this.buttonExit = new JButton("EXIT");
-
+		this.buttonExit = new JButton("Back to Menu");
+	
 		tabBloc = new Bloc[100];
 		for (int i = 0; i < tabBloc.length; i++) {
 			if (i % 3 == 0)

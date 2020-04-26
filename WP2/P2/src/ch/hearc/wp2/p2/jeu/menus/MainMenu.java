@@ -65,6 +65,16 @@ public class MainMenu extends JPanel {
 				game.resize(game.getWidth() - 1, game.getHeight() - 1);
 			}
 		});
+		about.addActionListener(new ActionListener() {
+			// demander au profs
+			@SuppressWarnings("deprecation")
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				game.resize(game.getWidth() + 1, game.getHeight() + 1);
+				game.setContentPane(new About(game));
+				game.resize(game.getWidth() - 1, game.getHeight() - 1);
+			}
+		});
 	}
 
 	@Override
