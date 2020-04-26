@@ -2,9 +2,8 @@
 package ch.hearc.wp2.p2.jeu;
 
 import java.awt.Dimension;
-import java.awt.geom.Point2D;
 
-import ch.hearc.wp2.p2.jeu.items.blocs.Bloc;
+import ch.hearc.wp2.p2.jeu.menus.MainMenu;
 
 public class Main {
 	
@@ -14,7 +13,9 @@ public class Main {
 	
 	
 	public static void main(String[] args) {
-		new Game("Impossible Platformer");
+		Game game=Game.getGame();
+		game.setContentPane(MainMenu.getMainMenu());
+		game.setVisible(true);
 //		Bloc bloc1 = new Bloc(1, 1, 5, 5, true/* , texture */);
 //		System.out.println(bloc1);
 //		System.out.println(bloc1.getWidth());

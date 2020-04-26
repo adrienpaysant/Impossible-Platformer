@@ -24,10 +24,16 @@ public class MainMenu extends JPanel {
 	private JButtonMenu about;
 	private JButtonMenu options;
 	private Game game;
+	private static MainMenu mainMenu=null;
+	//singleton
+	public static MainMenu getMainMenu() {
+		if(mainMenu==null)
+			mainMenu = new MainMenu();
+		return mainMenu;
+	}
+	private MainMenu() {
 
-	public MainMenu(Game game) {
-
-		this.game = game;
+		this.game = Game.getGame();
 
 		try {
 			bgImage = ImageIO.read(getClass().getResource("/images/menubg2.jpg"));
@@ -56,23 +62,19 @@ public class MainMenu extends JPanel {
 			}
 		});
 		play.addActionListener(new ActionListener() {
-			// demander au profs
-			@SuppressWarnings("deprecation")
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				game.resize(game.getWidth() + 1, game.getHeight() + 1);
-				game.setContentPane(new Map(game));
-				game.resize(game.getWidth() - 1, game.getHeight() - 1);
+				game.setSize(game.getWidth() + 1, game.getHeight() + 1);
+				game.setContentPane(Map.getMap());
+				game.setSize(game.getWidth() - 1, game.getHeight() - 1);
 			}
 		});
 		about.addActionListener(new ActionListener() {
-			// demander au profs
-			@SuppressWarnings("deprecation")
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				game.resize(game.getWidth() + 1, game.getHeight() + 1);
-				game.setContentPane(new About(game));
-				game.resize(game.getWidth() - 1, game.getHeight() - 1);
+				game.setSize(game.getWidth() + 1, game.getHeight() + 1);
+				game.setContentPane(About.getAbout());
+				game.setSize(game.getWidth() - 1, game.getHeight() - 1);
 			}
 		});
 	}

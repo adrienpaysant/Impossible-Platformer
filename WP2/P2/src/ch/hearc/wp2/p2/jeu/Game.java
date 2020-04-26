@@ -6,34 +6,21 @@ import java.awt.Dimension;
 import javax.swing.JFrame;
 import javax.swing.WindowConstants;
 
-import ch.hearc.wp2.p2.jeu.menus.MainMenu;
-import ch.hearc.wp2.p2.jeu.menus.PauseMenu;
-
 @SuppressWarnings("serial")
 public class Game extends JFrame {
-
-
-	private MainMenu mainMenu;
-	private PauseMenu pauseMenu;
-
-	public Game(String name) {
-		super(name);
+	//singleton
+	private static Game game=null;
+	public static Game getGame() {
+		if(game==null)
+			game = new Game();
+		return game;
+	}
+	private Game() {
+		super("Impossible Platformer");
 		setAlwaysOnTop(true);
 		setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 		setLocationRelativeTo(null);
-;
 		setMinimumSize(new Dimension(3*Main.WIDTH/5,2*Main.HEIGHT/3));
-		pauseMenu = new PauseMenu(this);
-		mainMenu = new MainMenu(this);
-		setContentPane(mainMenu);
 		setLocationRelativeTo(null);
-		setVisible(true);
-	}
-
-	public MainMenu getMainMenu() {
-		return this.mainMenu;
-	}
-	public PauseMenu getPauseMenu() {
-		return this.pauseMenu;
 	}
 }

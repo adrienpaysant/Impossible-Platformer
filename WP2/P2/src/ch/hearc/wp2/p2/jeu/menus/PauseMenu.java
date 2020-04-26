@@ -23,10 +23,16 @@ public class PauseMenu extends JPanel {
 	private JButtonMenu resume;
 	private JButtonMenu options;
 	private Game game;
+	//singleton
+	private static PauseMenu pauseMenu=null;
+	public static PauseMenu getPauseMenu() {
+		if (pauseMenu==null)
+			pauseMenu = new PauseMenu();
+		return pauseMenu;
+	}
+	private PauseMenu() {
 
-	public PauseMenu(Game game) {
-
-		this.game = game;
+		this.game = Game.getGame();
 
 		try {
 			bgImage = ImageIO.read(getClass().getResource("/images/menubg2.jpg"));
@@ -45,13 +51,11 @@ public class PauseMenu extends JPanel {
 		add(new JCenter(boxV));
 		
 		resume.addActionListener(new ActionListener() {
-			// demander au profs
-			@SuppressWarnings("deprecation")
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				game.resize(game.getWidth() + 1, game.getHeight() + 1);
-				game.setContentPane(new Map(game));
-				game.resize(game.getWidth() - 1, game.getHeight() - 1);
+				game.setSize(game.getWidth() + 1, game.getHeight() + 1);
+				game.setContentPane(Map.getMap());
+				game.setSize(game.getWidth() - 1, game.getHeight() - 1);
 			}
 		});
 		options.addActionListener(new ActionListener(){
