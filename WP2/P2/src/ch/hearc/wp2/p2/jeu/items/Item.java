@@ -4,13 +4,16 @@ package ch.hearc.wp2.p2.jeu.items;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 
-public abstract class Item {
+import javax.swing.JComponent;
+
+@SuppressWarnings("serial")
+public abstract class Item {//extends JComponent{
 
 	// origin-position0
 	private Point2D.Double pt0;
 	// size-position1
 	private Point2D.Double pt1;
-
+	
 	// visible
 	private boolean isVisible;
 

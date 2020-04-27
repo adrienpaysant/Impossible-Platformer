@@ -1,6 +1,7 @@
 
 package ch.hearc.wp2.p2.jeu.items.blocs;
 
+import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.geom.Rectangle2D;
 
@@ -12,7 +13,7 @@ import ch.hearc.wp2.p2.jeu.items.Item;
 public class Bloc extends Item {
 
 	private Image texture;
-	
+
 	public Bloc(double x, double y, double w, double h, boolean v/* , Image texture */) {
 		super(x, y, w, h, v);
 		// this.texture = texture;
@@ -26,4 +27,12 @@ public class Bloc extends Item {
 		super(rect, v);
 		this.texture = texture;
 	}
+
+//	@Override
+//	protected void paintComponent(Graphics g) {
+//		super.paintComponent(g);
+//		// allow resizeEvent by deforming Image to the good width and height
+//		g.drawImage(bgImage, 0, 0, getWidth(), getHeight(), 0, 0, bgImage.getWidth(null), bgImage.getHeight(null),
+//				null);
+//	}
 }
