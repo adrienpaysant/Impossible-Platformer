@@ -42,6 +42,7 @@ public abstract class Item {// extends JComponent{
 		this.isVisible = isVisible;
 	}
 
+	//methode
 	// moving the rectangle to the point pt
 	public void moveTo(Point2D.Double pt) {
 		rect.setRect(new Rectangle2D.Double(pt.x,pt.y,rect.width,rect.height));

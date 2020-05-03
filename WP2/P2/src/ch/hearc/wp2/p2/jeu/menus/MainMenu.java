@@ -25,6 +25,7 @@ public class MainMenu extends JPanel {
 	private JButtonMenu options;
 	private Game game;
 	private static MainMenu mainMenu=null;
+	
 	//singleton
 	public static MainMenu getInstance() {
 		if(mainMenu==null)

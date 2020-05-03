@@ -8,6 +8,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.awt.geom.Point2D;
 import java.awt.geom.Point2D.Double;
 import java.awt.geom.Rectangle2D;
@@ -20,6 +22,7 @@ import ch.hearc.wp2.p2.jeu.items.Caractere.Player;
 import ch.hearc.wp2.p2.jeu.items.blocs.Bloc;
 import ch.hearc.wp2.p2.jeu.menus.MainMenu;
 import ch.hearc.wp2.p2.jeu.tools.Chrono;
+import ch.hearc.wp2.p2.jeu.tools.Keyboard;
 
 @SuppressWarnings("serial")
 public class Map extends JPanel {
@@ -40,12 +43,21 @@ public class Map extends JPanel {
 		return map;
 	}
 
+	// constructor
 	private Map() {
+
+		// ??
+		this.setFocusable(true);
+		this.requestFocusInWindow(true);
+		this.setRequestFocusEnabled(true);
+		//
+
 		this.game = Game.getInstance();
 		this.buttonExit = new JButton("Back to Menu");
 		this.player = new Player(game.getWidth() / 2, game.getHeight() / 3, 25, 55, true);
 		this.dX = 0;
-		
+
+		// listeners
 		buttonExit.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -64,6 +76,15 @@ public class Map extends JPanel {
 				else {
 					listBloc.clear();
 					setBlocList();
+					
+					//only for test
+					for (int i = 0; i < 100; i++) {
+						if(player.getRect().x>game.getWidth())
+							setdX(-game.getWidth()/3);
+						else
+							setdX(1);
+					}
+					//
 				}
 			}
 
@@ -74,11 +95,44 @@ public class Map extends JPanel {
 
 		});
 
+		// listener of keyboard
+		this.addKeyListener(new KeyListener() {
+
+			@Override
+			public void keyTyped(KeyEvent e) {
+			}
+
+			@Override
+			public void keyPressed(KeyEvent e) {
+				if (e.getKeyCode() == KeyEvent.VK_LEFT) {
+					setdX(-1);
+					System.out.println("vk gauche");
+				} else if (e.getKeyCode() == KeyEvent.VK_RIGHT) {
+					setdX(1);
+					System.out.println("vk droite");
+				}
+			}
+
+			@Override
+			public void keyReleased(KeyEvent e) {
+				setdX(0);
+			}
+		});
+
 		Thread chronoMap = new Thread(new Chrono());
 		chronoMap.start();
 	}
 
+	// getters & setters
+	public int getdX() {
+		return dX;
+	}
 
+	public void setdX(int dX) {
+		this.dX = dX;
+	}
+
+	// painting
 	@Override
 	protected void paintComponent(Graphics g) {
 		super.paintComponent(g);
@@ -96,12 +150,13 @@ public class Map extends JPanel {
 		g2d.setColor(Color.green);
 		for (Bloc bloc : listBloc) {
 			if (bloc.isVisible()) {
-				bloc.moveByX(dX);//moving element to move player
+				// TODO TOFIX bloc.moveByX(dX);// moving element to move player
 				g2d.fill(bloc.getRect());
 			}
 		}
 
 		// player
+		player.moveByX(dX);
 		g2d.setColor(Color.black);
 		if (player.isVisible())
 			g2d.fill(player.getRect());
