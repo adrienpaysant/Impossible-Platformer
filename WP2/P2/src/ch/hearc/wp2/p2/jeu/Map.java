@@ -16,6 +16,7 @@ import java.util.ArrayList;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 
+import ch.hearc.wp2.p2.jeu.items.Caractere.Player;
 import ch.hearc.wp2.p2.jeu.items.blocs.Bloc;
 import ch.hearc.wp2.p2.jeu.menus.MainMenu;
 
@@ -29,7 +30,7 @@ public class Map extends JPanel {
 
 	private static Map map = null;
 
-	private Rectangle2D.Double player;
+	private Player player;
 
 	public static Map getInstance() {
 		if (map == null)
@@ -40,7 +41,7 @@ public class Map extends JPanel {
 	private Map() {
 		this.game = Game.getInstance();
 		this.buttonExit = new JButton("Back to Menu");
-		player = new Rectangle2D.Double(game.getWidth() / 2, game.getHeight() / 3, 25, 55);
+		player = new Player(game.getWidth() / 2, game.getHeight() / 3, 25, 55, true);
 
 		buttonExit.addActionListener(new ActionListener() {
 			@Override
@@ -94,6 +95,7 @@ public class Map extends JPanel {
 
 		// player
 		g2d.setColor(Color.black);
-		g2d.fill(player);
+		if (player.isVisible())
+			g2d.fill(player.getRect());
 	}
 }
