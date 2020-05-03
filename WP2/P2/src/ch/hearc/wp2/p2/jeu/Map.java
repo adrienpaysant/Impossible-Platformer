@@ -8,6 +8,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
+import java.awt.geom.Point2D;
+import java.awt.geom.Point2D.Double;
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 
@@ -43,7 +45,7 @@ public class Map extends JPanel {
 		this.buttonExit = new JButton("Back to Menu");
 		this.player = new Player(game.getWidth() / 2, game.getHeight() / 3, 25, 55, true);
 		this.dX = 0;
-
+		
 		buttonExit.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -94,7 +96,7 @@ public class Map extends JPanel {
 		g2d.setColor(Color.green);
 		for (Bloc bloc : listBloc) {
 			if (bloc.isVisible()) {
-				//bloc.moveByX(dX);//moving element to move player
+				bloc.moveByX(dX);//moving element to move player
 				g2d.fill(bloc.getRect());
 			}
 		}

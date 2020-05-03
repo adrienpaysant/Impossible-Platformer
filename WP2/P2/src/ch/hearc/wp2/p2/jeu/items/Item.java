@@ -6,14 +6,8 @@ import java.awt.geom.Rectangle2D;
 
 import javax.swing.JComponent;
 
-@SuppressWarnings("serial")
-public abstract class Item {//extends JComponent{
+public abstract class Item {// extends JComponent{
 
-	// origin-position0
-	private Point2D.Double pt0;
-	// size-position1
-	private Point2D.Double pt1;
-	
 	// visible
 	private boolean isVisible;
 
@@ -22,42 +16,22 @@ public abstract class Item {//extends JComponent{
 
 	// constructors
 	public Item(double x, double y, double w, double h, boolean v) {
-		this.pt0 = new Point2D.Double(x, y);
-		this.pt1 = new Point2D.Double(x + w, y + h);
 		this.isVisible = v;
-		this.rect = new Rectangle2D.Double(pt0.x, pt0.y, getWidth(), getHeight());
+		this.rect = new Rectangle2D.Double(x, y, w, h);
 	}
 
 	public Item(Item it) {
-		this(it.getPt0().x, it.getPt0().y, it.getPt1().x, it.getPt1().y, it.isVisible);
+		this(it.getRect().x, it.getRect().y, it.getRect().width, it.getRect().height, it.isVisible);
 	}
 
 	public Item(Rectangle2D.Double srect, boolean v) {
-		this.pt0 = new Point2D.Double(srect.x, srect.y);
-		this.pt1 = new Point2D.Double(srect.width + pt0.x, srect.height + pt0.y);
 		this.isVisible = v;
-		this.rect=srect;
+		this.rect = srect;
 	}
 
 	// getters & setters
-	public Point2D.Double getPt0() {
-		return pt0;
-	}
-
-	public Point2D.Double getPt1() {
-		return pt1;
-	}
-
 	public boolean isVisible() {
 		return this.isVisible;
-	}
-
-	public double getHeight() {
-		return Math.abs(pt1.y - pt0.y);
-	}
-
-	public double getWidth() {
-		return Math.abs(pt1.x - pt0.x);
 	}
 
 	public Rectangle2D.Double getRect() {
@@ -70,17 +44,16 @@ public abstract class Item {//extends JComponent{
 
 	// moving the rectangle to the point pt
 	public void moveTo(Point2D.Double pt) {
-		pt0 = pt;
-		pt1 = new Point2D.Double(pt1.x + pt.x, pt1.y + pt.y);
-		rect.setRect(new Rectangle2D.Double(pt0.x, pt0.y, pt1.x, pt1.y));
+		rect.setRect(new Rectangle2D.Double(pt.x,pt.y,rect.width,rect.height));
 	}
-	
-	//move from x unit the point p0 and then all the item
+
+	// move from x unit the point p0 and then all the item
 	public void moveByX(double x) {
-		this.moveTo(new Point2D.Double(pt0.x+x,pt0.y));
+		this.moveTo(new Point2D.Double(rect.x + x, rect.y));
 	}
+
 	public void moveByY(double y) {
-		this.moveTo(new Point2D.Double(pt0.x,pt0.y+y));
+		this.moveTo(new Point2D.Double(rect.x, rect.y + y));
 	}
 
 	@Override
