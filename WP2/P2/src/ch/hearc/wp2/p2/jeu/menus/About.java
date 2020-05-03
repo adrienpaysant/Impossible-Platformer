@@ -42,7 +42,6 @@ public class About extends Box {
 		
 		
 		buttonExit.addActionListener(new ActionListener() {
-			// demander au profs
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				game.setSize(game.getWidth() + 1, game.getHeight() + 1);
