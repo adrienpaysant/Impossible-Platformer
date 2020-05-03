@@ -1,25 +1,22 @@
 
 package ch.hearc.wp2.p2.jeu.tools;
 
-public class Chrono implements Runnable
-	{
+import ch.hearc.wp2.p2.jeu.Map;
+
+public class Chrono implements Runnable {
+	private final int DELAY = 3;// timer between 2 repaint
 
 	@Override
-	public void run()
-		{
-		while(true)
-			{
-			//Map.repaint()
-			try
-				{
-				Thread.sleep(15);//60 fps
-				}
-			catch (InterruptedException e)
-				{
+	public void run() {
+		while (true) {
+			
+			Map.getInstance().repaint();
+			try {
+				Thread.sleep(DELAY);
+			} catch (InterruptedException e) {
 				e.printStackTrace();
-				}
 			}
-
 		}
 
 	}
+}

@@ -8,9 +8,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
-import java.awt.event.ComponentListener;
 import java.awt.geom.Rectangle2D;
-import java.awt.geom.Rectangle2D.Double;
 import java.util.ArrayList;
 
 import javax.swing.JButton;
@@ -19,6 +17,7 @@ import javax.swing.JPanel;
 import ch.hearc.wp2.p2.jeu.items.Caractere.Player;
 import ch.hearc.wp2.p2.jeu.items.blocs.Bloc;
 import ch.hearc.wp2.p2.jeu.menus.MainMenu;
+import ch.hearc.wp2.p2.jeu.tools.Chrono;
 
 @SuppressWarnings("serial")
 public class Map extends JPanel {
@@ -62,7 +61,6 @@ public class Map extends JPanel {
 					listBloc.clear();
 					setBlocList();
 				}
-				repaint();
 			}
 
 			private void setBlocList() {
@@ -71,6 +69,9 @@ public class Map extends JPanel {
 			}
 
 		});
+		
+		Thread chronoMap = new Thread(new Chrono());
+		chronoMap.start();
 	}
 
 	@Override
