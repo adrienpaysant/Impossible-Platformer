@@ -6,7 +6,11 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
+import java.awt.event.ComponentListener;
 import java.awt.geom.Rectangle2D;
+import java.util.ArrayList;
 
 import javax.swing.JButton;
 import javax.swing.JPanel;
@@ -16,10 +20,12 @@ import ch.hearc.wp2.p2.jeu.menus.MainMenu;
 
 @SuppressWarnings("serial")
 public class Map extends JPanel {
+
 	private Game game;
 	private JButton buttonExit;
 
-	private Bloc[] tabBloc;
+	private ArrayList<Bloc> listBloc = new ArrayList<Bloc>();
+
 	private static Map map = null;
 
 	public static Map getInstance() {
@@ -32,17 +38,6 @@ public class Map extends JPanel {
 		this.game = Game.getInstance();
 		this.buttonExit = new JButton("Back to Menu");
 
-		tabBloc = new Bloc[100];
-		for (int i = 0; i < tabBloc.length; i++) {
-			if (i % 3 == 0)
-				tabBloc[i] = new Bloc(10 * i + 50, game.getHeight() / 2, 30, 30, false);
-			else if (i % 7 == 0)
-				tabBloc[i] = new Bloc(10 * i + 50, -30 + game.getHeight() / 2, 30, 30, true);
-			else
-				tabBloc[i] = new Bloc(10 * i + 50, game.getHeight() / 2, 30, 30, true);
-
-		}
-
 		buttonExit.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -50,6 +45,26 @@ public class Map extends JPanel {
 				game.setContentPane(MainMenu.getInstance());
 				game.setSize(game.getWidth() - 1, game.getHeight() - 1);
 			}
+		});
+
+		this.addComponentListener(new ComponentAdapter() {
+
+			@Override
+			public void componentResized(ComponentEvent e) {
+				if (listBloc.isEmpty())
+					setBlocList();
+				else {
+					listBloc.clear();
+					setBlocList();
+				}
+				repaint();
+			}
+
+			private void setBlocList() {
+				for (int i = 0; i < game.getWidth() / 50 - 2; i++)
+					listBloc.add(new Bloc(50 * i + 50, game.getHeight() / 2, 50, 30, true));
+			}
+
 		});
 	}
 
@@ -68,9 +83,9 @@ public class Map extends JPanel {
 
 		// test blocs
 		g2d.setColor(Color.green);
-		for (int i = 0; i < tabBloc.length; i++) {
-			if (tabBloc[i].isVisible())
-				g2d.fill(tabBloc[i].getRect());
+		for (Bloc bloc : listBloc) {
+			if (bloc.isVisible())
+				g2d.draw(bloc.getRect());
 		}
 	}
 }
