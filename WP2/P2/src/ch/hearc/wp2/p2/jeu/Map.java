@@ -10,6 +10,7 @@ import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.awt.event.ComponentListener;
 import java.awt.geom.Rectangle2D;
+import java.awt.geom.Rectangle2D.Double;
 import java.util.ArrayList;
 
 import javax.swing.JButton;
@@ -28,6 +29,8 @@ public class Map extends JPanel {
 
 	private static Map map = null;
 
+	private Rectangle2D.Double player;
+
 	public static Map getInstance() {
 		if (map == null)
 			map = new Map();
@@ -37,6 +40,7 @@ public class Map extends JPanel {
 	private Map() {
 		this.game = Game.getInstance();
 		this.buttonExit = new JButton("Back to Menu");
+		player = new Rectangle2D.Double(game.getWidth() / 2, game.getHeight() / 3, 25, 55);
 
 		buttonExit.addActionListener(new ActionListener() {
 			@Override
@@ -77,7 +81,7 @@ public class Map extends JPanel {
 
 	private void draw(Graphics2D g2d) {
 		add(buttonExit);
-		// green
+		// background
 		g2d.setColor(new Color(51, 204, 250));
 		g2d.fill(new Rectangle2D.Double(0, 0, getWidth(), getHeight()));
 
@@ -85,7 +89,11 @@ public class Map extends JPanel {
 		g2d.setColor(Color.green);
 		for (Bloc bloc : listBloc) {
 			if (bloc.isVisible())
-				g2d.draw(bloc.getRect());
+				g2d.fill(bloc.getRect());
 		}
+
+		// player
+		g2d.setColor(Color.black);
+		g2d.fill(player);
 	}
 }
