@@ -30,6 +30,7 @@ public class Map extends JPanel {
 	private static Map map = null;
 
 	private Player player;
+	private int dX;
 
 	public static Map getInstance() {
 		if (map == null)
@@ -40,7 +41,8 @@ public class Map extends JPanel {
 	private Map() {
 		this.game = Game.getInstance();
 		this.buttonExit = new JButton("Back to Menu");
-		player = new Player(game.getWidth() / 2, game.getHeight() / 3, 25, 55, true);
+		this.player = new Player(game.getWidth() / 2, game.getHeight() / 3, 25, 55, true);
+		this.dX = 0;
 
 		buttonExit.addActionListener(new ActionListener() {
 			@Override
@@ -69,10 +71,11 @@ public class Map extends JPanel {
 			}
 
 		});
-		
+
 		Thread chronoMap = new Thread(new Chrono());
 		chronoMap.start();
 	}
+
 
 	@Override
 	protected void paintComponent(Graphics g) {
@@ -90,8 +93,10 @@ public class Map extends JPanel {
 		// test blocs
 		g2d.setColor(Color.green);
 		for (Bloc bloc : listBloc) {
-			if (bloc.isVisible())
+			if (bloc.isVisible()) {
+				//bloc.moveByX(dX);//moving element to move player
 				g2d.fill(bloc.getRect());
+			}
 		}
 
 		// player

@@ -74,12 +74,13 @@ public abstract class Item {//extends JComponent{
 		pt1 = new Point2D.Double(pt1.x + pt.x, pt1.y + pt.y);
 		rect.setRect(new Rectangle2D.Double(pt0.x, pt0.y, pt1.x, pt1.y));
 	}
-
+	
+	//move from x unit the point p0 and then all the item
 	public void moveByX(double x) {
-		this.moveTo(new Point2D.Double(x,pt0.y));
+		this.moveTo(new Point2D.Double(pt0.x+x,pt0.y));
 	}
 	public void moveByY(double y) {
-		this.moveTo(new Point2D.Double(pt0.x,y));
+		this.moveTo(new Point2D.Double(pt0.x,pt0.y+y));
 	}
 
 	@Override
