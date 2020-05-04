@@ -18,19 +18,18 @@ public class Keyboard implements KeyListener {
 			Map.getInstance().setdX(-1);
 		} else if (e.getKeyCode() == KeyEvent.VK_RIGHT) {
 			Map.getInstance().setdX(1);
-		}
-		else if (e.getKeyCode() == KeyEvent.VK_UP) {
-			Map.getInstance().setdY(-1);
-		}
-		else if (e.getKeyCode() == KeyEvent.VK_DOWN) {
-			Map.getInstance().setdY(1);
+		} else if (e.getKeyCode() == KeyEvent.VK_UP) {
+		
+		} else if (e.getKeyCode() == KeyEvent.VK_DOWN) {
+			
 		}
 
 	}
 
 	@Override
 	public void keyReleased(KeyEvent e) {
-		Map.getInstance().setdX(0);
-		Map.getInstance().setdY(0);
+		
+			Map.getInstance().setdX(0);
+		
 	}
 }

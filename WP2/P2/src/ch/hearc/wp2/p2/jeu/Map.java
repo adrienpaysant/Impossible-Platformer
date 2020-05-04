@@ -38,7 +38,6 @@ public class Map extends JPanel {
 
 	private Player player;
 	private int dX;
-	private int dY;
 	public double groundH;
 
 	public static Map getInstance() {
@@ -122,13 +121,7 @@ public class Map extends JPanel {
 		this.dX = dX;
 	}
 
-	public int getdY() {
-		return dY;
-	}
-
-	public void setdY(int dY) {
-		this.dY = dY;
-	}
+	
 
 	// painting
 	@Override
@@ -158,7 +151,6 @@ public class Map extends JPanel {
 		// player
 		// TODO TOFIX : wrong method : c'est la map qui doit bouger
 		player.moveByX(SPEED*dX);
-		player.moveByY(SPEED*dY);
 		g2d.setColor(Color.black);
 		if (player.isVisible())
 			g2d.draw(player.getRect());
