@@ -27,7 +27,7 @@ import ch.hearc.wp2.p2.jeu.tools.image.ShopImage;
 @SuppressWarnings("serial")
 public class Map extends JPanel {
 	
-	public static final int BLOC_WH=50;
+	public static final int BLOCK_WH=50;
 	
 	
 	private Game game;
@@ -94,11 +94,11 @@ public class Map extends JPanel {
 			private void setBlocList() {
 				// initial path
 				for (int i = 0; i < game.getWidth() / 50; i++) {
-					listBloc.add(new Bloc(BLOC_WH * i, game.getHeight() / 2, BLOC_WH, BLOC_WH, true, ShopImage.PATHBLOCK.getImage()));
+					listBloc.add(new Bloc(BLOCK_WH * i, game.getHeight() / 2, BLOCK_WH, BLOCK_WH, true, ShopImage.PATHBLOCK.getImage()));
 					
 					
 					listBloc.add(
-							new Bloc(BLOC_WH * i, BLOC_WH + game.getHeight() / 2, BLOC_WH, BLOC_WH, true, ShopImage.DIRTBLOCK.getImage()));
+							new Bloc(BLOCK_WH * i, BLOCK_WH + game.getHeight() / 2, BLOCK_WH, BLOCK_WH, true, ShopImage.DIRTBLOCK.getImage()));
 				
 				}
 
