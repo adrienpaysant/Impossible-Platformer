@@ -11,6 +11,7 @@ public class Chrono implements Runnable {
 		while (true) {
 			
 			Map.getInstance().repaint();
+			
 			try {
 				Thread.sleep(DELAY);
 			} catch (InterruptedException e) {
