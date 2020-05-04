@@ -26,7 +26,10 @@ import ch.hearc.wp2.p2.jeu.tools.image.ShopImage;
 
 @SuppressWarnings("serial")
 public class Map extends JPanel {
-
+	
+	public static final int BLOC_WH=50;
+	
+	
 	private Game game;
 	private JButton buttonExit;
 
@@ -76,11 +79,11 @@ public class Map extends JPanel {
 				else {
 					listBloc.clear();
 					setBlocList();
-					
-					//only for test
+
+					// only for test
 					for (int i = 0; i < 100; i++) {
-						if(player.getRect().x>game.getWidth())
-							setdX(-game.getWidth()/3);
+						if (player.getRect().x > game.getWidth())
+							setdX(-game.getWidth() / 3);
 						else
 							setdX(1);
 					}
@@ -89,18 +92,23 @@ public class Map extends JPanel {
 			}
 
 			private void setBlocList() {
-				//initial path
-				for (int i = 0; i < game.getWidth() / 50 - 2; i++)
-					listBloc.add(new Bloc(50 * i + 50, game.getHeight() / 2, 50, 50, true,ShopImage.PATHBLOCK.getImage()));
+				// initial path
+				for (int i = 0; i < game.getWidth() / 50; i++) {
+					listBloc.add(new Bloc(BLOC_WH * i, game.getHeight() / 2, BLOC_WH, BLOC_WH, true, ShopImage.PATHBLOCK.getImage()));
+					
+					
+					listBloc.add(
+							new Bloc(BLOC_WH * i, BLOC_WH + game.getHeight() / 2, BLOC_WH, BLOC_WH, true, ShopImage.DIRTBLOCK.getImage()));
 				
-			//essai avec 1 seul gros bloc :	listBloc.add(new Bloc(50, game.getHeight() / 2, game.getWidth()-50,600, true,ShopImage.PATHBLOCK.getImage()));
+				}
+
 			}
 
 		});
 
 		// listener of keyboard
-		//addKeyListener(new Keyboard());
-		
+		// addKeyListener(new Keyboard());
+
 		this.addKeyListener(new KeyListener() {
 
 			@Override
@@ -155,12 +163,15 @@ public class Map extends JPanel {
 		g2d.setColor(Color.green);
 		for (Bloc bloc : listBloc) {
 			if (bloc.isVisible()) {
-				g2d.drawImage(bloc.getTexture(), (int)bloc.getRect().x, (int)bloc.getRect().y, (int)(bloc.getRect().width+bloc.getRect().x), (int)(bloc.getRect().height+bloc.getRect().y),0,0, bloc.getTexture().getWidth(null), bloc.getTexture().getHeight(null), null);
+				g2d.drawImage(bloc.getTexture(), (int) bloc.getRect().x, (int) bloc.getRect().y,
+						(int) (bloc.getRect().width + bloc.getRect().x),
+						(int) (bloc.getRect().height + bloc.getRect().y), 0, 0, bloc.getTexture().getWidth(null),
+						bloc.getTexture().getHeight(null), null);
 			}
 		}
 
 		// player
-		//TODO TOFIX : wrong method : c'est la map qui doit bouger
+		// TODO TOFIX : wrong method : c'est la map qui doit bouger
 		player.moveByX(dX);
 		g2d.setColor(Color.black);
 		if (player.isVisible())
