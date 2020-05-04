@@ -26,7 +26,8 @@ import ch.hearc.wp2.p2.jeu.tools.image.ShopImage;
 @SuppressWarnings("serial")
 public class Map extends JPanel {
 
-	public static final int BLOC_WH = 50;
+	private static final int BLOC_WH = 50;
+	private static final int SPEED=3;
 
 	private Game game;
 	private JButton buttonExit;
@@ -37,6 +38,7 @@ public class Map extends JPanel {
 
 	private Player player;
 	private int dX;
+	private int dY;
 	public double groundH;
 
 	public static Map getInstance() {
@@ -120,6 +122,14 @@ public class Map extends JPanel {
 		this.dX = dX;
 	}
 
+	public int getdY() {
+		return dY;
+	}
+
+	public void setdY(int dY) {
+		this.dY = dY;
+	}
+
 	// painting
 	@Override
 	protected void paintComponent(Graphics g) {
@@ -130,6 +140,7 @@ public class Map extends JPanel {
 
 	private void draw(Graphics2D g2d) {
 		add(buttonExit);
+		
 		// background
 		g2d.setColor(new Color(51, 204, 250));
 		g2d.fill(new Rectangle2D.Double(0, 0, getWidth(), getHeight()));
@@ -146,7 +157,8 @@ public class Map extends JPanel {
 		}
 		// player
 		// TODO TOFIX : wrong method : c'est la map qui doit bouger
-		player.moveByX(dX);
+		player.moveByX(SPEED*dX);
+		player.moveByY(SPEED*dY);
 		g2d.setColor(Color.black);
 		if (player.isVisible())
 			g2d.draw(player.getRect());
