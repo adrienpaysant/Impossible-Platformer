@@ -15,6 +15,7 @@ import java.util.ArrayList;
 
 import javax.swing.JButton;
 import javax.swing.JPanel;
+import javax.swing.SwingUtilities;
 
 import ch.hearc.wp2.p2.jeu.items.Caractere.Player;
 import ch.hearc.wp2.p2.jeu.items.blocs.Bloc;
@@ -44,9 +45,11 @@ public class Map extends JPanel {
 		if (map == null) {
 			map = new Map();
 			map.addKeyListener(new Keyboard());
-			map.setFocusable(true);
-			map.requestFocusInWindow(true);
-			map.setRequestFocusEnabled(true);
+			//for the focus in map
+			SwingUtilities.invokeLater(new Runnable() {
+				  public void run() {
+				    map.requestFocusInWindow();
+				  }});
 		}
 
 		return map;
