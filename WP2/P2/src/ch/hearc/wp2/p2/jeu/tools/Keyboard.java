@@ -18,11 +18,9 @@ public class Keyboard implements KeyListener
 		{
 			if(e.getKeyCode()==KeyEvent.VK_LEFT) {
 				Map.getInstance().setdX(-1);
-				System.out.println("vk gauche");
 			}
 			else if(e.getKeyCode()==KeyEvent.VK_RIGHT) {
 				Map.getInstance().setdX(1);
-				System.out.println("vk droite");
 			}
 //			if(e.getKeyCode()==KeyEvent.VK_UP) {
 //				

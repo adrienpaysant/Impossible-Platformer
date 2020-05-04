@@ -6,7 +6,7 @@ import java.awt.geom.Rectangle2D;
 
 import javax.swing.JComponent;
 
-public abstract class Item {// extends JComponent{
+public abstract class Item {
 
 	// visible
 	private boolean isVisible;

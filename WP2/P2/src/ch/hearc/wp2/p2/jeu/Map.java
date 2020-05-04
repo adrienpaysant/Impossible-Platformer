@@ -4,7 +4,6 @@ package ch.hearc.wp2.p2.jeu;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
-import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ComponentAdapter;
@@ -27,7 +26,7 @@ import ch.hearc.wp2.p2.jeu.tools.image.ShopImage;
 @SuppressWarnings("serial")
 public class Map extends JPanel {
 
-	public static final int BLOCK_WH = 50;
+	public static final int BLOC_WH = 50;
 
 	private Game game;
 	private JButton buttonExit;
@@ -41,26 +40,26 @@ public class Map extends JPanel {
 	public double groundH;
 
 	public static Map getInstance() {
-		if (map == null)
+		if (map == null) {
 			map = new Map();
+			map.addKeyListener(new Keyboard());
+			map.setFocusable(true);
+			map.requestFocusInWindow(true);
+			map.setRequestFocusEnabled(true);
+		}
+
 		return map;
 	}
 
 	// constructor
 	private Map() {
 
-//		// ??
-//		this.setFocusable(true);
-//		this.requestFocusInWindow(true);
-//		this.setRequestFocusEnabled(true);
-		//
-
 		this.game = Game.getInstance();
 		this.buttonExit = new JButton("Back to Menu");
 		this.player = new Player(game.getWidth() / 2, game.getHeight() / 3, 25, 55, true);
 		this.dX = 0;
 		this.groundH = 2 * game.getHeight() / 3;
-		
+
 		// listeners
 		buttonExit.addActionListener(new ActionListener() {
 			@Override
@@ -80,15 +79,6 @@ public class Map extends JPanel {
 				else {
 					listBloc.clear();
 					setBlocList();
-
-					// only for test
-					for (int i = 0; i < 100; i++) {
-						if (player.getRect().x > game.getWidth())
-							setdX(-game.getWidth() / 3);
-						else
-							setdX(1);
-					}
-					//
 				}
 			}
 
@@ -98,16 +88,15 @@ public class Map extends JPanel {
 				for (int i = 0; i < game.getWidth() / 50; i++) {
 					if (i % alea != 0) {
 						// path = 1st Layer
-						listBloc.add(new Bloc(BLOCK_WH * i, groundH, BLOCK_WH, BLOCK_WH, true,
-								ShopImage.PATHBLOCK.getImage()));
+						listBloc.add(new Bloc(BLOC_WH * i, groundH, BLOC_WH, BLOC_WH, true, ShopImage.PATHBLOCK));
 						// 2nd Layer
-						listBloc.add(new Bloc(BLOCK_WH * i, BLOCK_WH +groundH, BLOCK_WH, BLOCK_WH, true,
-								ShopImage.DIRTBLOCK.getImage()));
+						listBloc.add(
+								new Bloc(BLOC_WH * i, BLOC_WH + groundH, BLOC_WH, BLOC_WH, true, ShopImage.DIRTBLOCK));
 
 						// trap test
 						if (i % alea == 2)
-							listBloc.add(new Bloc(BLOCK_WH * i, -BLOCK_WH +groundH, BLOCK_WH, BLOCK_WH,
-									true, ShopImage.SPIKES.getImage()));
+							listBloc.add(new Bloc(BLOC_WH * i, -BLOC_WH + groundH, BLOC_WH, BLOC_WH, true,
+									ShopImage.SPIKES));
 					}
 
 				}
@@ -116,34 +105,10 @@ public class Map extends JPanel {
 
 		});
 
-		// listener of keyboard
-		// addKeyListener(new Keyboard());
-
-		this.addKeyListener(new KeyListener() {
-
-			@Override
-			public void keyTyped(KeyEvent e) {
-			}
-
-			@Override
-			public void keyPressed(KeyEvent e) {
-				if (e.getKeyCode() == KeyEvent.VK_LEFT) {
-					setdX(-1);
-					System.out.println("vk gauche");
-				} else if (e.getKeyCode() == KeyEvent.VK_RIGHT) {
-					setdX(1);
-					System.out.println("vk droite");
-				}
-			}
-
-			@Override
-			public void keyReleased(KeyEvent e) {
-				setdX(0);
-			}
-		});
-
 		Thread chronoMap = new Thread(new Chrono());
 		chronoMap.start();
+
+		// TODO thread pour gérer les collisions ?
 	}
 
 	// getters & setters
@@ -179,7 +144,6 @@ public class Map extends JPanel {
 						bloc.getTexture().getHeight(null), null);
 			}
 		}
-
 		// player
 		// TODO TOFIX : wrong method : c'est la map qui doit bouger
 		player.moveByX(dX);
