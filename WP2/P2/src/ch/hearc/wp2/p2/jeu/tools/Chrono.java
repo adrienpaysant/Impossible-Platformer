@@ -12,7 +12,7 @@ public class Chrono implements Runnable
 			//Map.repaint()
 			try
 				{
-				Thread.sleep(15);//60 fps
+				Thread.sleep(16);//60 fps
 				}
 			catch (InterruptedException e)
 				{

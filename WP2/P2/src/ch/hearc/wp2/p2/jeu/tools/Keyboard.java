@@ -10,23 +10,23 @@ public class Keyboard implements KeyListener
 	@Override
 	public void keyTyped(KeyEvent e)
 		{
-			
+
 		}
 
 	@Override
 	public void keyPressed(KeyEvent e)
 		{
 			if(e.getKeyCode()==KeyEvent.VK_LEFT) {
-				
+
 			}
 			if(e.getKeyCode()==KeyEvent.VK_RIGHT) {
-							
+
 			}
 			if(e.getKeyCode()==KeyEvent.VK_UP) {
-				
+
 			}
 			if(e.getKeyCode()==KeyEvent.VK_DOWN) {
-				
+
 			}
 
 		}

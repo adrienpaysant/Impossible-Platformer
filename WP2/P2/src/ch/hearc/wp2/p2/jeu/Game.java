@@ -7,12 +7,16 @@ import javax.swing.JFrame;
 import javax.swing.WindowConstants;
 
 @SuppressWarnings("serial")
+
 public class Game extends JFrame {
 	//singleton
 	private static Game game=null;
+
 	public static Game getInstance() {
 		if(game==null)
-			game = new Game();
+			{
+				game = new Game();
+				}
 		return game;
 	}
 	private Game() {
