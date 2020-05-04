@@ -38,6 +38,7 @@ public class Map extends JPanel {
 
 	private Player player;
 	private int dX;
+	public double groundH;
 
 	public static Map getInstance() {
 		if (map == null)
@@ -58,7 +59,8 @@ public class Map extends JPanel {
 		this.buttonExit = new JButton("Back to Menu");
 		this.player = new Player(game.getWidth() / 2, game.getHeight() / 3, 25, 55, true);
 		this.dX = 0;
-
+		this.groundH = 2 * game.getHeight() / 3;
+		
 		// listeners
 		buttonExit.addActionListener(new ActionListener() {
 			@Override
@@ -91,23 +93,23 @@ public class Map extends JPanel {
 			}
 
 			private void setBlocList() {
-				int alea = 5 + (int)(Math.random() * ((20 - 5) + 1));
+				int alea = 5 + (int) (Math.random() * ((20 - 5) + 1));
 				// initial path
 				for (int i = 0; i < game.getWidth() / 50; i++) {
 					if (i % alea != 0) {
 						// path = 1st Layer
-						listBloc.add(new Bloc(BLOCK_WH * i, game.getHeight() / 2, BLOCK_WH, BLOCK_WH, true,
+						listBloc.add(new Bloc(BLOCK_WH * i, groundH, BLOCK_WH, BLOCK_WH, true,
 								ShopImage.PATHBLOCK.getImage()));
 						// 2nd Layer
-						listBloc.add(new Bloc(BLOCK_WH * i, BLOCK_WH + game.getHeight() / 2, BLOCK_WH, BLOCK_WH, true,
+						listBloc.add(new Bloc(BLOCK_WH * i, BLOCK_WH +groundH, BLOCK_WH, BLOCK_WH, true,
 								ShopImage.DIRTBLOCK.getImage()));
 
 						// trap test
 						if (i % alea == 2)
-							listBloc.add(new Bloc(BLOCK_WH * i, -BLOCK_WH + game.getHeight() / 2, BLOCK_WH, BLOCK_WH,
+							listBloc.add(new Bloc(BLOCK_WH * i, -BLOCK_WH +groundH, BLOCK_WH, BLOCK_WH,
 									true, ShopImage.SPIKES.getImage()));
 					}
-					
+
 				}
 
 			}
