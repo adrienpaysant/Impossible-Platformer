@@ -4,6 +4,7 @@ package ch.hearc.wp2.p2.jeu;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ComponentAdapter;
@@ -75,22 +76,23 @@ public class Map extends JPanel {
 					listBloc.clear();
 					setBlocList();
 					
-					//only for test
-					for (int i = 0; i < 100; i++) {
-						if(player.getRect().x>game.getWidth())
-							setdX(-game.getWidth()/3);
-						else
-							setdX(1);
-					}
-					//
+//					//only for test
+//					for (int i = 0; i < 100; i++) {
+//						if(player.getRect().x>game.getWidth())
+//							setdX(-game.getWidth()/3);
+//						else
+//							setdX(1);
+//					}
+//					//
 				}
 			}
 
 			private void setBlocList() {
 				//initial path
 				for (int i = 0; i < game.getWidth() / 50 - 2; i++)
-					//issue here TODO TOFIX
 					listBloc.add(new Bloc(50 * i + 50, game.getHeight() / 2, 50, 30, true,ShopImage.PATHBLOCK.getImage()));
+				
+			//essai avec 1 seul gros bloc	listBloc.add(new Bloc(50, game.getHeight() / 2, game.getWidth()-50,600, true,ShopImage.PATHBLOCK.getImage()));
 			}
 
 		});
@@ -151,7 +153,7 @@ public class Map extends JPanel {
 		for (Bloc bloc : listBloc) {
 			if (bloc.isVisible()) {
 				//g2d.fill(bloc.getRect());
-				//TODO TOFIX
+				//TODO TOFIX c moche
 				g2d.drawImage(bloc.getTexture(), (int)bloc.getRect().x, (int)bloc.getRect().y, (int)bloc.getRect().width, (int)bloc.getRect().height,0,0, bloc.getTexture().getWidth(null), bloc.getTexture().getHeight(null), null);
 			}
 		}
