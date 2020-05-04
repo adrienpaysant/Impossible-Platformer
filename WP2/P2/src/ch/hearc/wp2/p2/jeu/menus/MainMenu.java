@@ -12,8 +12,8 @@ import javax.swing.JPanel;
 
 import ch.hearc.wp2.p2.jeu.Game;
 import ch.hearc.wp2.p2.jeu.Map;
-import ch.hearc.wp2.p2.jeu.tools.JCenter;
-import ch.hearc.wp2.p2.jeu.tools.JCenterH;
+import ch.hearc.wp2.p2.jeu.tools.position.JCenter;
+import ch.hearc.wp2.p2.jeu.tools.position.JCenterH;
 
 @SuppressWarnings("serial")
 public class MainMenu extends JPanel {

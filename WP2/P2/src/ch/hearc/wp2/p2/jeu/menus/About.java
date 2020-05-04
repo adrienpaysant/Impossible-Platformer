@@ -12,8 +12,8 @@ import javax.swing.BoxLayout;
 import javax.swing.JLabel;
 
 import ch.hearc.wp2.p2.jeu.Game;
-import ch.hearc.wp2.p2.jeu.tools.JCenter;
-import ch.hearc.wp2.p2.jeu.tools.JCenterH;
+import ch.hearc.wp2.p2.jeu.tools.position.JCenter;
+import ch.hearc.wp2.p2.jeu.tools.position.JCenterH;
 
 @SuppressWarnings("serial")
 public class About extends Box {

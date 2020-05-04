@@ -10,8 +10,6 @@ import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
-import java.awt.geom.Point2D;
-import java.awt.geom.Point2D.Double;
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 
@@ -22,7 +20,7 @@ import ch.hearc.wp2.p2.jeu.items.Caractere.Player;
 import ch.hearc.wp2.p2.jeu.items.blocs.Bloc;
 import ch.hearc.wp2.p2.jeu.menus.MainMenu;
 import ch.hearc.wp2.p2.jeu.tools.Chrono;
-import ch.hearc.wp2.p2.jeu.tools.Keyboard;
+import ch.hearc.wp2.p2.jeu.tools.image.ShopImage;
 
 @SuppressWarnings("serial")
 public class Map extends JPanel {
@@ -46,10 +44,10 @@ public class Map extends JPanel {
 	// constructor
 	private Map() {
 
-		// ??
-		this.setFocusable(true);
-		this.requestFocusInWindow(true);
-		this.setRequestFocusEnabled(true);
+//		// ??
+//		this.setFocusable(true);
+//		this.requestFocusInWindow(true);
+//		this.setRequestFocusEnabled(true);
 		//
 
 		this.game = Game.getInstance();
@@ -89,8 +87,10 @@ public class Map extends JPanel {
 			}
 
 			private void setBlocList() {
+				//initial path
 				for (int i = 0; i < game.getWidth() / 50 - 2; i++)
-					listBloc.add(new Bloc(50 * i + 50, game.getHeight() / 2, 50, 30, true));
+					//issue here TODO TOFIX
+					listBloc.add(new Bloc(50 * i + 50, game.getHeight() / 2, 50, 30, true,ShopImage.PATHBLOCK.getImage()));
 			}
 
 		});
@@ -150,12 +150,14 @@ public class Map extends JPanel {
 		g2d.setColor(Color.green);
 		for (Bloc bloc : listBloc) {
 			if (bloc.isVisible()) {
-				// TODO TOFIX bloc.moveByX(dX);// moving element to move player
-				g2d.fill(bloc.getRect());
+				//g2d.fill(bloc.getRect());
+				//TODO TOFIX
+				g2d.drawImage(bloc.getTexture(), (int)bloc.getRect().x, (int)bloc.getRect().y, (int)bloc.getRect().width, (int)bloc.getRect().height,0,0, bloc.getTexture().getWidth(null), bloc.getTexture().getHeight(null), null);
 			}
 		}
 
 		// player
+		//TODO TOFIX : wrong method : 
 		player.moveByX(dX);
 		g2d.setColor(Color.black);
 		if (player.isVisible())
