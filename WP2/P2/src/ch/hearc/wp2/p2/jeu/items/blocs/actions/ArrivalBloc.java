@@ -14,11 +14,6 @@ public class ArrivalBloc extends Bloc implements ActionBloc {
 		// TODO Auto-generated constructor stub
 	}
 
-	public ArrivalBloc(Double rect, boolean v, Image texture) {
-		super(rect, v, texture);
-		// TODO Auto-generated constructor stub
-	}
-
 	public ArrivalBloc(double x, double y, double w, double h, boolean v, Image texture) {
 		super(x, y, w, h, v, texture);
 		// TODO Auto-generated constructor stub

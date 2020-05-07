@@ -8,6 +8,10 @@ import ch.hearc.wp2.p2.jeu.items.Item;
 
 public class Bloc extends Item {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private Image texture;
 
 	public Bloc(double x, double y, double w, double h, boolean v, Image texture) {
@@ -17,12 +21,7 @@ public class Bloc extends Item {
 	}
 
 	public Bloc(Bloc it) {
-		this(it.getRect().x, it.getRect().y, it.getRect().width, it.getRect().height, it.isVisible(), it.texture);
-	}
-
-	public Bloc(Rectangle2D.Double rect, boolean v, Image texture) {
-		super(rect, v);
-		this.texture = texture;
+		this(it.x, it.y, it.width, it.height, it.isVisible(), it.texture);
 	}
 
 	// getter

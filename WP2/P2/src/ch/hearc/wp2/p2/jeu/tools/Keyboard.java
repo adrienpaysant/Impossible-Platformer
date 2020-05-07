@@ -14,22 +14,21 @@ public class Keyboard implements KeyListener {
 
 	@Override
 	public void keyPressed(KeyEvent e) {
+		// left
 		if (e.getKeyCode() == KeyEvent.VK_LEFT) {
 			Map.getInstance().setdX(-1);
-		} else if (e.getKeyCode() == KeyEvent.VK_RIGHT) {
+		} // right
+		else if (e.getKeyCode() == KeyEvent.VK_RIGHT) {
 			Map.getInstance().setdX(1);
-		} else if (e.getKeyCode() == KeyEvent.VK_UP) {
-		
-		} else if (e.getKeyCode() == KeyEvent.VK_DOWN) {
-			
 		}
 
 	}
 
 	@Override
 	public void keyReleased(KeyEvent e) {
-		
-			Map.getInstance().setdX(0);
-		
+
+		Map.getInstance().setdX(0);
+
 	}
+
 }
