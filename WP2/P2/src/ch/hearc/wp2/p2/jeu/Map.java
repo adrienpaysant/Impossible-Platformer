@@ -11,6 +11,8 @@ import java.awt.event.ComponentEvent;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.geom.Rectangle2D;
+import java.awt.geom.Point2D;
+import java.awt.geom.Point2D.Double;
 import java.util.ArrayList;
 
 import javax.swing.Box;
@@ -34,6 +36,7 @@ public class Map extends JPanel {
 	private static final int PLAYER_W = 25;
 	private static final int GRAVITY = 3;
 	private static final int HEART_WH = 25;
+	private static final int PLAYER_NB_LIFE = 5;
 
 	private Game game;
 	private JButton buttonExit;
@@ -66,7 +69,7 @@ public class Map extends JPanel {
 
 		this.game = Game.getInstance();
 		this.buttonExit = new JButton("Back to Menu");
-		this.player = new Player(game.getWidth() / 2, game.getHeight() / 3, PLAYER_W, PLAYER_H, true, 5);
+		this.player = new Player(game.getWidth() / 2, game.getHeight() / 3, PLAYER_W, PLAYER_H, true, PLAYER_NB_LIFE);
 		this.dX = 0;
 		this.groundH = 2 * game.getHeight() / 3;
 
@@ -143,12 +146,17 @@ public class Map extends JPanel {
 		// background
 		g2d.setColor(new Color(51, 204, 250));
 		g2d.fill(new Rectangle2D.Double(0, 0, getWidth(), getHeight()));
-		
-		
-		//test & collisions
-		if(player.getMaxY()>= (4*Main.HEIGHT/5))
+
+		// test & collisions
+		if (player.getMaxY() >= (4 * Main.HEIGHT / 5)) {
+			player.setHeart(player.getHeart() - 1);
+			player.moveTo(new Point2D.Double(game.getWidth() / 2, game.getHeight() / 3));
+		}
+
+		if (player.getHeart() <= 0) {
 			player.setAlive(false);
-	
+		}
+
 		// player is Alive ?
 		if (player.isAlive()) {
 			// blocs
@@ -174,6 +182,8 @@ public class Map extends JPanel {
 						ShopImage.HEART.getWidth(null), ShopImage.HEART.getHeight(null), null);
 			}
 		} else {
+			System.out.println("youloose");
+			player.setHeart(PLAYER_NB_LIFE);
 			game.setSize(game.getWidth() + 1, game.getHeight() + 1);
 			game.setContentPane(MainMenu.getInstance());
 			game.setSize(game.getWidth() - 1, game.getHeight() - 1);
