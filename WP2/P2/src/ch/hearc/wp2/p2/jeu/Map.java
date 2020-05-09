@@ -140,30 +140,43 @@ public class Map extends JPanel {
 
 	private void draw(Graphics2D g2d) {
 		add(buttonExit);
-
 		// background
 		g2d.setColor(new Color(51, 204, 250));
 		g2d.fill(new Rectangle2D.Double(0, 0, getWidth(), getHeight()));
-
-		// blocs
-		g2d.setColor(Color.green);
-		for (Bloc bloc : listBloc) {
-			// - dX to move the player
-			bloc.moveByX(-dX * SPEED);
-			if (bloc.isVisible()) {
-				g2d.drawImage(bloc.getTexture(), (int) bloc.x, (int) bloc.y, (int) (bloc.width + bloc.x),
-						(int) (bloc.height + bloc.y), 0, 0, bloc.getTexture().getWidth(null),
-						bloc.getTexture().getHeight(null), null);
+		
+		
+		//test & collisions
+		if(player.getMaxY()>= (4*Main.HEIGHT/5))
+			player.setAlive(false);
+	
+		// player is Alive ?
+		if (player.isAlive()) {
+			// blocs
+			g2d.setColor(Color.green);
+			for (Bloc bloc : listBloc) {
+				// - dX to move the player
+				bloc.moveByX(-dX * SPEED);
+				if (bloc.isVisible()) {
+					g2d.drawImage(bloc.getTexture(), (int) bloc.x, (int) bloc.y, (int) (bloc.width + bloc.x),
+							(int) (bloc.height + bloc.y), 0, 0, bloc.getTexture().getWidth(null),
+							bloc.getTexture().getHeight(null), null);
+				}
 			}
-		}
-		// player
-		player.moveByY(GRAVITY);
-		g2d.setColor(Color.black);
-		if (player.isVisible())
-			g2d.draw(player);
-		// hearts of the player :
-		for (int i = 0; i < player.getHeart(); i++) {
+			// player
+			player.moveByY(GRAVITY);
+			g2d.setColor(Color.black);
+			if (player.isVisible())
+				g2d.draw(player);
 
+			// hearts of the player :
+			for (int i = 0; i < player.getHeart(); i++) {
+				g2d.drawImage(ShopImage.HEART, 5 + i * HEART_WH, 0, 5 + i * HEART_WH + HEART_WH, HEART_WH, 0, 0,
+						ShopImage.HEART.getWidth(null), ShopImage.HEART.getHeight(null), null);
+			}
+		} else {
+			game.setSize(game.getWidth() + 1, game.getHeight() + 1);
+			game.setContentPane(MainMenu.getInstance());
+			game.setSize(game.getWidth() - 1, game.getHeight() - 1);
 		}
 	}
 }
