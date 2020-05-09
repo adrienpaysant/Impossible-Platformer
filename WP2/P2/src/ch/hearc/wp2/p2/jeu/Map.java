@@ -13,6 +13,7 @@ import java.awt.event.KeyListener;
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 
+import javax.swing.Box;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
@@ -29,6 +30,10 @@ public class Map extends JPanel {
 
 	private static final int BLOC_WH = 50;
 	private static final int SPEED = 3;
+	private static final int PLAYER_H = 55;
+	private static final int PLAYER_W = 25;
+	private static final int GRAVITY = 3;
+	private static final int HEART_WH = 25;
 
 	private Game game;
 	private JButton buttonExit;
@@ -61,8 +66,7 @@ public class Map extends JPanel {
 
 		this.game = Game.getInstance();
 		this.buttonExit = new JButton("Back to Menu");
-		this.player = new Player(game.getWidth() / 2, game.getHeight() / 3, 25, 55, true);
-		System.out.println("init " + player);
+		this.player = new Player(game.getWidth() / 2, game.getHeight() / 3, PLAYER_W, PLAYER_H, true, 5);
 		this.dX = 0;
 		this.groundH = 2 * game.getHeight() / 3;
 
@@ -141,9 +145,11 @@ public class Map extends JPanel {
 		g2d.setColor(new Color(51, 204, 250));
 		g2d.fill(new Rectangle2D.Double(0, 0, getWidth(), getHeight()));
 
-		// test blocs
+		// blocs
 		g2d.setColor(Color.green);
 		for (Bloc bloc : listBloc) {
+			// - dX to move the player
+			bloc.moveByX(-dX * SPEED);
 			if (bloc.isVisible()) {
 				g2d.drawImage(bloc.getTexture(), (int) bloc.x, (int) bloc.y, (int) (bloc.width + bloc.x),
 						(int) (bloc.height + bloc.y), 0, 0, bloc.getTexture().getWidth(null),
@@ -151,10 +157,13 @@ public class Map extends JPanel {
 			}
 		}
 		// player
-		// TODO TOFIX : wrong method : c'est la map qui doit bouger
-		player.moveByX(SPEED * dX);
+		player.moveByY(GRAVITY);
 		g2d.setColor(Color.black);
 		if (player.isVisible())
 			g2d.draw(player);
+		// hearts of the player :
+		for (int i = 0; i < player.getHeart(); i++) {
+
+		}
 	}
 }

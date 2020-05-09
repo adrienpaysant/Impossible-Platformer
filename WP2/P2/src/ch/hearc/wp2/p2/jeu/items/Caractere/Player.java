@@ -6,15 +6,26 @@ import java.awt.geom.Rectangle2D.Double;
 import ch.hearc.wp2.p2.jeu.items.Item;
 
 public class Player extends Item {
-
+	
+	private int heart;
+	
+	
 	public Player(Item it) {
 		super(it);
 
 	}
 
-	public Player(double x, double y, double w, double h, boolean v) {
+	public Player(double x, double y, double w, double h, boolean v,int heart) {
 		super(x, y, w, h, v);
+		this.setHeart(heart);
+	}
 
+	public int getHeart() {
+		return heart;
+	}
+
+	public void setHeart(int heart) {
+		this.heart = heart;
 	}
 
 }
