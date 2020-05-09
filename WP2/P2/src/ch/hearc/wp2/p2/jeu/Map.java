@@ -8,14 +8,10 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
 import java.awt.geom.Rectangle2D;
 import java.awt.geom.Point2D;
-import java.awt.geom.Point2D.Double;
 import java.util.ArrayList;
 
-import javax.swing.Box;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
@@ -30,11 +26,11 @@ import ch.hearc.wp2.p2.jeu.tools.image.ShopImage;
 @SuppressWarnings("serial")
 public class Map extends JPanel {
 
-	private static final int BLOC_WH = 50;
-	private static final int SPEED = 3;
+	public static final int BLOC_WH = 50;
+	public static final int SPEED = 3;
 	private static final int PLAYER_H = 55;
 	private static final int PLAYER_W = 25;
-	private static final int GRAVITY = 3;
+	public static final int GRAVITY = 4;
 	private static final int HEART_WH = 25;
 	private static final int PLAYER_NB_LIFE = 5;
 
@@ -42,12 +38,15 @@ public class Map extends JPanel {
 	private JButton buttonExit;
 
 	private ArrayList<Bloc> listBloc = new ArrayList<Bloc>();
+	
 
 	private static Map map = null;
 	private Player player;
 
 	private int dX;
-	public double groundH;
+	private double groundH;
+
+	private boolean isPaused;
 
 	public static Map getInstance() {
 		if (map == null) {
@@ -72,6 +71,7 @@ public class Map extends JPanel {
 		this.player = new Player(game.getWidth() / 2, game.getHeight() / 3, PLAYER_W, PLAYER_H, true, PLAYER_NB_LIFE);
 		this.dX = 0;
 		this.groundH = 2 * game.getHeight() / 3;
+		this.isPaused = false;
 
 		// listeners
 		buttonExit.addActionListener(new ActionListener() {
@@ -106,10 +106,10 @@ public class Map extends JPanel {
 						listBloc.add(
 								new Bloc(BLOC_WH * i, BLOC_WH + groundH, BLOC_WH, BLOC_WH, true, ShopImage.DIRTBLOCK));
 
-						// trap test
-						if (i % alea == 2)
-							listBloc.add(new Bloc(BLOC_WH * i, -BLOC_WH + groundH, BLOC_WH, BLOC_WH, true,
-									ShopImage.SPIKES));
+//						// trap test
+//						if (i % alea == 2)
+//							listBloc.add(new Bloc(BLOC_WH * i, -BLOC_WH + groundH, BLOC_WH, BLOC_WH, true,
+//									ShopImage.SPIKES));
 					}
 
 				}
@@ -120,11 +120,16 @@ public class Map extends JPanel {
 
 		Thread chronoMap = new Thread(new Chrono());
 		chronoMap.start();
+		// TODO
 
 		// TODO thread pour gérer les collisions ?
 	}
 
 	// getters & setters
+	public Player getPlayer() {
+		return player;
+	}
+
 	public int getdX() {
 		return dX;
 	}
@@ -142,34 +147,12 @@ public class Map extends JPanel {
 	}
 
 	private void draw(Graphics2D g2d) {
-		add(buttonExit);
-		// background
-		g2d.setColor(new Color(51, 204, 250));
-		g2d.fill(new Rectangle2D.Double(0, 0, getWidth(), getHeight()));
+		if (!isPaused) {
+			add(buttonExit);
+			// background
+			g2d.setColor(new Color(51, 204, 250));
+			g2d.fill(new Rectangle2D.Double(0, 0, getWidth(), getHeight()));
 
-		// test & collisions
-		if (player.getMaxY() >= (4 * Main.HEIGHT / 5)) {
-			player.setHeart(player.getHeart() - 1);
-			player.moveTo(new Point2D.Double(game.getWidth() / 2, game.getHeight() / 3));
-		}
-
-		if (player.getHeart() <= 0) {
-			player.setAlive(false);
-		}
-
-		// player is Alive ?
-		if (player.isAlive()) {
-			// blocs
-			g2d.setColor(Color.green);
-			for (Bloc bloc : listBloc) {
-				// - dX to move the player
-				bloc.moveByX(-dX * SPEED);
-				if (bloc.isVisible()) {
-					g2d.drawImage(bloc.getTexture(), (int) bloc.x, (int) bloc.y, (int) (bloc.width + bloc.x),
-							(int) (bloc.height + bloc.y), 0, 0, bloc.getTexture().getWidth(null),
-							bloc.getTexture().getHeight(null), null);
-				}
-			}
 			// player
 			player.moveByY(GRAVITY);
 			g2d.setColor(Color.black);
@@ -181,12 +164,53 @@ public class Map extends JPanel {
 				g2d.drawImage(ShopImage.HEART, 5 + i * HEART_WH, 0, 5 + i * HEART_WH + HEART_WH, HEART_WH, 0, 0,
 						ShopImage.HEART.getWidth(null), ShopImage.HEART.getHeight(null), null);
 			}
-		} else {
-			System.out.println("youloose");
-			player.setHeart(PLAYER_NB_LIFE);
-			game.setSize(game.getWidth() + 1, game.getHeight() + 1);
-			game.setContentPane(MainMenu.getInstance());
-			game.setSize(game.getWidth() - 1, game.getHeight() - 1);
+
+			// test & collisions
+			for (Bloc bloc : listBloc) {
+				// search horizontaly
+				if (Math.abs(bloc.getMinX() - player.getMaxX()) <= 1
+						|| Math.abs(bloc.getMaxX() - player.getMinX()) <= 1)
+					// then test verticaly
+					if (Math.abs(bloc.getMinY() - player.getMaxY()) <= 1) {
+						player.moveByY(-GRAVITY);
+					}
+
+			}
+
+			if (player.getMaxY() >= (4 * Main.HEIGHT / 5)) {
+				player.setHeart(player.getHeart() - 1);
+				// TODO move to last checkpoint
+				player.moveTo(new Point2D.Double(game.getWidth() / 2, game.getHeight() / 3));
+				// TODO
+			}
+
+			if (player.getHeart() <= 0) {
+				player.setAlive(false);
+			}
+
+			// player is Alive ?
+			if (player.isAlive()) {
+				// blocs
+				g2d.setColor(Color.green);
+				for (Bloc bloc : listBloc) {
+					// - dX to move the player
+					bloc.moveByX(-dX * SPEED);
+					if (bloc.isVisible()) {
+						g2d.drawImage(bloc.getTexture(), (int) bloc.x, (int) bloc.y, (int) (bloc.width + bloc.x),
+								(int) (bloc.height + bloc.y), 0, 0, bloc.getTexture().getWidth(null),
+								bloc.getTexture().getHeight(null), null);
+					}
+				}
+
+			} else {
+				System.out.println("youloose");
+				// TODO
+				player.setHeart(PLAYER_NB_LIFE);
+				// TODO TOFIX pb pour relancer une partie (fonction init() ??)
+				game.setSize(game.getWidth() + 1, game.getHeight() + 1);
+				game.setContentPane(MainMenu.getInstance());
+				game.setSize(game.getWidth() - 1, game.getHeight() - 1);
+			}
 		}
 	}
 }

@@ -3,6 +3,7 @@ package ch.hearc.wp2.p2.jeu.items.Caractere;
 
 import java.awt.geom.Rectangle2D.Double;
 
+import ch.hearc.wp2.p2.jeu.Map;
 import ch.hearc.wp2.p2.jeu.items.Item;
 
 public class Player extends Item {
@@ -36,6 +37,13 @@ public class Player extends Item {
 
 	public void setAlive(boolean isAlive) {
 		this.isAlive = isAlive;
+	}
+
+	public void jump() {
+		for (int i = 0; i <3*Map.BLOC_WH/2; i++) {
+			this.moveByY(-1);
+		}
+		
 	}
 
 }

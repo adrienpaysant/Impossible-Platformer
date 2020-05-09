@@ -13,9 +13,9 @@ public class Keyboard implements KeyListener {
 	private String whoIsLast;
 
 	private void test() {
-		if (left && whoIsLast=="left")
+		if (left && whoIsLast == "left")
 			Map.getInstance().setdX(-1);
-		else if (right && whoIsLast=="right")
+		else if (right && whoIsLast == "right")
 			Map.getInstance().setdX(1);
 		else
 			Map.getInstance().setdX(0);
@@ -30,11 +30,13 @@ public class Keyboard implements KeyListener {
 		// left
 		if (e.getKeyCode() == KeyEvent.VK_LEFT) {
 			this.left = true;
-			this.whoIsLast="left";
+			this.whoIsLast = "left";
 		} // right
 		else if (e.getKeyCode() == KeyEvent.VK_RIGHT) {
 			this.right = true;
-			this.whoIsLast="right";
+			this.whoIsLast = "right";
+		} else if (e.getKeyCode() == KeyEvent.VK_UP) {
+			Map.getInstance().getPlayer().jump();
 		}
 		test();
 	}
@@ -44,13 +46,13 @@ public class Keyboard implements KeyListener {
 		// left
 		if (e.getKeyCode() == KeyEvent.VK_LEFT) {
 			this.left = false;
-			if(whoIsLast=="left" && right)
-				whoIsLast="right";
+			if (whoIsLast == "left" && right)
+				whoIsLast = "right";
 		} // right
 		else if (e.getKeyCode() == KeyEvent.VK_RIGHT) {
 			this.right = false;
-			if(whoIsLast=="right" && left)
-				whoIsLast="left";
+			if (whoIsLast == "right" && left)
+				whoIsLast = "left";
 		}
 		test();
 	}
