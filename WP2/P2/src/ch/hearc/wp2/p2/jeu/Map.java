@@ -38,7 +38,6 @@ public class Map extends JPanel {
 	private JButton buttonExit;
 
 	private ArrayList<Bloc> listBloc = new ArrayList<Bloc>();
-	
 
 	private static Map map = null;
 	private Player player;
@@ -169,15 +168,18 @@ public class Map extends JPanel {
 			for (Bloc bloc : listBloc) {
 				// search horizontaly
 				if (Math.abs(bloc.getMinX() - player.getMaxX()) <= 1
-						|| Math.abs(bloc.getMaxX() - player.getMinX()) <= 1)
+						|| Math.abs(bloc.getMaxX() - player.getMinX()) <= 1) {
 					// then test verticaly
+					System.out.println(0);
 					if (Math.abs(bloc.getMinY() - player.getMaxY()) <= 1) {
+						System.out.println(1);
 						player.moveByY(-GRAVITY);
-					}
 
+					}
+				}
 			}
 
-			if (player.getMaxY() >= (4 * Main.HEIGHT / 5)) {
+			if (player.getMaxY() >=  game.getHeight() ) {
 				player.setHeart(player.getHeart() - 1);
 				// TODO move to last checkpoint
 				player.moveTo(new Point2D.Double(game.getWidth() / 2, game.getHeight() / 3));
