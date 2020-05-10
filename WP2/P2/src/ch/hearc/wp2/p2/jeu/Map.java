@@ -1,4 +1,3 @@
-
 package ch.hearc.wp2.p2.jeu;
 
 import java.awt.Color;
@@ -10,6 +9,7 @@ import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.awt.geom.Rectangle2D;
 import java.awt.geom.Line2D;
+import java.awt.geom.Line2D.Double;
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
 
@@ -48,7 +48,6 @@ public class Map extends JPanel {
 
 	private boolean isPaused;
 	private boolean isHittingBloc;
-	private boolean isHitOnTop;
 
 	public static Map getInstance() {
 		if (map == null) {
@@ -107,14 +106,14 @@ public class Map extends JPanel {
 						listBloc.add(new Bloc(BLOC_WH * i, groundH, BLOC_WH, BLOC_WH, true, ShopImage.PATHBLOCK));
 
 						// 2nd Layer
-//						if (i % 2 == 0)
-//							listBloc.add(new Bloc(BLOC_WH * i + 2 * BLOC_WH, -2.5 * BLOC_WH + groundH, BLOC_WH, BLOC_WH,
-//									true, ShopImage.DARKSTONEBLOCK));
+						if (i % alea == 4)
+							listBloc.add(new Bloc(BLOC_WH * i + 2 * BLOC_WH, -2.5 * BLOC_WH + groundH, BLOC_WH, BLOC_WH,
+									true, ShopImage.DARKSKYBLOCK));
 
 						// trap test
 						if (i % alea == 2)
 							listBloc.add(new Bloc(BLOC_WH * i, -BLOC_WH + groundH, BLOC_WH, BLOC_WH, true,
-									ShopImage.SPIKES));
+									ShopImage.ICEBLOCK));
 					}
 
 				}
@@ -127,7 +126,7 @@ public class Map extends JPanel {
 		chronoMap.start();
 		// TODO
 
-		// TODO thread pour gérer les collisions ?
+		// TODO thread pour grer les collisions ?
 	}
 
 	// getters & setters
@@ -173,30 +172,24 @@ public class Map extends JPanel {
 			// test & collisions
 			for (Bloc bloc : listBloc) {
 
-				// collisions bottom
-				if (Math.abs(bloc.getMinY() - player.getMaxY()) <= 2) {
-					if (((player.getMaxX() - bloc.getMinX()) >= 0) && ((player.getMinX() - bloc.getMaxX()) <= 0)) {
-
-						player.moveByY(-GRAVITY);
-						g2d.setColor(Color.pink);
-						g2d.fillRect((int) bloc.x, (int) bloc.y, (int) bloc.width, (int) bloc.height);
-
-					}
+				// collision ground
+				if (bloc.intersectsLine(player.x, player.y + player.height + 2, player.x + player.width,
+						player.y + player.height + 2)) {
+					player.moveByY(-GRAVITY);
+					g2d.setColor(Color.pink);
+					g2d.fillRect((int) bloc.x, (int) bloc.y, (int) bloc.width, (int) bloc.height);
 				}
-				// collision top
-				if (Math.abs(bloc.getMaxY() - player.getMinY()) <= 2) {
-					if (((player.getMaxX() - bloc.getMinX()) >= 0) && ((player.getMinX() - bloc.getMaxX()) <= 0)) {
-						player.moveByY(1);
-						g2d.setColor(Color.magenta);
-						g2d.fillRect((int) bloc.x, (int) bloc.y, (int) bloc.width, (int) bloc.height);
-					}
+
+				// collision top //TODO TOFIX
+				if (bloc.intersectsLine(player.x, player.y, player.x + player.width, player.y)) {
+					player.moveByY(1);
+					g2d.setColor(Color.magenta);
+					g2d.fillRect((int) bloc.x, (int) bloc.y, (int) bloc.width, (int) bloc.height);
 				}
 
 				// collision right
-				Line2D.Double lineLBloc = new Line2D.Double(bloc.x, bloc.y, bloc.x, bloc.y + bloc.height);
-				Line2D.Double lineRPlayer = new Line2D.Double(player.x + player.width, player.y,
-						player.x + player.width, player.y + player.height);
-				if (lineLBloc.intersectsLine(lineRPlayer)) {
+				if (bloc.intersectsLine(player.x + player.width, player.y, player.x + player.width,
+						player.y + player.height)) {
 					this.setdX(-dX);
 					this.isHittingBloc = true;
 					g2d.setColor(Color.yellow);
@@ -206,17 +199,42 @@ public class Map extends JPanel {
 				}
 
 				// collision left
-				Line2D.Double lineRBloc = new Line2D.Double(bloc.x + bloc.width, bloc.y, bloc.x + bloc.width,
-						bloc.y + bloc.height);
-				Line2D.Double lineLPlayer = new Line2D.Double(player.x, player.y, player.x, player.y + player.height);
-				if (lineRBloc.intersectsLine(lineLPlayer)) {
+				if (bloc.intersectsLine(player.x, player.y, player.x, player.y + player.height)) {
 					this.setdX(-dX);
 					this.isHittingBloc = true;
-					g2d.setColor(Color.red);
+					g2d.setColor(Color.orange);
 					g2d.fillRect((int) bloc.x, (int) bloc.y, (int) bloc.width, (int) bloc.height);
 				} else {
 					this.isHittingBloc = false;
 				}
+				
+				//not working
+//				// collision right
+//				Line2D.Double leftSideBloc = new Line2D.Double(bloc.x, bloc.y, bloc.x, bloc.y + bloc.height);
+//				Line2D.Double rightSidePlayer = new Line2D.Double(player.x + player.width, player.y,
+//						player.x + player.width, player.y + player.height);
+//				if (leftSideBloc.intersectsLine(rightSidePlayer)) {
+//					this.setdX(-dX);
+//					this.isHittingBloc = true;
+//					g2d.setColor(Color.yellow);
+//					g2d.fillRect((int) bloc.x, (int) bloc.y, (int) bloc.width, (int) bloc.height);
+//				} else {
+//					this.isHittingBloc = false;
+//				}
+//
+//				// collision left
+//				Line2D.Double rightSideBloc = new Line2D.Double(bloc.x + bloc.width, bloc.y, bloc.x + bloc.width,
+//						bloc.y + bloc.height);
+//				Line2D.Double leftSidePlayer = new Line2D.Double(player.x, player.y, player.x,
+//						player.y + player.height);
+//				if (rightSideBloc.intersectsLine(leftSidePlayer)) {
+//					this.setdX(-dX);
+//					this.isHittingBloc = true;
+//					g2d.setColor(Color.orange);
+//					g2d.fillRect((int) bloc.x, (int) bloc.y, (int) bloc.width, (int) bloc.height);
+//				} else {
+//					this.isHittingBloc = false;
+//				}
 
 			}
 
@@ -244,14 +262,14 @@ public class Map extends JPanel {
 					}
 
 					// debug mode
-					 g2d.drawRect((int) bloc.x, (int) bloc.y, (int) bloc.width, (int)
-					 bloc.height);
+					// g2d.drawRect((int) bloc.x, (int) bloc.y, (int) bloc.width, (int)
+					// bloc.height);
 
-//					if (bloc.isVisible()) {
-//						g2d.drawImage(bloc.getTexture(), (int) bloc.x, (int) bloc.y, (int) (bloc.width + bloc.x),
-//								(int) (bloc.height + bloc.y), 0, 0, bloc.getTexture().getWidth(null),
-//								bloc.getTexture().getHeight(null), null);
-//					}
+					if (bloc.isVisible()) {
+						g2d.drawImage(bloc.getTexture(), (int) bloc.x, (int) bloc.y, (int) (bloc.width + bloc.x),
+								(int) (bloc.height + bloc.y), 0, 0, bloc.getTexture().getWidth(null),
+								bloc.getTexture().getHeight(null), null);
+					}
 				}
 
 			} else {
