@@ -165,16 +165,13 @@ public class Map extends JPanel {
 			}
 
 			// test & collisions
-			boolean hasBeenMovedUp = false;
 			for (Bloc bloc : listBloc) {
 				if (Math.abs(bloc.getMinY() - player.getMaxY()) <= 2) {
 					if ((bloc.getMinY() - player.getMaxX()) <= 0 && (player.getMinX() - bloc.getMaxX()) <= 0) {
-						if (!hasBeenMovedUp) {
-							player.moveByY(-GRAVITY);
-							hasBeenMovedUp = true;
-							g2d.setColor(Color.pink);
-							g2d.fillRect((int) bloc.x, (int) bloc.y, (int) bloc.width, (int) bloc.height);
-						}
+
+						player.moveByY(-GRAVITY);
+						g2d.setColor(Color.pink);
+						g2d.fillRect((int) bloc.x, (int) bloc.y, (int) bloc.width, (int) bloc.height);
 
 					}
 				}
