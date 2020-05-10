@@ -7,22 +7,22 @@ import ch.hearc.wp2.p2.jeu.Map;
 import ch.hearc.wp2.p2.jeu.items.Item;
 
 public class Player extends Item {
-	
+
 	private int heart;
 	private boolean isAlive;
-	
+
 	public Player(Item it) {
 		super(it);
 
 	}
 
-	public Player(double x, double y, double w, double h, boolean v,int heart) {
+	public Player(double x, double y, double w, double h, boolean v, int heart) {
 		super(x, y, w, h, v);
 		this.setHeart(heart);
 		this.setAlive(true);
 	}
 
-	//getters & setters
+	// getters & setters
 	public int getHeart() {
 		return heart;
 	}
@@ -40,10 +40,10 @@ public class Player extends Item {
 	}
 
 	public void jump() {
-		for (int i = 0; i <3*Map.BLOC_WH/2; i++) {
+		for (int i = 0; i < 8 * Map.BLOC_WH / 5; i++) {
 			this.moveByY(-1);
 		}
-		
+
 	}
 
 }

@@ -101,14 +101,14 @@ public class Map extends JPanel {
 					if (i % alea != 0) {
 						// path = 1st Layer
 						listBloc.add(new Bloc(BLOC_WH * i, groundH, BLOC_WH, BLOC_WH, true, ShopImage.PATHBLOCK));
-						// 2nd Layer
-						listBloc.add(
-								new Bloc(BLOC_WH * i, BLOC_WH + groundH, BLOC_WH, BLOC_WH, true, ShopImage.DIRTBLOCK));
-
-//						// trap test
-//						if (i % alea == 2)
-//							listBloc.add(new Bloc(BLOC_WH * i, -BLOC_WH + groundH, BLOC_WH, BLOC_WH, true,
-//									ShopImage.SPIKES));
+//						// 2nd Layer
+//						listBloc.add(
+//								new Bloc(BLOC_WH * i, BLOC_WH + groundH, BLOC_WH, BLOC_WH, true, ShopImage.DIRTBLOCK));
+//
+////						// trap test
+////						if (i % alea == 2)
+////							listBloc.add(new Bloc(BLOC_WH * i, -BLOC_WH + groundH, BLOC_WH, BLOC_WH, true,
+////									ShopImage.SPIKES));
 					}
 
 				}
@@ -165,10 +165,18 @@ public class Map extends JPanel {
 			}
 
 			// test & collisions
+			boolean hasBeenMovedUp = false;
 			for (Bloc bloc : listBloc) {
-				// then test verticaly
 				if (Math.abs(bloc.getMinY() - player.getMaxY()) <= 2) {
-					player.moveByY(-GRAVITY);
+					if ((bloc.getMinY() - player.getMaxX()) <= 0 && (player.getMinX() - bloc.getMaxX()) <= 0) {
+						if (!hasBeenMovedUp) {
+							player.moveByY(-GRAVITY);
+							hasBeenMovedUp = true;
+							g2d.setColor(Color.pink);
+							g2d.fillRect((int) bloc.x, (int) bloc.y, (int) bloc.width, (int) bloc.height);
+						}
+
+					}
 				}
 			}
 
@@ -190,10 +198,14 @@ public class Map extends JPanel {
 				for (Bloc bloc : listBloc) {
 					// - dX to move the player
 					bloc.moveByX(-dX * SPEED);
+
+					g2d.drawRect((int) bloc.x, (int) bloc.y, (int) bloc.width, (int) bloc.height);
+
 					if (bloc.isVisible()) {
-						g2d.drawImage(bloc.getTexture(), (int) bloc.x, (int) bloc.y, (int) (bloc.width + bloc.x),
-								(int) (bloc.height + bloc.y), 0, 0, bloc.getTexture().getWidth(null),
-								bloc.getTexture().getHeight(null), null);
+						// g2d.drawImage(bloc.getTexture(), (int) bloc.x, (int) bloc.y, (int)
+						// (bloc.width + bloc.x),
+						// (int) (bloc.height + bloc.y), 0, 0, bloc.getTexture().getWidth(null),
+						// bloc.getTexture().getHeight(null), null);
 					}
 				}
 
