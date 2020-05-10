@@ -9,6 +9,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.awt.geom.Rectangle2D;
+import java.awt.geom.Line2D;
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
 
@@ -106,9 +107,9 @@ public class Map extends JPanel {
 						listBloc.add(new Bloc(BLOC_WH * i, groundH, BLOC_WH, BLOC_WH, true, ShopImage.PATHBLOCK));
 
 						// 2nd Layer
-						if (i % alea == 4)
-							listBloc.add(new Bloc(BLOC_WH * i + 2 * BLOC_WH, -2.5 * BLOC_WH + groundH, BLOC_WH, BLOC_WH,
-									true, ShopImage.COIN));
+//						if (i % 2 == 0)
+//							listBloc.add(new Bloc(BLOC_WH * i + 2 * BLOC_WH, -2.5 * BLOC_WH + groundH, BLOC_WH, BLOC_WH,
+//									true, ShopImage.DARKSTONEBLOCK));
 
 						// trap test
 						if (i % alea == 2)
@@ -142,10 +143,6 @@ public class Map extends JPanel {
 		this.dX = dX;
 	}
 
-	public boolean isHitOnTop() {
-		return isHitOnTop;
-	}
-
 	// painting
 	@Override
 	protected void paintComponent(Graphics g) {
@@ -175,26 +172,31 @@ public class Map extends JPanel {
 
 			// test & collisions
 			for (Bloc bloc : listBloc) {
-				// collision ground
-				if (bloc.intersectsLine(player.x, player.y + player.height + 2, player.x + player.width,
-						player.y + player.height + 2)) {
-					player.moveByY(-GRAVITY);
-					g2d.setColor(Color.pink);
-					g2d.fillRect((int) bloc.x, (int) bloc.y, (int) bloc.width, (int) bloc.height);
-				}
 
+				// collisions bottom
+				if (Math.abs(bloc.getMinY() - player.getMaxY()) <= 2) {
+					if (((player.getMaxX() - bloc.getMinX()) >= 0) && ((player.getMinX() - bloc.getMaxX()) <= 0)) {
+
+						player.moveByY(-GRAVITY);
+						g2d.setColor(Color.pink);
+						g2d.fillRect((int) bloc.x, (int) bloc.y, (int) bloc.width, (int) bloc.height);
+
+					}
+				}
 				// collision top
 				if (Math.abs(bloc.getMaxY() - player.getMinY()) <= 2) {
-					if ((player.getMaxX() - bloc.getMinX()) <= 0 && (player.getMinX() - bloc.getMaxX()) <= 0) {
-						this.isHitOnTop = true;
+					if (((player.getMaxX() - bloc.getMinX()) >= 0) && ((player.getMinX() - bloc.getMaxX()) <= 0)) {
+						player.moveByY(1);
+						g2d.setColor(Color.magenta);
+						g2d.fillRect((int) bloc.x, (int) bloc.y, (int) bloc.width, (int) bloc.height);
 					}
-				} else {
-					this.isHitOnTop = false;
 				}
 
 				// collision right
-				if (bloc.intersectsLine(player.x + player.width + 2, player.y, player.x + player.width + 2,
-						player.y + player.height)) {
+				Line2D.Double lineLBloc = new Line2D.Double(bloc.x, bloc.y, bloc.x, bloc.y + bloc.height);
+				Line2D.Double lineRPlayer = new Line2D.Double(player.x + player.width, player.y,
+						player.x + player.width, player.y + player.height);
+				if (lineLBloc.intersectsLine(lineRPlayer)) {
 					this.setdX(-dX);
 					this.isHittingBloc = true;
 					g2d.setColor(Color.yellow);
@@ -204,10 +206,13 @@ public class Map extends JPanel {
 				}
 
 				// collision left
-				if (bloc.intersectsLine(player.x - 2, player.y, player.x - 2, player.y + player.height)) {
+				Line2D.Double lineRBloc = new Line2D.Double(bloc.x + bloc.width, bloc.y, bloc.x + bloc.width,
+						bloc.y + bloc.height);
+				Line2D.Double lineLPlayer = new Line2D.Double(player.x, player.y, player.x, player.y + player.height);
+				if (lineRBloc.intersectsLine(lineLPlayer)) {
 					this.setdX(-dX);
 					this.isHittingBloc = true;
-					g2d.setColor(Color.orange);
+					g2d.setColor(Color.red);
 					g2d.fillRect((int) bloc.x, (int) bloc.y, (int) bloc.width, (int) bloc.height);
 				} else {
 					this.isHittingBloc = false;
@@ -239,14 +244,14 @@ public class Map extends JPanel {
 					}
 
 					// debug mode
-					// g2d.drawRect((int) bloc.x, (int) bloc.y, (int) bloc.width, (int)
-					// bloc.height);
+					 g2d.drawRect((int) bloc.x, (int) bloc.y, (int) bloc.width, (int)
+					 bloc.height);
 
-					if (bloc.isVisible()) {
-						g2d.drawImage(bloc.getTexture(), (int) bloc.x, (int) bloc.y, (int) (bloc.width + bloc.x),
-								(int) (bloc.height + bloc.y), 0, 0, bloc.getTexture().getWidth(null),
-								bloc.getTexture().getHeight(null), null);
-					}
+//					if (bloc.isVisible()) {
+//						g2d.drawImage(bloc.getTexture(), (int) bloc.x, (int) bloc.y, (int) (bloc.width + bloc.x),
+//								(int) (bloc.height + bloc.y), 0, 0, bloc.getTexture().getWidth(null),
+//								bloc.getTexture().getHeight(null), null);
+//					}
 				}
 
 			} else {

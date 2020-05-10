@@ -1,8 +1,6 @@
 
 package ch.hearc.wp2.p2.jeu.items.Caractere;
 
-import java.awt.geom.Rectangle2D.Double;
-
 import ch.hearc.wp2.p2.jeu.Map;
 import ch.hearc.wp2.p2.jeu.items.Item;
 
@@ -41,11 +39,8 @@ public class Player extends Item {
 
 	public void jump() {
 		for (int i = 0; i < 8 * Map.BLOC_WH / 5; i++) {
-			if(!Map.getInstance().isHitOnTop()) {
-				this.moveByY(-1);
-			}
+			this.moveByY(-1);
 		}
-
 	}
 
 }
