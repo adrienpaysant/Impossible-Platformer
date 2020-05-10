@@ -166,14 +166,17 @@ public class Map extends JPanel {
 
 			// test & collisions
 			for (Bloc bloc : listBloc) {
+				// vertical test
 				if (Math.abs(bloc.getMinY() - player.getMaxY()) <= 2) {
-					if ((bloc.getMinY() - player.getMaxX()) <= 0 && (player.getMinX() - bloc.getMaxX()) <= 0) {
+					// horizontal test
+					if (((player.getMaxX() - bloc.getMinX()) >= 0) && ((player.getMinX() - bloc.getMaxX()) <= 0)) {
 
 						player.moveByY(-GRAVITY);
 						g2d.setColor(Color.pink);
 						g2d.fillRect((int) bloc.x, (int) bloc.y, (int) bloc.width, (int) bloc.height);
 
 					}
+
 				}
 			}
 
