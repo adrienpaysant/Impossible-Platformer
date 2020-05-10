@@ -181,7 +181,7 @@ public class Map extends JPanel {
 				}
 				// collision top
 				if (bloc.intersectsLine(player.x, player.y, player.x + player.width, player.y)) {
-					player.moveByY(GRAVITY);
+					player.moveByY(bloc.height);
 					g2d.setColor(Color.magenta);
 					g2d.fillRect((int) bloc.x, (int) bloc.y, (int) bloc.width, (int) bloc.height);
 				}
