@@ -106,8 +106,8 @@ public class Map extends JPanel {
 
 						// 2nd Layer
 						if (i % alea == 4)
-							listBloc.add(new Bloc(BLOC_WH * i+2*BLOC_WH, -2.5 * BLOC_WH + groundH, BLOC_WH, BLOC_WH, true,
-									ShopImage.COIN));
+							listBloc.add(new Bloc(BLOC_WH * i + 2 * BLOC_WH, -2.5 * BLOC_WH + groundH, BLOC_WH, BLOC_WH,
+									true, ShopImage.COIN));
 
 						// trap test
 						if (i % alea == 2)
@@ -171,22 +171,20 @@ public class Map extends JPanel {
 			// test & collisions
 			for (Bloc bloc : listBloc) {
 				// collision ground
-				// first try : functionnal but heavy
-				// collisionsWithGround(g2d, bloc);
-				if (bloc.intersectsLine(player.x, player.y + player.height, player.x + player.width,
-						player.y + player.height)) {
+				if (bloc.intersectsLine(player.x, player.y + player.height + 2, player.x + player.width,
+						player.y + player.height + 2)) {
 					player.moveByY(-GRAVITY);
 					g2d.setColor(Color.pink);
 					g2d.fillRect((int) bloc.x, (int) bloc.y, (int) bloc.width, (int) bloc.height);
 				}
-				// collision top
-				if (bloc.intersectsLine(player.x, player.y, player.x + player.width, player.y)) {
-					player.moveByY(bloc.height);
+				// collision top //TODO TOFIX
+				if (bloc.intersectsLine(player.x, player.y - 2, player.x + player.width, player.y - 2)) {
+					player.moveByY(GRAVITY);
 					g2d.setColor(Color.magenta);
 					g2d.fillRect((int) bloc.x, (int) bloc.y, (int) bloc.width, (int) bloc.height);
 				}
 				// collision right
-				if (bloc.intersectsLine(player.x + player.width, player.y, player.x + player.width,
+				if (bloc.intersectsLine(player.x + player.width + 2, player.y, player.x + player.width + 2,
 						player.y + player.height)) {
 					this.setdX(-dX);
 					this.isHittingBloc = true;
@@ -196,7 +194,7 @@ public class Map extends JPanel {
 					this.isHittingBloc = false;
 				}
 				// collision left
-				if (bloc.intersectsLine(player.x, player.y, player.x, player.y + player.height)) {
+				if (bloc.intersectsLine(player.x - 2, player.y, player.x - 2, player.y + player.height)) {
 					this.setdX(-dX);
 					this.isHittingBloc = true;
 					g2d.setColor(Color.orange);
@@ -230,7 +228,7 @@ public class Map extends JPanel {
 						bloc.moveByX(dX);
 					}
 
-					//debug mode
+					// debug mode
 					//g2d.drawRect((int) bloc.x, (int) bloc.y, (int) bloc.width, (int) bloc.height);
 
 					if (bloc.isVisible()) {
@@ -250,22 +248,6 @@ public class Map extends JPanel {
 				game.setContentPane(MainMenu.getInstance());
 				game.setSize(game.getWidth() - 1, game.getHeight() - 1);
 			}
-		}
-	}
-
-//methodes
-	private void collisionsWithGround(Graphics2D g2d, Bloc bloc) {
-		// vertical test
-		if (Math.abs(bloc.getMinY() - player.getMaxY()) <= 2) {
-			// horizontal test
-			if (((player.getMaxX() - bloc.getMinX()) >= 0) && ((player.getMinX() - bloc.getMaxX()) <= 0)) {
-
-				player.moveByY(-GRAVITY);
-				g2d.setColor(Color.pink);
-				g2d.fillRect((int) bloc.x, (int) bloc.y, (int) bloc.width, (int) bloc.height);
-
-			}
-
 		}
 	}
 
