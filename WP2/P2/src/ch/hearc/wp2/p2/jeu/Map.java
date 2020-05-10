@@ -8,8 +8,6 @@ import java.awt.event.ActionListener;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.awt.geom.Rectangle2D;
-import java.awt.geom.Line2D;
-import java.awt.geom.Line2D.Double;
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
 
@@ -19,6 +17,7 @@ import javax.swing.SwingUtilities;
 
 import ch.hearc.wp2.p2.jeu.items.Caractere.Player;
 import ch.hearc.wp2.p2.jeu.items.blocs.Bloc;
+import ch.hearc.wp2.p2.jeu.items.blocs.actions.ActionBloc;
 import ch.hearc.wp2.p2.jeu.menus.MainMenu;
 import ch.hearc.wp2.p2.jeu.tools.Chrono;
 import ch.hearc.wp2.p2.jeu.tools.Keyboard;
@@ -28,7 +27,7 @@ import ch.hearc.wp2.p2.jeu.tools.image.ShopImage;
 public class Map extends JPanel {
 
 	public static final int BLOC_WH = 50;
-	public static final int SPEED = 3;
+	private static final int SPEED = 3;
 	private static final int PLAYER_H = 55;
 	private static final int PLAYER_W = 25;
 	public static final int GRAVITY = 4;
@@ -39,6 +38,7 @@ public class Map extends JPanel {
 	private JButton buttonExit;
 
 	private ArrayList<Bloc> listBloc = new ArrayList<Bloc>();
+	private ArrayList<ActionBloc> listActionBloc = new ArrayList<ActionBloc>();
 
 	private static Map map = null;
 	private Player player;
@@ -100,6 +100,8 @@ public class Map extends JPanel {
 			private void setBlocList() {
 				int alea = 5 + (int) (Math.random() * ((20 - 5) + 1));
 				// initial path
+				
+				//listBloc.add()
 				for (int i = 0; i < game.getWidth() / 50; i++) {
 					if (i % alea != 0) {
 						// path = 1st Layer
@@ -188,7 +190,7 @@ public class Map extends JPanel {
 				}
 
 				// collision right
-				if (bloc.intersectsLine(player.x + player.width, player.y, player.x + player.width,
+				if (bloc.intersectsLine(player.x + player.width+2, player.y, player.x + player.width+2,
 						player.y + player.height)) {
 					this.setdX(-dX);
 					this.isHittingBloc = true;
@@ -199,7 +201,7 @@ public class Map extends JPanel {
 				}
 
 				// collision left
-				if (bloc.intersectsLine(player.x, player.y, player.x, player.y + player.height)) {
+				if (bloc.intersectsLine(player.x-2, player.y, player.x-2, player.y + player.height)) {
 					this.setdX(-dX);
 					this.isHittingBloc = true;
 					g2d.setColor(Color.orange);
@@ -207,34 +209,6 @@ public class Map extends JPanel {
 				} else {
 					this.isHittingBloc = false;
 				}
-				
-				//not working
-//				// collision right
-//				Line2D.Double leftSideBloc = new Line2D.Double(bloc.x, bloc.y, bloc.x, bloc.y + bloc.height);
-//				Line2D.Double rightSidePlayer = new Line2D.Double(player.x + player.width, player.y,
-//						player.x + player.width, player.y + player.height);
-//				if (leftSideBloc.intersectsLine(rightSidePlayer)) {
-//					this.setdX(-dX);
-//					this.isHittingBloc = true;
-//					g2d.setColor(Color.yellow);
-//					g2d.fillRect((int) bloc.x, (int) bloc.y, (int) bloc.width, (int) bloc.height);
-//				} else {
-//					this.isHittingBloc = false;
-//				}
-//
-//				// collision left
-//				Line2D.Double rightSideBloc = new Line2D.Double(bloc.x + bloc.width, bloc.y, bloc.x + bloc.width,
-//						bloc.y + bloc.height);
-//				Line2D.Double leftSidePlayer = new Line2D.Double(player.x, player.y, player.x,
-//						player.y + player.height);
-//				if (rightSideBloc.intersectsLine(leftSidePlayer)) {
-//					this.setdX(-dX);
-//					this.isHittingBloc = true;
-//					g2d.setColor(Color.orange);
-//					g2d.fillRect((int) bloc.x, (int) bloc.y, (int) bloc.width, (int) bloc.height);
-//				} else {
-//					this.isHittingBloc = false;
-//				}
 
 			}
 
@@ -256,20 +230,21 @@ public class Map extends JPanel {
 				for (Bloc bloc : listBloc) {
 					// - dX to move the player
 					if (!isHittingBloc) {
+
 						bloc.moveByX(-dX * SPEED);
 					} else {
 						bloc.moveByX(dX);
+
 					}
 
 					// debug mode
-					// g2d.drawRect((int) bloc.x, (int) bloc.y, (int) bloc.width, (int)
-					// bloc.height);
+					g2d.drawRect((int) bloc.x, (int) bloc.y, (int) bloc.width, (int) bloc.height);
 
-					if (bloc.isVisible()) {
-						g2d.drawImage(bloc.getTexture(), (int) bloc.x, (int) bloc.y, (int) (bloc.width + bloc.x),
-								(int) (bloc.height + bloc.y), 0, 0, bloc.getTexture().getWidth(null),
-								bloc.getTexture().getHeight(null), null);
-					}
+//					if (bloc.isVisible()) {
+//						g2d.drawImage(bloc.getTexture(), (int) bloc.x, (int) bloc.y, (int) (bloc.width + bloc.x),
+//								(int) (bloc.height + bloc.y), 0, 0, bloc.getTexture().getWidth(null),
+//								bloc.getTexture().getHeight(null), null);
+//					}
 				}
 
 			} else {
