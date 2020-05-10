@@ -41,7 +41,9 @@ public class Player extends Item {
 
 	public void jump() {
 		for (int i = 0; i < 8 * Map.BLOC_WH / 5; i++) {
-			this.moveByY(-1);
+			if(!Map.getInstance().isHitOnTop()) {
+				this.moveByY(-1);
+			}
 		}
 
 	}
