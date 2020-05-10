@@ -166,26 +166,19 @@ public class Map extends JPanel {
 
 			// test & collisions
 			for (Bloc bloc : listBloc) {
-				// search horizontaly
-				if (Math.abs(bloc.getMinX() - player.getMaxX()) <= 1
-						|| Math.abs(bloc.getMaxX() - player.getMinX()) <= 1) {
-					// then test verticaly
-					System.out.println(0);
-					if (Math.abs(bloc.getMinY() - player.getMaxY()) <= 1) {
-						System.out.println(1);
-						player.moveByY(-GRAVITY);
-
-					}
+				// then test verticaly
+				if (Math.abs(bloc.getMinY() - player.getMaxY()) <= 2) {
+					player.moveByY(-GRAVITY);
 				}
 			}
 
-			if (player.getMaxY() >=  game.getHeight() ) {
+			// test statement player
+			if (player.getMaxY() >= game.getHeight()) {
 				player.setHeart(player.getHeart() - 1);
 				// TODO move to last checkpoint
 				player.moveTo(new Point2D.Double(game.getWidth() / 2, game.getHeight() / 3));
 				// TODO
 			}
-
 			if (player.getHeart() <= 0) {
 				player.setAlive(false);
 			}
@@ -215,4 +208,5 @@ public class Map extends JPanel {
 			}
 		}
 	}
+
 }
