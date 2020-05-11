@@ -26,5 +26,6 @@ public class Game extends JFrame {
 		setLocationRelativeTo(null);
 		setMinimumSize(new Dimension(3*Main.WIDTH/5,2*Main.HEIGHT/3));
 		setLocationRelativeTo(null);
+		//setResizable(false);
 	}
 }

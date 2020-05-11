@@ -1,5 +1,5 @@
 
-package ch.hearc.wp2.p2.jeu.tools;
+package ch.hearc.wp2.p2.jeu.tools.position;
 
 import javax.swing.Box;
 import javax.swing.BoxLayout;

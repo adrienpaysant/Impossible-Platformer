@@ -1,38 +1,32 @@
 
 package ch.hearc.wp2.p2.jeu.items.blocs;
 
-import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.geom.Rectangle2D;
 
-import javax.swing.JComponent;
-
 import ch.hearc.wp2.p2.jeu.items.Item;
 
-@SuppressWarnings("serial")
 public class Bloc extends Item {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private Image texture;
 
-	public Bloc(double x, double y, double w, double h, boolean v/* , Image texture */) {
+	public Bloc(double x, double y, double w, double h, boolean v, Image texture) {
 		super(x, y, w, h, v);
-		// this.texture = texture;
-	}
-
-	public Bloc(Bloc b) {
-		this(b.getPt0().x, b.getPt0().y, b.getPt1().x, b.getPt1().y, b.isVisible()/* , b.texture */);
-	}
-
-	public Bloc(Rectangle2D.Double rect, boolean v, Image texture) {
-		super(rect, v);
 		this.texture = texture;
+
 	}
 
-//	@Override
-//	protected void paintComponent(Graphics g) {
-//		super.paintComponent(g);
-//		// allow resizeEvent by deforming Image to the good width and height
-//		g.drawImage(bgImage, 0, 0, getWidth(), getHeight(), 0, 0, bgImage.getWidth(null), bgImage.getHeight(null),
-//				null);
-//	}
+	public Bloc(Bloc it) {
+		this(it.x, it.y, it.width, it.height, it.isVisible(), it.texture);
+	}
+
+	// getter
+	public Image getTexture() {
+		return texture;
+	}
+
 }

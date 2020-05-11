@@ -1,19 +1,19 @@
-package ch.hearc.wp2.p2.jeu.tools;
+package ch.hearc.wp2.p2.jeu.tools.position;
 
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JComponent;
 
-public class JCenterV extends Box
+public class JCenterH extends Box
 	{
 
 	/*------------------------------------------------------------------*\
 	|*							Constructeurs							*|
 	\*------------------------------------------------------------------*/
 
-	public JCenterV(JComponent component)
+	public JCenterH(JComponent component)
 		{
-		super(BoxLayout.Y_AXIS);
+		super(BoxLayout.X_AXIS);
 
 		this.component = component;
 
@@ -36,9 +36,9 @@ public class JCenterV extends Box
 
 	private void geometry()
 		{
-		add(Box.createVerticalGlue());
+		add(Box.createHorizontalGlue());
 		add(component);
-		add(Box.createVerticalGlue());
+		add(Box.createHorizontalGlue());
 		}
 
 	private void control()
