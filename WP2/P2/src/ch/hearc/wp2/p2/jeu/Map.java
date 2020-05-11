@@ -33,6 +33,7 @@ public class Map extends JPanel {
 	public static final int GRAVITY = 4;
 	private static final int HEART_WH = 25;
 	private static final int PLAYER_NB_LIFE = 5;
+	private static final boolean DEBUG = true;
 
 	private Game game;
 	private JButton buttonExit;
@@ -45,9 +46,9 @@ public class Map extends JPanel {
 
 	private int dX;
 	private double groundH;
-
+	private int topGroundH;
+	private int yGround;
 	private boolean isPaused;
-	private boolean isHittingBloc;
 
 	public static Map getInstance() {
 		if (map == null) {
@@ -72,8 +73,9 @@ public class Map extends JPanel {
 		this.player = new Player(game.getWidth() / 2, game.getHeight() / 3, PLAYER_W, PLAYER_H, true, PLAYER_NB_LIFE);
 		this.dX = 0;
 		this.groundH = 2 * game.getHeight() / 3;
+		this.topGroundH = 0;
+		this.yGround = 0;
 		this.isPaused = false;
-		this.isHittingBloc = false;
 
 		// listeners
 		buttonExit.addActionListener(new ActionListener() {
@@ -100,8 +102,8 @@ public class Map extends JPanel {
 			private void setBlocList() {
 				int alea = 5 + (int) (Math.random() * ((20 - 5) + 1));
 				// initial path
-				
-				//listBloc.add()
+
+				// listBloc.add()
 				for (int i = 0; i < game.getWidth() / 50; i++) {
 					if (i % alea != 0) {
 						// path = 1st Layer
@@ -136,12 +138,34 @@ public class Map extends JPanel {
 		return player;
 	}
 
+	public int getGroundH() {
+
+		return (int) this.groundH;
+
+	}
+
 	public int getdX() {
 		return dX;
 	}
 
 	public void setdX(int dX) {
 		this.dX = dX;
+	}
+
+	public int getTopGroundH() {
+		return topGroundH;
+	}
+
+	public void setTopGroundH(double topGroundH) {
+		this.topGroundH = (int) topGroundH;
+	}
+
+	public void setyGround(int y) {
+		this.yGround = y;
+	}
+
+	public int getyGround(int y) {
+		return this.yGround;
 	}
 
 	// painting
@@ -174,41 +198,7 @@ public class Map extends JPanel {
 			// test & collisions
 			for (Bloc bloc : listBloc) {
 
-				// collision ground
-				if (bloc.intersectsLine(player.x, player.y + player.height + 2, player.x + player.width,
-						player.y + player.height + 2)) {
-					player.moveByY(-GRAVITY);
-					g2d.setColor(Color.pink);
-					g2d.fillRect((int) bloc.x, (int) bloc.y, (int) bloc.width, (int) bloc.height);
-				}
-
-				// collision top //TODO TOFIX
-				if (bloc.intersectsLine(player.x, player.y, player.x + player.width, player.y)) {
-					player.moveByY(1);
-					g2d.setColor(Color.magenta);
-					g2d.fillRect((int) bloc.x, (int) bloc.y, (int) bloc.width, (int) bloc.height);
-				}
-
-				// collision right
-				if (bloc.intersectsLine(player.x + player.width+2, player.y, player.x + player.width+2,
-						player.y + player.height)) {
-					this.setdX(-dX);
-					this.isHittingBloc = true;
-					g2d.setColor(Color.yellow);
-					g2d.fillRect((int) bloc.x, (int) bloc.y, (int) bloc.width, (int) bloc.height);
-				} else {
-					this.isHittingBloc = false;
-				}
-
-				// collision left
-				if (bloc.intersectsLine(player.x-2, player.y, player.x-2, player.y + player.height)) {
-					this.setdX(-dX);
-					this.isHittingBloc = true;
-					g2d.setColor(Color.orange);
-					g2d.fillRect((int) bloc.x, (int) bloc.y, (int) bloc.width, (int) bloc.height);
-				} else {
-					this.isHittingBloc = false;
-				}
+				collisionsV1(g2d, bloc);
 
 			}
 
@@ -229,21 +219,18 @@ public class Map extends JPanel {
 				g2d.setColor(Color.green);
 				for (Bloc bloc : listBloc) {
 					// - dX to move the player
-					if (!isHittingBloc) {
 
-						bloc.moveByX(-dX * SPEED);
+					bloc.moveByX(-dX * SPEED);
+
+					if (DEBUG) {
+						// debug mode
+						g2d.drawRect((int) bloc.x, (int) bloc.y, (int) bloc.width, (int) bloc.height);
 					} else {
-						bloc.moveByX(dX);
-
-					}
-
-					// debug mode
-					//g2d.drawRect((int) bloc.x, (int) bloc.y, (int) bloc.width, (int) bloc.height);
-
-					if (bloc.isVisible()) {
-						g2d.drawImage(bloc.getTexture(), (int) bloc.x, (int) bloc.y, (int) (bloc.width + bloc.x),
-								(int) (bloc.height + bloc.y), 0, 0, bloc.getTexture().getWidth(null),
-								bloc.getTexture().getHeight(null), null);
+						if (bloc.isVisible()) {
+							g2d.drawImage(bloc.getTexture(), (int) bloc.x, (int) bloc.y, (int) (bloc.width + bloc.x),
+									(int) (bloc.height + bloc.y), 0, 0, bloc.getTexture().getWidth(null),
+									bloc.getTexture().getHeight(null), null);
+						}
 					}
 				}
 
@@ -255,6 +242,47 @@ public class Map extends JPanel {
 				game.setSize(game.getWidth() + 1, game.getHeight() + 1);
 				game.setContentPane(MainMenu.getInstance());
 				game.setSize(game.getWidth() - 1, game.getHeight() - 1);
+			}
+		}
+	}
+
+	private void collisionsV1(Graphics2D g2d, Bloc bloc) {
+		// collision ground
+		if (bloc.intersectsLine(player.x, player.y + player.height + 2, player.x + player.width,
+				player.y + player.height + 2)) {
+			player.moveByY(-GRAVITY);
+			if (DEBUG) {
+				g2d.setColor(Color.pink);
+				g2d.fillRect((int) bloc.x, (int) bloc.y, (int) bloc.width, (int) bloc.height);
+			}
+
+		}
+
+		// collision top //TODO TOFIX
+		if (bloc.intersectsLine(player.x, player.y, player.x + player.width, player.y)) {
+			player.moveByY(1);
+			if (DEBUG) {
+				g2d.setColor(Color.magenta);
+				g2d.fillRect((int) bloc.x, (int) bloc.y, (int) bloc.width, (int) bloc.height);
+			}
+		}
+
+		// collision right
+		if (bloc.intersectsLine(player.x + player.width + 2, player.y, player.x + player.width + 2,
+				player.y + player.height)) {
+			this.setdX(-dX);
+			if (DEBUG) {
+				g2d.setColor(Color.yellow);
+				g2d.fillRect((int) bloc.x, (int) bloc.y, (int) bloc.width, (int) bloc.height);
+			}
+		}
+
+		// collision left
+		if (bloc.intersectsLine(player.x - 2, player.y, player.x - 2, player.y + player.height)) {
+			this.setdX(-dX);
+			if (DEBUG) {
+				g2d.setColor(Color.orange);
+				g2d.fillRect((int) bloc.x, (int) bloc.y, (int) bloc.width, (int) bloc.height);
 			}
 		}
 	}

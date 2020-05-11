@@ -13,12 +13,18 @@ public class Keyboard implements KeyListener {
 	private String whoIsLast;
 
 	private void test() {
-		if (left && whoIsLast == "left")
+		if (left && whoIsLast == "left") {
 			Map.getInstance().setdX(-1);
+			Map.getInstance().getPlayer().setWalking(true);
+			Map.getInstance().getPlayer().setWalkingToRight(true);
+		}
 		else if (right && whoIsLast == "right")
+		{
 			Map.getInstance().setdX(1);
-		else
+		}
+		else {
 			Map.getInstance().setdX(0);
+		}
 	}
 
 	@Override
