@@ -45,9 +45,8 @@ public class Map extends JPanel {
 	private Player player;
 
 	private int dX;
-	private double groundH;
-	private int topGroundH;
-	private int yGround;
+	private int groundH;
+	private int roof;
 	private boolean isPaused;
 
 	public static Map getInstance() {
@@ -73,9 +72,8 @@ public class Map extends JPanel {
 		this.player = new Player(game.getWidth() / 2, game.getHeight() / 3, PLAYER_W, PLAYER_H, true, PLAYER_NB_LIFE);
 		this.dX = 0;
 		this.groundH = 2 * game.getHeight() / 3;
-		this.topGroundH = 0;
-		this.yGround = 0;
 		this.isPaused = false;
+		this.setRoof(0); //set roof to the max
 
 		// listeners
 		buttonExit.addActionListener(new ActionListener() {
@@ -151,21 +149,13 @@ public class Map extends JPanel {
 	public void setdX(int dX) {
 		this.dX = dX;
 	}
-
-	public int getTopGroundH() {
-		return topGroundH;
+	
+	public int getRoof() {
+		return roof;
 	}
 
-	public void setTopGroundH(double topGroundH) {
-		this.topGroundH = (int) topGroundH;
-	}
-
-	public void setyGround(int y) {
-		this.yGround = y;
-	}
-
-	public int getyGround(int y) {
-		return this.yGround;
+	public void setRoof(int roof) {
+		this.roof = roof;
 	}
 
 	// painting
@@ -198,8 +188,10 @@ public class Map extends JPanel {
 			// test & collisions
 			for (Bloc bloc : listBloc) {
 
-				collisionsV1(g2d, bloc);
-
+				// V1
+				// collisionsV1(g2d, bloc);
+				// V2
+				player.contact(bloc);
 			}
 
 			// test statement player
@@ -219,9 +211,9 @@ public class Map extends JPanel {
 				g2d.setColor(Color.green);
 				for (Bloc bloc : listBloc) {
 					// - dX to move the player
-
-					bloc.moveByX(-dX * SPEED);
-
+					if (player.isWalking()) {
+						bloc.moveByX(-dX * SPEED);
+					}
 					if (DEBUG) {
 						// debug mode
 						g2d.drawRect((int) bloc.x, (int) bloc.y, (int) bloc.width, (int) bloc.height);
@@ -286,5 +278,7 @@ public class Map extends JPanel {
 			}
 		}
 	}
+
+	
 
 }

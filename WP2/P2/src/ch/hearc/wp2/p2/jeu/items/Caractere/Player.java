@@ -12,9 +12,7 @@ public class Player extends Item {
 	private int heart;
 	private boolean isAlive;
 	private boolean isWalking;
-	private boolean isWalkingToRight;
 	private boolean isJumping;
-	private int stepCount;
 
 	public Player(Item it) {
 		super(it);
@@ -45,14 +43,6 @@ public class Player extends Item {
 		this.isAlive = isAlive;
 	}
 
-	public boolean isWalkingToRight() {
-		return isWalkingToRight;
-	}
-
-	public void setWalkingToRight(boolean isWalkingToRight) {
-		this.isWalkingToRight = isWalkingToRight;
-	}
-
 	public boolean isWalking() {
 		return isWalking;
 	}
@@ -70,74 +60,70 @@ public class Player extends Item {
 	}
 
 	// methodes
+	
 
+	
 	public boolean contactRight(Item it) {
-		if ((this.x > it.getMaxX()) || (this.getMaxX() > it.x + 5) || (this.getMaxY() <= it.y)
-				|| (this.y >= it.getMaxY())) {
-			return false;
+		if (intersectsLine(it.x-5, it.y, it.x-5, it.getMaxY())) {
+			return true;
 
 		} else {
-			return true;
+			return false;
 		}
 	}
 
 	public boolean contactLeft(Item it) {
-		if ((this.x > it.getMaxX()) || (this.getMaxX() < it.getMaxX() - 5) || (this.getMaxY() <= it.y)
-				|| this.y >= it.getMaxY()) {
-			return false;
+		if (intersectsLine(it.getMaxX()+2, it.y, it.getMaxX()+2, it.getMaxY())) {
+			return true;
 
 		} else {
-			return true;
+			return false;
 		}
 	}
 
 	public boolean contactBottom(Item it) {
-		if ((this.getMaxX() < it.x + 5) || (this.x > it.getMaxX() - 5) || (this.y < it.getMaxY())
-				|| (this.y > it.getMaxY() + 5)) {
-			return false;
+		if (intersectsLine(it.x, it.y-1, it.getMaxX(), it.y-1)) {
+			return true;
 
 		} else {
-			return true;
+			return false;
 		}
 	}
 
 	public boolean contactTop(Item it) {
-		if ((this.getMaxX() < it.x + 5) || (this.x > it.getMaxX() - 5) || (this.y < it.getMaxY())
-				|| (this.y > it.getMaxY() + 5)) {
-			return false;
+		if (intersectsLine(it.x, it.y+2, it.getMaxX(),it.y+2)) {
+			return true;
 
 		} else {
-			return true;
+			return false;
 		}
 	}
 
 	public void contact(Item it) {
+		this.setWalking(true);
 		// horizontal hit
-		if ((contactRight(it) && this.isWalkingToRight) || (contactLeft(it) && (!isWalkingToRight))) {
-			Map.getInstance().setdX(0);
+		if (contactRight(it) || contactLeft(it)) {
+			Map.getInstance().setdX(-Map.getInstance().getdX());
 			this.setWalking(false);
 		}
 		// bottom hit
-		if (contactBottom(it) && this.isJumping) {// jumping over item
-			Map.getInstance().setyGround((int) it.y);
-		} else if (!contactBottom(it)) {// getting to base ground
-			if (!isJumping) {
-				this.moveTo(new Point2D.Double(this.x, Map.getInstance().getGroundH()));
-			}
+		if (contactBottom(it)) {// jumping over item
+			this.moveByY(-Map.GRAVITY);
 		}
 
 		// top hit
 		if (contactTop(it)) {
-			Map.getInstance().setTopGroundH(it.getMaxY());//the bottom of it become de top floor
-		}
-		else if (contactTop(it)&&!isJumping) {
-			Map.getInstance().setTopGroundH(0);
+			Map.getInstance().setRoof((int)it.getMaxY()+5);
+		} else if (contactTop(it) && isJumping) {
+			this.setJumping(false);
 		}
 	}
 
 	public void jump() {
 		for (int i = 0; i < 8 * Map.BLOC_WH / 5; i++) {
-			this.moveByY(-1);
+			if(this.y<Map.getInstance().getRoof() && isJumping) {
+				this.moveByY(-1);
+			}
 		}
 	}
 
