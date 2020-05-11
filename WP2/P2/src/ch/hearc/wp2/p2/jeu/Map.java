@@ -238,13 +238,13 @@ public class Map extends JPanel {
 					}
 
 					// debug mode
-					g2d.drawRect((int) bloc.x, (int) bloc.y, (int) bloc.width, (int) bloc.height);
+					//g2d.drawRect((int) bloc.x, (int) bloc.y, (int) bloc.width, (int) bloc.height);
 
-//					if (bloc.isVisible()) {
-//						g2d.drawImage(bloc.getTexture(), (int) bloc.x, (int) bloc.y, (int) (bloc.width + bloc.x),
-//								(int) (bloc.height + bloc.y), 0, 0, bloc.getTexture().getWidth(null),
-//								bloc.getTexture().getHeight(null), null);
-//					}
+					if (bloc.isVisible()) {
+						g2d.drawImage(bloc.getTexture(), (int) bloc.x, (int) bloc.y, (int) (bloc.width + bloc.x),
+								(int) (bloc.height + bloc.y), 0, 0, bloc.getTexture().getWidth(null),
+								bloc.getTexture().getHeight(null), null);
+					}
 				}
 
 			} else {
