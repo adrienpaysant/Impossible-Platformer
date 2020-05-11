@@ -1,6 +1,7 @@
 
 package ch.hearc.wp2.p2.jeu.items.Caractere;
 
+import java.awt.Graphics2D;
 import java.awt.geom.Line2D;
 import java.awt.geom.Point2D;
 import java.awt.geom.Point2D.Double;
@@ -65,7 +66,7 @@ public class Player extends Item {
 
 	public boolean contactBottom(Item it) {
 
-		if (intersectsLine(it.x, it.y - 4, it.getMaxX(), it.y - 4)) {
+		if (intersectsLine(it.x - 4, it.y - 4, it.getMaxX() + 4, it.y - 4)) {
 			return true;
 
 		} else {
@@ -75,7 +76,7 @@ public class Player extends Item {
 
 	public boolean contactTop(Item it) {
 
-		if (intersectsLine(it.x, it.getMaxY() + 10, it.getMaxX(), it.getMaxY() + 10)) {
+		if (intersectsLine(it.x, it.getMaxY() + 1, it.getMaxX(), it.getMaxY() + 1)) {
 			return true;
 
 		} else {
@@ -101,7 +102,27 @@ public class Player extends Item {
 	}
 
 	public void jump() {
-		//TODO
+		for (int i = 0; i < 8 * Map.BLOC_WH / 5; i++) {
+			boolean test = true;
+			for (Bloc b : Map.getInstance().getListBloc()) {
+				if (contactTop(b)) {
+					test = false;
+				}
+			}
+			if (test)
+				this.moveByY(-1);
+		}
+	}
+
+	public void contact(Bloc bloc, Graphics2D g2d) {
+		// horizontal hit
+		if (contactRight(bloc) || contactLeft(bloc)) {
+			Map.getInstance().setdX(-Map.getInstance().getdX());
+		}
+		// bottom hit
+		if (contactBottom(bloc)) {// jumping over item
+			this.moveByY(-Map.GRAVITY);
+		}
 	}
 
 }
