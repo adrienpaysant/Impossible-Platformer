@@ -64,7 +64,7 @@ public class Player extends Item {
 
 	
 	public boolean contactRight(Item it) {
-		if (intersectsLine(it.x-5, it.y, it.x-5, it.getMaxY())) {
+		if (intersectsLine(it.x, it.y, it.x, it.getMaxY())) {
 			return true;
 
 		} else {
@@ -73,7 +73,7 @@ public class Player extends Item {
 	}
 
 	public boolean contactLeft(Item it) {
-		if (intersectsLine(it.getMaxX()+2, it.y, it.getMaxX()+2, it.getMaxY())) {
+		if (intersectsLine(it.getMaxX(), it.y, it.getMaxX(), it.getMaxY())) {
 			return true;
 
 		} else {

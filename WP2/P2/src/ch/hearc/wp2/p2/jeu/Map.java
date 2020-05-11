@@ -110,7 +110,7 @@ public class Map extends JPanel {
 						// 2nd Layer
 						if (i % alea == 4)
 							listBloc.add(new Bloc(BLOC_WH * i + 2 * BLOC_WH, -2.5 * BLOC_WH + groundH, BLOC_WH, BLOC_WH,
-									true, ShopImage.DARKSKYBLOCK));
+									true, ShopImage.SANDBLOCK));
 
 						// trap test
 						if (i % alea == 2)
