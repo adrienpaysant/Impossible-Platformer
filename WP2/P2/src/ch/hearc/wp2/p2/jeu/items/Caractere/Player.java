@@ -76,7 +76,6 @@ public class Player extends Item {
 	public boolean contactTop(Item it) {
 
 		if (intersectsLine(it.x, it.getMaxY() + 10, it.getMaxX(), it.getMaxY() + 10)) {
-			System.out.println("hit on the head");
 			return true;
 
 		} else {
@@ -97,7 +96,7 @@ public class Player extends Item {
 
 		// top hit
 		if (contactTop(it)) {
-			//TODO 
+			System.out.println("i need to do something");
 		}
 	}
 
