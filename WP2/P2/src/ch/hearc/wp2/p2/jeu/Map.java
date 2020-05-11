@@ -73,7 +73,7 @@ public class Map extends JPanel {
 		this.dX = 0;
 		this.groundH = 2 * game.getHeight() / 3;
 		this.isPaused = false;
-		this.setRoof(0); //set roof to the max
+		this.setRoof(0); // set roof to the max
 
 		// listeners
 		buttonExit.addActionListener(new ActionListener() {
@@ -149,7 +149,7 @@ public class Map extends JPanel {
 	public void setdX(int dX) {
 		this.dX = dX;
 	}
-	
+
 	public int getRoof() {
 		return roof;
 	}
@@ -187,10 +187,6 @@ public class Map extends JPanel {
 
 			// test & collisions
 			for (Bloc bloc : listBloc) {
-
-				// V1
-				// collisionsV1(g2d, bloc);
-				// V2
 				player.contact(bloc);
 			}
 
@@ -237,48 +233,4 @@ public class Map extends JPanel {
 			}
 		}
 	}
-
-	private void collisionsV1(Graphics2D g2d, Bloc bloc) {
-		// collision ground
-		if (bloc.intersectsLine(player.x, player.y + player.height + 2, player.x + player.width,
-				player.y + player.height + 2)) {
-			player.moveByY(-GRAVITY);
-			if (DEBUG) {
-				g2d.setColor(Color.pink);
-				g2d.fillRect((int) bloc.x, (int) bloc.y, (int) bloc.width, (int) bloc.height);
-			}
-
-		}
-
-		// collision top //TODO TOFIX
-		if (bloc.intersectsLine(player.x, player.y, player.x + player.width, player.y)) {
-			player.moveByY(1);
-			if (DEBUG) {
-				g2d.setColor(Color.magenta);
-				g2d.fillRect((int) bloc.x, (int) bloc.y, (int) bloc.width, (int) bloc.height);
-			}
-		}
-
-		// collision right
-		if (bloc.intersectsLine(player.x + player.width + 2, player.y, player.x + player.width + 2,
-				player.y + player.height)) {
-			this.setdX(-dX);
-			if (DEBUG) {
-				g2d.setColor(Color.yellow);
-				g2d.fillRect((int) bloc.x, (int) bloc.y, (int) bloc.width, (int) bloc.height);
-			}
-		}
-
-		// collision left
-		if (bloc.intersectsLine(player.x - 2, player.y, player.x - 2, player.y + player.height)) {
-			this.setdX(-dX);
-			if (DEBUG) {
-				g2d.setColor(Color.orange);
-				g2d.fillRect((int) bloc.x, (int) bloc.y, (int) bloc.width, (int) bloc.height);
-			}
-		}
-	}
-
-	
-
 }
