@@ -32,8 +32,8 @@ public class Map extends JPanel {
 	private static final int PLAYER_W = 25;
 	public static final int GRAVITY = 4;
 	private static final int HEART_WH = 25;
-	private static final int PLAYER_NB_LIFE = 5;
-	private static final boolean DEBUG = true;
+	private static final int PLAYER_NB_LIFE = 10;
+	private static final boolean DEBUG = false;
 
 	private Game game;
 	private JButton buttonExit;
@@ -46,7 +46,6 @@ public class Map extends JPanel {
 
 	private int dX;
 	private int groundH;
-	private int roof;
 	private boolean isPaused;
 
 	public static Map getInstance() {
@@ -73,7 +72,6 @@ public class Map extends JPanel {
 		this.dX = 0;
 		this.groundH = 2 * game.getHeight() / 3;
 		this.isPaused = false;
-		this.setRoof(0); // set roof to the max
 
 		// listeners
 		buttonExit.addActionListener(new ActionListener() {
@@ -100,6 +98,9 @@ public class Map extends JPanel {
 			private void setBlocList() {
 				int alea = 5 + (int) (Math.random() * ((20 - 5) + 1));
 				// initial path
+				// one bloc just under the player
+				// listBloc.add(new Bloc(player.x-player.width/2, groundH, BLOC_WH, BLOC_WH,
+				// true, ShopImage.PATHBLOCK));
 
 				// listBloc.add()
 				for (int i = 0; i < game.getWidth() / 50; i++) {
@@ -149,13 +150,9 @@ public class Map extends JPanel {
 	public void setdX(int dX) {
 		this.dX = dX;
 	}
-
-	public int getRoof() {
-		return roof;
-	}
-
-	public void setRoof(int roof) {
-		this.roof = roof;
+	
+	public ArrayList<Bloc> getListBloc(){
+		return listBloc;
 	}
 
 	// painting
@@ -207,9 +204,9 @@ public class Map extends JPanel {
 				g2d.setColor(Color.green);
 				for (Bloc bloc : listBloc) {
 					// - dX to move the player
-					if (player.isWalking()) {
-						bloc.moveByX(-dX * SPEED);
-					}
+
+					bloc.moveByX(-dX * SPEED);
+
 					if (DEBUG) {
 						// debug mode
 						g2d.drawRect((int) bloc.x, (int) bloc.y, (int) bloc.width, (int) bloc.height);

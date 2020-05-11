@@ -15,16 +15,10 @@ public class Keyboard implements KeyListener {
 	private void test() {
 		if (left && whoIsLast == "left") {
 			Map.getInstance().setdX(-1);
-			Map.getInstance().getPlayer().setWalking(true);
-		}
-		else if (right && whoIsLast == "right")
-		{
+		} else if (right && whoIsLast == "right") {
 			Map.getInstance().setdX(1);
-			Map.getInstance().getPlayer().setWalking(true);
-		}
-		else {
+		} else {
 			Map.getInstance().setdX(0);
-			Map.getInstance().getPlayer().setWalking(false);
 		}
 	}
 
