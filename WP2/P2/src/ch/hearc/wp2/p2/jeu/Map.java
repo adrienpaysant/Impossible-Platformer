@@ -165,6 +165,7 @@ public class Map extends JPanel {
 			// test statement player
 			if (player.getMaxY() >= game.getHeight()) {
 				player.setHeart(player.getHeart() - 1);
+				player.setJumping(true);
 				// TODO move to last checkpoint
 				player.moveTo(new Point2D.Double(game.getWidth() / 2, game.getHeight() / 3));
 				// TODO
@@ -209,13 +210,8 @@ public class Map extends JPanel {
 	// creating the map
 	private void setBlocList() {
 		int alea = 5 + (int) (Math.random() * ((20 - 5) + 1));
-		// initial path
-		// one bloc just under the player
-		// listBloc.add(new Bloc(player.x-player.width/2, groundH, BLOC_WH, BLOC_WH,
-		// true, ShopImage.PATHBLOCK));
-
-		// listBloc.add()
-		for (int i = 0; i < 10 * game.getWidth() / 50; i++) {
+		
+		for (int i = 0; i < game.getWidth() / 50; i++) {
 			if (i % alea != 0) {
 				// path = 1st Layer
 				
