@@ -136,13 +136,16 @@ public class Player extends Item {
 				last = cp;
 			}
 		}
-		if (last.x > 0) {
-		//	double temp=
-		} else {
-		//	double temp=
-		}
+		//issue there //TODO TOFIX
 		for (Bloc bloc : Map.getInstance().getListBloc()) {
-			//bloc.moveByX(temp);
+			
+				if (last.x > x) {
+					bloc.moveByX(Math.abs(-getCenterX()-last.x));
+				} else {
+					bloc.moveByX(Math.abs(getCenterX()-last.x));
+				}
+			
+
 		}
 		moveTo(new Point2D.Double(x, Map.getInstance().getGame().getHeight() / 3));
 	}
