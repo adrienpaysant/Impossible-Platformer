@@ -38,6 +38,7 @@ public class Keyboard implements KeyListener {
 			this.whoIsLast = "right";
 		} else if (e.getKeyCode() == KeyEvent.VK_UP) {
 			Map.getInstance().getPlayer().jump();
+
 		}
 		test();
 	}

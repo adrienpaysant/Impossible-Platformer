@@ -14,6 +14,7 @@ public class Player extends Item {
 
 	private int heart;
 	private boolean isAlive;
+	private boolean isJumping;
 
 	public Player(Item it) {
 		super(it);
@@ -24,6 +25,7 @@ public class Player extends Item {
 		super(x, y, w, h, v);
 		this.setHeart(heart);
 		this.setAlive(true);
+		this.setJumping(false);
 
 	}
 
@@ -47,7 +49,7 @@ public class Player extends Item {
 	// methodes
 
 	public boolean contactRight(Item it) {
-		if (intersectsLine(it.x - 5, it.y, it.x - 5, it.getMaxY())) {
+		if (intersectsLine(it.x - 5, it.y+5, it.x - 5, it.getMaxY())) {
 			return true;
 
 		} else {
@@ -56,7 +58,7 @@ public class Player extends Item {
 	}
 
 	public boolean contactLeft(Item it) {
-		if (intersectsLine(it.getMaxX() + 5, it.y, it.getMaxX() + 5, it.getMaxY())) {
+		if (intersectsLine(it.getMaxX() + 5, it.y+5, it.getMaxX() + 5, it.getMaxY())) {
 			return true;
 
 		} else {
@@ -66,7 +68,7 @@ public class Player extends Item {
 
 	public boolean contactBottom(Item it) {
 
-		if (intersectsLine(it.x - 2, it.y - 4, it.getMaxX() + 2, it.y - 4)) {
+		if (intersectsLine(it.x - 3, it.y - 4, it.getMaxX() + 3, it.y - 4)) {
 			return true;
 
 		} else {
@@ -85,7 +87,6 @@ public class Player extends Item {
 	}
 
 	public void contact(Item it) {
-
 		// horizontal hit
 		if (contactRight(it) || contactLeft(it)) {
 			Map.getInstance().setdX(-Map.getInstance().getdX());
@@ -94,35 +95,47 @@ public class Player extends Item {
 		if (contactBottom(it)) {// jumping over item
 			this.moveByY(-Map.GRAVITY);
 		}
-
-		// top hit
-		if (contactTop(it)) {
-			System.out.println("i need to do something");
-		}
 	}
 
-	public void jump() {
-		for (int i = 0; i < 8 * Map.BLOC_WH / 5; i++) {
-			boolean test = true;
-			for (Bloc b : Map.getInstance().getListBloc()) {
-				if (contactTop(b)) {
-					test = false;
-				}
-			}
-			if (test)
-				this.moveByY(-1);
-		}
-	}
-
-	public void contact(Bloc bloc, Graphics2D g2d) {
+	public void contact(Item it, Graphics2D g2d) {
 		// horizontal hit
-		if (contactRight(bloc) || contactLeft(bloc)) {
+		if (contactRight(it) || contactLeft(it)) {
 			Map.getInstance().setdX(-Map.getInstance().getdX());
 		}
 		// bottom hit
-		if (contactBottom(bloc)) {// jumping over item
+		if (contactBottom(it) && isJumping) {
+			//Map.getInstance().setGroundAfterJump((int) it.y);
+			
+			setJumping(false);
+		} else if (contactBottom(it)) {// jumping over item
 			this.moveByY(-Map.GRAVITY);
 		}
+
+	}
+
+	public void jump() {
+		if (!isJumping) {
+			setJumping(true);
+			for (int i = 0; i < 8 * Map.BLOC_WH / 5; i++) {
+				boolean test = true;
+				for (Bloc b : Map.getInstance().getListBloc()) {
+					if (contactTop(b)) {
+						test = false;
+					}
+				}
+				if (test)
+					this.moveByY(-1);
+			}
+		}
+
+	}
+
+	public boolean isJumping() {
+		return isJumping;
+	}
+
+	public void setJumping(boolean isJumping) {
+		this.isJumping = isJumping;
 	}
 
 }

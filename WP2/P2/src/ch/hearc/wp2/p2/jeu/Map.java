@@ -73,6 +73,8 @@ public class Map extends JPanel {
 		this.groundH = 2 * game.getHeight() / 3;
 		this.isPaused = false;
 
+		setBlocList();
+
 		// listeners
 		buttonExit.addActionListener(new ActionListener() {
 			@Override
@@ -87,40 +89,13 @@ public class Map extends JPanel {
 
 			@Override
 			public void componentResized(ComponentEvent e) {
+				groundH = 2 * game.getHeight() / 3;
 				if (listBloc.isEmpty())
 					setBlocList();
 				else {
 					listBloc.clear();
 					setBlocList();
 				}
-			}
-
-			private void setBlocList() {
-				int alea = 5 + (int) (Math.random() * ((20 - 5) + 1));
-				// initial path
-				// one bloc just under the player
-				// listBloc.add(new Bloc(player.x-player.width/2, groundH, BLOC_WH, BLOC_WH,
-				// true, ShopImage.PATHBLOCK));
-
-				// listBloc.add()
-				for (int i = 0; i < game.getWidth() / 50; i++) {
-					if (i % alea != 0) {
-						// path = 1st Layer
-						listBloc.add(new Bloc(BLOC_WH * i, groundH, BLOC_WH, BLOC_WH, true, ShopImage.PATHBLOCK));
-
-						// 2nd Layer
-						if (i % alea == 4)
-							listBloc.add(new Bloc(BLOC_WH * i + 2 * BLOC_WH, -2.5 * BLOC_WH + groundH, BLOC_WH, BLOC_WH,
-									true, ShopImage.SANDBLOCK));
-
-						// trap test
-						if (i % alea == 2)
-							listBloc.add(new Bloc(BLOC_WH * i, -BLOC_WH + groundH, BLOC_WH, BLOC_WH, true,
-									ShopImage.ICEBLOCK));
-					}
-
-				}
-
 			}
 
 		});
@@ -150,8 +125,8 @@ public class Map extends JPanel {
 	public void setdX(int dX) {
 		this.dX = dX;
 	}
-	
-	public ArrayList<Bloc> getListBloc(){
+
+	public ArrayList<Bloc> getListBloc() {
 		return listBloc;
 	}
 
@@ -184,7 +159,7 @@ public class Map extends JPanel {
 
 			// test & collisions
 			for (Bloc bloc : listBloc) {
-				player.contact(bloc);
+				player.contact(bloc,g2d);
 			}
 
 			// test statement player
@@ -230,4 +205,33 @@ public class Map extends JPanel {
 			}
 		}
 	}
+
+	// creating the map
+	private void setBlocList() {
+		int alea = 5 + (int) (Math.random() * ((20 - 5) + 1));
+		// initial path
+		// one bloc just under the player
+		// listBloc.add(new Bloc(player.x-player.width/2, groundH, BLOC_WH, BLOC_WH,
+		// true, ShopImage.PATHBLOCK));
+
+		// listBloc.add()
+		for (int i = 0; i < 10 * game.getWidth() / 50; i++) {
+			if (i % alea != 0) {
+				// path = 1st Layer
+				listBloc.add(new Bloc(BLOC_WH * i, groundH, BLOC_WH, BLOC_WH, true, ShopImage.PATHBLOCK));
+
+				// 2nd Layer
+				if (i % alea == 4)
+					listBloc.add(new Bloc(BLOC_WH * i + 2 * BLOC_WH, -2.5 * BLOC_WH + groundH, BLOC_WH, BLOC_WH, true,
+							ShopImage.SANDBLOCK));
+
+				// trap test
+				if (i % alea == 2)
+					listBloc.add(new Bloc(BLOC_WH * i, -BLOC_WH + groundH, BLOC_WH, BLOC_WH, true, ShopImage.ICEBLOCK));
+			}
+
+		}
+
+	}
+
 }
