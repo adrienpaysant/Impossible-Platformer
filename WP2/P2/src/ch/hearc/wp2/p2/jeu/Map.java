@@ -180,7 +180,6 @@ public class Map extends JPanel {
 				g2d.setColor(Color.green);
 				for (Bloc bloc : listBloc) {
 					// - dX to move the player
-
 					bloc.moveByX(-dX * SPEED);
 
 					if (DEBUG) {
@@ -210,11 +209,11 @@ public class Map extends JPanel {
 	// creating the map
 	private void setBlocList() {
 		int alea = 5 + (int) (Math.random() * ((20 - 5) + 1));
-		
+
 		for (int i = 0; i < game.getWidth() / 50; i++) {
 			if (i % alea != 0) {
 				// path = 1st Layer
-				
+
 				listBloc.add(new Bloc(BLOC_WH * i, groundH, BLOC_WH, BLOC_WH, true, ShopImage.PATHBLOCK));
 
 				// 2nd Layer
