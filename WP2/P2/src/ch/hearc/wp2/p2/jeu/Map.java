@@ -17,7 +17,7 @@ import javax.swing.SwingUtilities;
 
 import ch.hearc.wp2.p2.jeu.items.Charactere.Player;
 import ch.hearc.wp2.p2.jeu.items.blocs.Bloc;
-import ch.hearc.wp2.p2.jeu.items.blocs.actions.ActionBloc;
+import ch.hearc.wp2.p2.jeu.items.blocs.actions.CheckPointBloc;
 import ch.hearc.wp2.p2.jeu.menus.MainMenu;
 import ch.hearc.wp2.p2.jeu.tools.Chrono;
 import ch.hearc.wp2.p2.jeu.tools.Keyboard;
@@ -39,7 +39,7 @@ public class Map extends JPanel {
 	private JButton buttonExit;
 
 	private ArrayList<Bloc> listBloc = new ArrayList<Bloc>();
-	private ArrayList<ActionBloc> listActionBloc = new ArrayList<ActionBloc>();
+	private ArrayList<CheckPointBloc> listCPBloc = new ArrayList<CheckPointBloc>();
 
 	private static Map map = null;
 	private Player player;
