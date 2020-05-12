@@ -174,7 +174,7 @@ public class Map extends JPanel {
 			player.moveByY(GRAVITY);
 			g2d.setColor(Color.black);
 			if (player.isVisible())
-				g2d.draw(player);
+				g2d.fill(player);
 
 			// hearts of the player :
 			for (int i = 0; i < player.getHeart(); i++) {
