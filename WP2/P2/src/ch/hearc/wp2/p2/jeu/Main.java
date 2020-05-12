@@ -6,7 +6,7 @@ import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.awt.geom.Point2D.Double;
 
-import ch.hearc.wp2.p2.jeu.items.Caractere.Player;
+import ch.hearc.wp2.p2.jeu.items.Charactere.Player;
 import ch.hearc.wp2.p2.jeu.menus.MainMenu;
 
 public class Main {

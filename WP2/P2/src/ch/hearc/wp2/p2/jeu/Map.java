@@ -15,7 +15,7 @@ import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 
-import ch.hearc.wp2.p2.jeu.items.Caractere.Player;
+import ch.hearc.wp2.p2.jeu.items.Charactere.Player;
 import ch.hearc.wp2.p2.jeu.items.blocs.Bloc;
 import ch.hearc.wp2.p2.jeu.items.blocs.actions.ActionBloc;
 import ch.hearc.wp2.p2.jeu.menus.MainMenu;
@@ -159,7 +159,7 @@ public class Map extends JPanel {
 
 			// test & collisions
 			for (Bloc bloc : listBloc) {
-				player.contact(bloc,g2d);
+				player.contact(bloc);
 			}
 
 			// test statement player
