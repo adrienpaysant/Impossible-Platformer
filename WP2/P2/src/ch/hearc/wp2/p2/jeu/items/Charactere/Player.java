@@ -5,10 +5,12 @@ import java.awt.Graphics2D;
 import java.awt.geom.Line2D;
 import java.awt.geom.Point2D;
 import java.awt.geom.Point2D.Double;
+import java.util.ArrayList;
 
 import ch.hearc.wp2.p2.jeu.Map;
 import ch.hearc.wp2.p2.jeu.items.Item;
 import ch.hearc.wp2.p2.jeu.items.blocs.Bloc;
+import ch.hearc.wp2.p2.jeu.items.blocs.actions.CheckPointBloc;
 
 public class Player extends Item {
 
@@ -124,6 +126,25 @@ public class Player extends Item {
 
 	public void setJumping(boolean isJumping) {
 		this.isJumping = isJumping;
+	}
+
+	public void respawn() {
+
+		CheckPointBloc last = new CheckPointBloc(Map.getInstance().getListCPBloc().get(0));
+		for (CheckPointBloc cp : Map.getInstance().getListCPBloc()) {
+			if (cp.isCheck()) {
+				last = cp;
+			}
+		}
+		if (last.x > 0) {
+		//	double temp=
+		} else {
+		//	double temp=
+		}
+		for (Bloc bloc : Map.getInstance().getListBloc()) {
+			//bloc.moveByX(temp);
+		}
+		moveTo(new Point2D.Double(x, Map.getInstance().getGame().getHeight() / 3));
 	}
 
 }

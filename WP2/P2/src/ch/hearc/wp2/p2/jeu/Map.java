@@ -8,7 +8,6 @@ import java.awt.event.ActionListener;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.awt.geom.Rectangle2D;
-import java.awt.geom.Point2D;
 import java.util.ArrayList;
 
 import javax.swing.JButton;
@@ -68,9 +67,10 @@ public class Map extends JPanel {
 
 		this.game = Game.getInstance();
 		this.buttonExit = new JButton("Back to Menu");
-		this.player = new Player(game.getWidth() / 2, game.getHeight() / 3, PLAYER_W, PLAYER_H, true, PLAYER_NB_LIFE);
+		this.player = new Player(getGame().getWidth() / 2, getGame().getHeight() / 3, PLAYER_W, PLAYER_H, true,
+				PLAYER_NB_LIFE);
 		this.dX = 0;
-		this.groundH = 2 * game.getHeight() / 3;
+		this.groundH = 2 * getGame().getHeight() / 3;
 		this.isPaused = false;
 
 		setBlocList();
@@ -79,9 +79,9 @@ public class Map extends JPanel {
 		buttonExit.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				game.setSize(game.getWidth() + 1, game.getHeight() + 1);
-				game.setContentPane(MainMenu.getInstance());
-				game.setSize(game.getWidth() - 1, game.getHeight() - 1);
+				getGame().setSize(getGame().getWidth() + 1, getGame().getHeight() + 1);
+				getGame().setContentPane(MainMenu.getInstance());
+				getGame().setSize(getGame().getWidth() - 1, getGame().getHeight() - 1);
 			}
 		});
 
@@ -89,7 +89,7 @@ public class Map extends JPanel {
 
 			@Override
 			public void componentResized(ComponentEvent e) {
-				groundH = 2 * game.getHeight() / 3;
+				groundH = 2 * getGame().getHeight() / 3;
 				if (listBloc.isEmpty())
 					setBlocList();
 				else {
@@ -102,32 +102,10 @@ public class Map extends JPanel {
 
 		Thread chronoMap = new Thread(new Chrono());
 		chronoMap.start();
-		// TODO
 
 		// TODO thread pour grer les collisions ?
-	}
 
-	// getters & setters
-	public Player getPlayer() {
-		return player;
-	}
-
-	public int getGroundH() {
-
-		return (int) this.groundH;
-
-	}
-
-	public int getdX() {
-		return dX;
-	}
-
-	public void setdX(int dX) {
-		this.dX = dX;
-	}
-
-	public ArrayList<Bloc> getListBloc() {
-		return listBloc;
+		// player.respawn();
 	}
 
 	// painting
@@ -163,16 +141,23 @@ public class Map extends JPanel {
 			}
 
 			// test statement player
-			if (player.getMaxY() >= game.getHeight()) {
+			if (player.getMaxY() >= getGame().getHeight()) {
 				player.setHeart(player.getHeart() - 1);
 				player.setJumping(true);
-				// TODO move to last checkpoint
-				player.moveTo(new Point2D.Double(game.getWidth() / 2, game.getHeight() / 3));
-				// TODO
+				player.respawn();
 			}
 			if (player.getHeart() <= 0) {
 				player.setAlive(false);
 			}
+
+			// Update of last checkpoint
+			for (CheckPointBloc cpBloc : listCPBloc) {
+				if (player.getCenterX() >= cpBloc.getCenterX()) {
+					cpBloc.setCheck(true);
+
+				}
+			}
+			listCPBloc.get(0).setCheck(true);
 
 			// player is Alive ?
 			if (player.isAlive()) {
@@ -196,38 +181,96 @@ public class Map extends JPanel {
 
 			} else {
 				System.out.println("youloose");
-				// TODO
-				player.setHeart(PLAYER_NB_LIFE);
-				// TODO TOFIX pb pour relancer une partie (fonction init() ??)
-				game.setSize(game.getWidth() + 1, game.getHeight() + 1);
-				game.setContentPane(MainMenu.getInstance());
-				game.setSize(game.getWidth() - 1, game.getHeight() - 1);
+				init();
+
+				getGame().setSize(getGame().getWidth() + 1, getGame().getHeight() + 1);
+				getGame().setContentPane(MainMenu.getInstance());
+				getGame().setSize(getGame().getWidth() - 1, getGame().getHeight() - 1);
 			}
 		}
+	}
+
+	private void init() {
+		for (CheckPointBloc cpBloc : listCPBloc) {
+			cpBloc.setCheck(false);
+		}
+		listCPBloc.get(0).setCheck(true);
+		player.setHeart(Map.PLAYER_NB_LIFE);
+		player.respawn();
 	}
 
 	// creating the map
 	private void setBlocList() {
-		int alea = 5 + (int) (Math.random() * ((20 - 5) + 1));
 
-		for (int i = 0; i < game.getWidth() / 50; i++) {
-			if (i % alea != 0) {
+		for (int i = 0; i < 2 * getGame().getWidth() / 50; i++) {
+			if (i % 20 != 0) {
 				// path = 1st Layer
-
-				listBloc.add(new Bloc(BLOC_WH * i, groundH, BLOC_WH, BLOC_WH, true, ShopImage.PATHBLOCK));
-
-				// 2nd Layer
-				if (i % alea == 4)
+				if (listBloc.isEmpty()) {
+					CheckPointBloc b = new CheckPointBloc(BLOC_WH * i, groundH, BLOC_WH, BLOC_WH, true,
+							ShopImage.ICEDIRTBLOCK);// CheckPoint
+					listBloc.add(b);
+					listCPBloc.add(b);
+					b.setCheck(true);
+				} else {
+					listBloc.add(new Bloc(BLOC_WH * i, groundH, BLOC_WH, BLOC_WH, true, ShopImage.PATHBLOCK));// classic
+																												// bloc
+				}
+				// block in the sky
+				if (i % 20 == 4) {
 					listBloc.add(new Bloc(BLOC_WH * i + 2 * BLOC_WH, -2.5 * BLOC_WH + groundH, BLOC_WH, BLOC_WH, true,
 							ShopImage.SANDBLOCK));
+				}
 
-				// trap test
-				if (i % alea == 2)
+				// block on the ground
+				if (i % 20 == 9) {
 					listBloc.add(new Bloc(BLOC_WH * i, -BLOC_WH + groundH, BLOC_WH, BLOC_WH, true, ShopImage.ICEBLOCK));
+				}
+
+				// checkpoint
+				if (i % 20 == 13) {
+					CheckPointBloc b2 = new CheckPointBloc(BLOC_WH * i, groundH, BLOC_WH, BLOC_WH, true,
+							ShopImage.ICEBLOCKTOP);// CheckPoint
+					listBloc.add(b2);
+					listCPBloc.add(b2);
+				}
 			}
 
 		}
 
+		CheckPointBloc b = new CheckPointBloc(BLOC_WH * (1 + 5 * getGame().getWidth() / 50), groundH, BLOC_WH, BLOC_WH,
+				true, ShopImage.ICEDIRTBLOCK);// CheckPoint
+		listBloc.add(b);
+		listCPBloc.add(b);
 	}
 
+//getters & setters
+	public Player getPlayer() {
+		return player;
+	}
+
+	public int getGroundH() {
+
+		return (int) this.groundH;
+
+	}
+
+	public int getdX() {
+		return dX;
+	}
+
+	public void setdX(int dX) {
+		this.dX = dX;
+	}
+
+	public ArrayList<Bloc> getListBloc() {
+		return listBloc;
+	}
+
+	public ArrayList<CheckPointBloc> getListCPBloc() {
+		return listCPBloc;
+	}
+
+	public Game getGame() {
+		return game;
+	}
 }
