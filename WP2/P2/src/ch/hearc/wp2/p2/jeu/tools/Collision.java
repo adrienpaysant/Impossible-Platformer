@@ -1,8 +1,7 @@
 package ch.hearc.wp2.p2.jeu.tools;
 
-import ch.hearc.wp2.p2.jeu.Map;
 import ch.hearc.wp2.p2.jeu.items.Item;
-import ch.hearc.wp2.p2.jeu.items.Caractere.Player;
+import ch.hearc.wp2.p2.jeu.items.Charactere.Player;
 
 public class Collision implements Runnable {
 

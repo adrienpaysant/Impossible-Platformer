@@ -218,6 +218,7 @@ public class Map extends JPanel {
 		for (int i = 0; i < 10 * game.getWidth() / 50; i++) {
 			if (i % alea != 0) {
 				// path = 1st Layer
+				
 				listBloc.add(new Bloc(BLOC_WH * i, groundH, BLOC_WH, BLOC_WH, true, ShopImage.PATHBLOCK));
 
 				// 2nd Layer
