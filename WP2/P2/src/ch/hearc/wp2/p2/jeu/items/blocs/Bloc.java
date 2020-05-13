@@ -28,5 +28,8 @@ public class Bloc extends Item {
 	public Image getTexture() {
 		return texture;
 	}
+	public void setTexture(Image img) {
+		this.texture=img;
+	}
 
 }
