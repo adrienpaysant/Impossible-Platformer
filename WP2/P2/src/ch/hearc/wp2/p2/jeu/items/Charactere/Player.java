@@ -147,7 +147,7 @@ public class Player extends Item {
 			}
 
 		}
-		moveByY(-Math.abs(x - Map.getInstance().getGame().getHeight() / 3));
+		moveByY(-Math.abs(y - Map.getInstance().getGame().getHeight() / 3));
 
 	}
 }

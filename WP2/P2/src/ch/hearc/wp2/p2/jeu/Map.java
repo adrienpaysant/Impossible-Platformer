@@ -237,7 +237,7 @@ public class Map extends JPanel {
 					// block in the sky
 					if (i % 20 == 4) {
 						listBloc.add(new Bloc(-BLOC_WH / 4 + BLOC_WH * (i + 2 + player.x / 50 - 1),
-								-2.5 * BLOC_WH + groundH, BLOC_WH, BLOC_WH, true, ShopImage.SANDBLOCK));
+								-2.5 * BLOC_WH + groundH, BLOC_WH, BLOC_WH, true, ShopImage.FORESTBLOCK));
 					}
 
 					// block on the ground
