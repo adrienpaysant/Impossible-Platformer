@@ -36,7 +36,7 @@ public class Map extends JPanel {
 	private static final int PLAYER_W = 25;
 	public static final int GRAVITY = 4;
 	private static final int HEART_WH = 25;
-	private static final int PLAYER_NB_LIFE = 50;
+	private static final int PLAYER_NB_LIFE = 10;
 	private static final boolean DEBUG = false;
 
 	private Game game;
@@ -47,12 +47,17 @@ public class Map extends JPanel {
 	private ArrayList<Cloud> listCloud = new ArrayList<Cloud>();
 	private ArrayList<TrapBloc> listTrap = new ArrayList<TrapBloc>();
 
+	private CheckPointBloc lastCP;
+	private CheckPointBloc firstCP;
+
 	private static Map map = null;
 	private Player player;
 
 	private double dX;
 	private int groundH;
 	private boolean isPaused;
+	private boolean win;
+	private boolean lastCPset;
 
 	public static Map getInstance() {
 		if (map == null) {
@@ -73,6 +78,8 @@ public class Map extends JPanel {
 		this.dX = 0;
 		this.groundH = 2 * getGame().getHeight() / 3;
 		this.isPaused = false;
+		this.win = false;
+		this.lastCPset=false;
 
 		// listeners
 		buttonExit.addActionListener(new ActionListener() {
@@ -114,87 +121,112 @@ public class Map extends JPanel {
 
 	private void draw(Graphics2D g2d) {
 		if (!isPaused) {
-			add(buttonExit);
-			// background
-			g2d.setColor(new Color(51, 204, 250));
-			g2d.fill(new Rectangle2D.Double(0, 0, getWidth(), getHeight()));
+			if (!win) {
+				add(buttonExit);
+				// background
+				g2d.setColor(new Color(51, 204, 250));
+				g2d.fill(new Rectangle2D.Double(0, 0, getWidth(), getHeight()));
 
-			// test & collisions
-			for (Bloc bloc : listBloc) {
-				player.contact(bloc);
-			}
-
-			// test statement player
-			if (player.getMaxY() >= getGame().getHeight()) {
-				player.setHeart(player.getHeart() - 1);
-				player.setJumping(true);
-				player.respawn();
-			}
-			if (player.getHeart() <= 0) {
-				player.setAlive(false);
-			}
-
-			checkLastCP();
-
-			// player is Alive ?
-			if (player.isAlive()) {
-				// player
-				player.moveByY(GRAVITY);
-				g2d.setColor(Color.black);
-				if (player.isVisible())
-					g2d.fill(player);
-
-				// hearts of the player :
-				for (int i = 0; i < player.getHeart(); i++) {
-					g2d.drawImage(ShopImage.HEART, 5 + i * HEART_WH, 0, 5 + i * HEART_WH + HEART_WH, HEART_WH, 0, 0,
-							ShopImage.HEART.getWidth(null), ShopImage.HEART.getHeight(null), null);
+				// test & collisions
+				for (Bloc bloc : listBloc) {
+					player.contact(bloc);
 				}
 
-				// blocs
-				g2d.setColor(Color.green);
-				for (Bloc bloc : listBloc) {
-					// - dX to move with the player
-					bloc.moveByX(-dX * SPEED);
+				// test statement player
+				if (player.getMaxY() >= getGame().getHeight()) {
+					player.setHeart(player.getHeart() - 1);
+					player.setJumping(true);
+					player.respawn();
+				}
+				if (player.getHeart() <= 0) {
+					player.setAlive(false);
+				}
 
-					if (DEBUG) {
-						// debug mode
-						g2d.drawRect((int) bloc.x, (int) bloc.y, (int) bloc.width, (int) bloc.height);
-					} else {
-						if (bloc.isVisible()) {
-							g2d.drawImage(bloc.getTexture(), (int) bloc.x, (int) bloc.y, (int) (bloc.width + bloc.x),
-									(int) (bloc.height + bloc.y), 0, 0, bloc.getTexture().getWidth(null),
-									bloc.getTexture().getHeight(null), null);
+				updateLastCP();
+
+				// test the victory
+				if(lastCPset)
+				if (player.getMaxX() >= lastCP.getCenterX()) {
+					win = true;
+				}
+
+				// player is Alive ?
+				if (player.isAlive()) {
+					// player
+					player.moveByY(GRAVITY);
+					g2d.setColor(Color.black);
+					if (player.isVisible())
+						g2d.fill(player);
+
+					// hearts of the player :
+					for (int i = 0; i < player.getHeart(); i++) {
+						g2d.drawImage(ShopImage.HEART, 5 + i * HEART_WH, 0, 5 + i * HEART_WH + HEART_WH, HEART_WH, 0, 0,
+								ShopImage.HEART.getWidth(null), ShopImage.HEART.getHeight(null), null);
+					}
+
+					// blocs
+					g2d.setColor(Color.green);
+					for (Bloc bloc : listBloc) {
+						// - dX to move with the player
+						bloc.moveByX(-dX * SPEED);
+
+						if (DEBUG) {
+							// debug mode
+							g2d.drawRect((int) bloc.x, (int) bloc.y, (int) bloc.width, (int) bloc.height);
+						} else {
+							if (bloc.isVisible()) {
+								g2d.drawImage(bloc.getTexture(), (int) bloc.x, (int) bloc.y,
+										(int) (bloc.width + bloc.x), (int) (bloc.height + bloc.y), 0, 0,
+										bloc.getTexture().getWidth(null), bloc.getTexture().getHeight(null), null);
+							}
 						}
 					}
-				}
 
-				// cloud
-				for (Cloud cld : listCloud) {
-					// - dX to move with the player
-					cld.moveByX(-dX * SPEED);
-					if (cld.isVisible()) {
-						g2d.drawImage(cld.getTexture(), (int) cld.x, (int) cld.y, (int) (cld.width + cld.x),
-								(int) (cld.height + cld.y), 0, 0, cld.getTexture().getWidth(null),
-								cld.getTexture().getHeight(null), null);
+					// cloud
+					for (Cloud cld : listCloud) {
+						// - dX to move with the player
+						cld.moveByX(-dX * SPEED);
+						if (cld.isVisible()) {
+							g2d.drawImage(cld.getTexture(), (int) cld.x, (int) cld.y, (int) (cld.width + cld.x),
+									(int) (cld.height + cld.y), 0, 0, cld.getTexture().getWidth(null),
+									cld.getTexture().getHeight(null), null);
 
+						}
 					}
+
+					// sun
+					g2d.drawImage(ShopImage.SUN, game.getWidth() - SUN_WH, 0, game.getWidth(), SUN_WH, 0, 0,
+							ShopImage.HEART.getWidth(null), ShopImage.HEART.getHeight(null), null);
+
+				} else {
+					System.err.println("you loose");
+					init();
+					getGame().setSize(getGame().getWidth() + 1, getGame().getHeight() + 1);
+					getGame().setContentPane(MainMenu.getInstance());
+					getGame().setSize(getGame().getWidth() - 1, getGame().getHeight() - 1);
+
 				}
-
-				// sun
-				g2d.drawImage(ShopImage.SUN, game.getWidth() - SUN_WH, 0, game.getWidth(), SUN_WH, 0, 0,
-						ShopImage.HEART.getWidth(null), ShopImage.HEART.getHeight(null), null);
-
 			} else {
+				System.err.println("you win");
 				init();
 				getGame().setSize(getGame().getWidth() + 1, getGame().getHeight() + 1);
 				getGame().setContentPane(MainMenu.getInstance());
 				getGame().setSize(getGame().getWidth() - 1, getGame().getHeight() - 1);
-
 			}
 		}
 	}
 
-	private void checkLastCP() {
+	public CheckPointBloc checkLastCP() {
+		CheckPointBloc last = new CheckPointBloc(Map.getInstance().getListCPBloc().get(0));
+		for (CheckPointBloc cp : Map.getInstance().getListCPBloc()) {
+			if (cp.isCheck()) {
+				last = new CheckPointBloc(cp);
+			}
+		}
+		return last;
+	}
+
+	private void updateLastCP() {
 		// Update of last checkpoint
 		for (CheckPointBloc cpBloc : listCPBloc) {
 			if (player.getCenterX() >= cpBloc.getCenterX()) {
@@ -208,7 +240,7 @@ public class Map extends JPanel {
 	private void init() {
 		player.setHeart(Map.PLAYER_NB_LIFE);
 		player.setAlive(true);
-
+		win = false;
 		boolean first = true;
 		for (CheckPointBloc cpBloc : listCPBloc) {
 			if (first) {
@@ -227,6 +259,11 @@ public class Map extends JPanel {
 	// creating the map
 	private void setBlocList() {
 
+		firstCP = new CheckPointBloc(-BLOC_WH / 4 + BLOC_WH * (player.x / 50 - 1), groundH, BLOC_WH, BLOC_WH, true,
+				ShopImage.ICEDIRTBLOCK);
+		listBloc.add(firstCP);
+		listCPBloc.add(firstCP);
+		firstCP.setCheck(true);
 		for (int i = 0; i < 2 * Main.WIDTH / 50; i++) {
 
 			int alea = 5 + (int) (Math.random() * ((15 - 5) + 1));
@@ -234,17 +271,11 @@ public class Map extends JPanel {
 				// Bloc
 
 				// path = 1st Layer
-				if (listBloc.isEmpty()) {
-					CheckPointBloc b = new CheckPointBloc(-BLOC_WH / 4 + BLOC_WH * (i + player.x / 50 - 1), groundH,
-							BLOC_WH, BLOC_WH, true, ShopImage.ICEDIRTBLOCK);// CheckPoint
-					listBloc.add(b);
-					listCPBloc.add(b);
-					b.setCheck(true);
-				} else {
-					listBloc.add(new Bloc(-BLOC_WH / 4 + BLOC_WH * (i + player.x / 50 - 1), groundH, BLOC_WH, BLOC_WH,
-							true, ShopImage.PATHBLOCK));// classic
-					// bloc
-				}
+
+				listBloc.add(new Bloc(-BLOC_WH / 4 + BLOC_WH * (i + player.x / 50 - 1), groundH, BLOC_WH, BLOC_WH, true,
+						ShopImage.PATHBLOCK));// classic
+				// bloc
+
 				// block in the sky
 				if (i % 20 == 4) {
 					listBloc.add(new Bloc(-BLOC_WH / 4 + BLOC_WH * (i + 2 + player.x / 50 - 1),
@@ -269,27 +300,33 @@ public class Map extends JPanel {
 
 			// trap
 			// spike from top
-			if (i % 17 == 0) {
-				Bloc b2 = new Bloc(-BLOC_WH / 4 + BLOC_WH * (i + player.x / 50 - 1), -3*BLOC_WH+groundH, BLOC_WH,
+			if (i % 18 == 0) {
+				Bloc b2 = new Bloc(-BLOC_WH / 4 + BLOC_WH * (i + player.x / 50 - 1), -3 * BLOC_WH + groundH, BLOC_WH,
 						BLOC_WH, true, ShopImage.PATHBLOCK);
-				SpikeBloc tBloc = new SpikeBloc(-BLOC_WH / 4 + BLOC_WH * (i + player.x / 50 - 1),-3*BLOC_WH+ groundH + 1, BLOC_WH,
-						BLOC_WH, false, ShopImage.SPIKEST, false, true,b2);
+				SpikeBloc tBloc = new SpikeBloc(-BLOC_WH / 4 + BLOC_WH * (i + player.x / 50 - 1),
+						-3 * BLOC_WH + groundH + 1, BLOC_WH, BLOC_WH, false, ShopImage.SPIKEST, false, true, b2);
 				listBloc.add(b2);
 				listBloc.add(tBloc);
 				listTrap.add(tBloc);
 			}
-			//from left
-			if (i % 14 == 0) {
-				Bloc b2 = new Bloc(-BLOC_WH / 4 + BLOC_WH * (i + player.x / 50 - 1), -BLOC_WH+groundH, BLOC_WH,
-						BLOC_WH, true, ShopImage.PATHBLOCK);
-				SpikeBloc tBloc = new SpikeBloc(-BLOC_WH / 4 + BLOC_WH * (i + player.x / 50 - 1)-1,-BLOC_WH+ groundH, BLOC_WH,
-						BLOC_WH, false, ShopImage.SPIKESL, true, false,b2);
-				listBloc.add(b2);
-				listBloc.add(tBloc);
-				listTrap.add(tBloc);
-			}
+//			// from left
+//			if (i % 14 == 0) {
+//				Bloc b2 = new Bloc(-BLOC_WH / 4 + BLOC_WH * (i + player.x / 50 - 1), -BLOC_WH + groundH, BLOC_WH,
+//						BLOC_WH, true, ShopImage.PATHBLOCK);
+//				SpikeBloc tBloc = new SpikeBloc(-BLOC_WH / 4 + BLOC_WH * (i + player.x / 50 - 1) - 1,
+//						-BLOC_WH + groundH, BLOC_WH, BLOC_WH, false, ShopImage.SPIKESL, true, false, b2);
+//				listBloc.add(b2);
+//				listBloc.add(tBloc);
+//				listTrap.add(tBloc);
+//			}
 		}
+		lastCP = new CheckPointBloc(-BLOC_WH / 4 + BLOC_WH * (2 * Main.WIDTH / 50 + player.x / 50 - 1), groundH,
+				BLOC_WH, BLOC_WH, true, ShopImage.SANDBLOCK);
+		listBloc.add(lastCP);
+		listCPBloc.add(lastCP);
+		lastCPset=true;
 		player.respawn();
+
 	}
 
 //getters & setters

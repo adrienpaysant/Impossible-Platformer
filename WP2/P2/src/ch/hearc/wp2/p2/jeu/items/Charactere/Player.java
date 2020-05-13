@@ -109,9 +109,9 @@ public class Player extends Item {
 	}
 
 	private void trapThePlayer(Item it) {
-		if(it instanceof TrapBloc) {
+		if (it instanceof TrapBloc) {
 			((TrapBloc) it).trapAction();
-			this.setHeart(getHeart()-1);
+			this.setHeart(getHeart() - 1);
 			respawn();
 		}
 	}
@@ -144,22 +144,18 @@ public class Player extends Item {
 
 	public void respawn() {
 
-		CheckPointBloc last = new CheckPointBloc(Map.getInstance().getListCPBloc().get(0));
-		for (CheckPointBloc cp : Map.getInstance().getListCPBloc()) {
-			if (cp.isCheck()) {
-				last = new CheckPointBloc(cp);
-			}
-		}
-
+		CheckPointBloc last = Map.getInstance().checkLastCP();
 		for (Bloc bloc : Map.getInstance().getListBloc()) {
 			if (last.x >= x) {
-				bloc.moveByX(-Math.abs(last.getCenterX()-getCenterX()));
+				bloc.moveByX(-Math.abs(last.getCenterX() - getCenterX()));
 			} else {
-				bloc.moveByX(Math.abs(last.getCenterX()-getCenterX()));
+				bloc.moveByX(Math.abs(last.getCenterX() - getCenterX()));
 			}
 
 		}
-		moveByY(-Math.abs(y - Map.getInstance().getGame().getHeight() / 3));
+		// moveByY(-Math.abs(y - Map.getInstance().getGame().getHeight() / 3));
+		moveTo(new Point2D.Double(x, last.y - height - Map.BLOC_WH / 2));
+		
 
 	}
 }
