@@ -9,6 +9,7 @@ import java.io.IOException;
 import javax.imageio.ImageIO;
 import javax.swing.Box;
 import javax.swing.JPanel;
+import javax.swing.SwingUtilities;
 
 import ch.hearc.wp2.p2.jeu.Game;
 import ch.hearc.wp2.p2.jeu.Map;
@@ -67,6 +68,12 @@ public class MainMenu extends JPanel {
 			public void actionPerformed(ActionEvent e) {
 				game.setSize(game.getWidth() + 1, game.getHeight() + 1);
 				game.setContentPane(Map.getInstance());
+				// for the focus in map
+				SwingUtilities.invokeLater(new Runnable() {
+					public void run() {
+						Map.getInstance().requestFocusInWindow();
+					}
+				});
 				game.setSize(game.getWidth() - 1, game.getHeight() - 1);
 			}
 		});

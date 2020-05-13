@@ -35,7 +35,7 @@ public class Map extends JPanel {
 	private static final int PLAYER_W = 25;
 	public static final int GRAVITY = 4;
 	private static final int HEART_WH = 25;
-	private static final int PLAYER_NB_LIFE = 2;
+	private static final int PLAYER_NB_LIFE = 5;
 	private static final boolean DEBUG = false;
 
 	private Game game;
@@ -51,18 +51,17 @@ public class Map extends JPanel {
 	private int dX;
 	private int groundH;
 	private boolean isPaused;
-	private boolean hasBeenSet;
 
 	public static Map getInstance() {
 		if (map == null) {
 			map = new Map();
 			map.addKeyListener(new Keyboard());
-			// for the focus in map
-			SwingUtilities.invokeLater(new Runnable() {
-				public void run() {
-					map.requestFocusInWindow();
-				}
-			});
+//			// for the focus in map
+//			SwingUtilities.invokeLater(new Runnable() {
+//				public void run() {
+//					map.requestFocusInWindow();
+//				}
+//			});
 		}
 
 		return map;
@@ -78,7 +77,6 @@ public class Map extends JPanel {
 		this.dX = 0;
 		this.groundH = 2 * getGame().getHeight() / 3;
 		this.isPaused = false;
-		this.hasBeenSet = false;
 
 		// listeners
 		buttonExit.addActionListener(new ActionListener() {
@@ -221,12 +219,10 @@ public class Map extends JPanel {
 	// creating the map
 	private void setBlocList() {
 
-		player.moveTo(new Point2D.Double(getGame().getWidth() / 2, getGame().getHeight() / 3));
-
 		for (int i = 0; i < 2 * Main.WIDTH / 50; i++) {
 
 			int alea = 5 + (int) (Math.random() * ((15 - 5) + 1));
-			if (i % 20 != 0 && !hasBeenSet) {
+			if (i % 20 != 0) {
 				// Bloc
 
 				// path = 1st Layer
@@ -255,25 +251,14 @@ public class Map extends JPanel {
 					listCPBloc.add(b2);
 				}
 
-			} else if (hasBeenSet) {
-				for (Bloc bloc : listBloc) {
-					bloc.moveByY(groundH - bloc.y);
-				}
-				for (Bloc bloc : listCPBloc) {
-					bloc.moveByY(groundH - bloc.y);
-				}
-
 			}
+
 			// decoration
-			{
-				if (i % alea == 3) {// cloud between 151 & 221 on y parameter
-					listCloud.add(new Cloud(CLOUD_WH * i, groundH / 4 + alea * 7 - CLOUD_WH / 3 + 6, CLOUD_WH, CLOUD_WH,
-							true, ShopImage.CLOUD));
-				}
+			if (i % alea == 3) {// cloud between 151 & 221 on y parameter
+				listCloud.add(new Cloud(CLOUD_WH * i, groundH / 4 + alea * 7 - CLOUD_WH / 3 + 6, CLOUD_WH, CLOUD_WH,
+						true, ShopImage.CLOUD));
 			}
-
 		}
-		hasBeenSet = true;
 		player.respawn();
 	}
 
