@@ -7,6 +7,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
+import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 
@@ -34,7 +35,7 @@ public class Map extends JPanel {
 	private static final int PLAYER_W = 25;
 	public static final int GRAVITY = 4;
 	private static final int HEART_WH = 25;
-	private static final int PLAYER_NB_LIFE = 10;
+	private static final int PLAYER_NB_LIFE = 2;
 	private static final boolean DEBUG = false;
 
 	private Game game;
@@ -50,6 +51,7 @@ public class Map extends JPanel {
 	private int dX;
 	private int groundH;
 	private boolean isPaused;
+	private boolean hasBeenSet;
 
 	public static Map getInstance() {
 		if (map == null) {
@@ -76,6 +78,7 @@ public class Map extends JPanel {
 		this.dX = 0;
 		this.groundH = 2 * getGame().getHeight() / 3;
 		this.isPaused = false;
+		this.hasBeenSet = false;
 
 		// listeners
 		buttonExit.addActionListener(new ActionListener() {
@@ -95,7 +98,6 @@ public class Map extends JPanel {
 				if (listBloc.isEmpty() && listCloud.isEmpty())
 					setBlocList();
 				else {
-					listBloc.clear();
 					listCloud.clear();
 					setBlocList();
 				}
@@ -196,6 +198,7 @@ public class Map extends JPanel {
 				getGame().setSize(getGame().getWidth() + 1, getGame().getHeight() + 1);
 				getGame().setContentPane(MainMenu.getInstance());
 				getGame().setSize(getGame().getWidth() - 1, getGame().getHeight() - 1);
+
 			}
 		}
 	}
@@ -218,59 +221,60 @@ public class Map extends JPanel {
 	// creating the map
 	private void setBlocList() {
 
-		for (int i = 0; i < 2 * getGame().getWidth() / 50; i++) {
+		player.moveTo(new Point2D.Double(getGame().getWidth() / 2, getGame().getHeight() / 3));
+
+		for (int i = 0; i < 2 * Main.WIDTH / 50; i++) {
+
 			int alea = 5 + (int) (Math.random() * ((15 - 5) + 1));
-			if (i % 20 != 0) {
+			if (i % 20 != 0 && !hasBeenSet) {
 				// Bloc
-				{
-					// path = 1st Layer
-					if (listBloc.isEmpty()) {
-						CheckPointBloc b = new CheckPointBloc(-BLOC_WH / 4 + BLOC_WH * (i + player.x / 50 - 1), groundH,
-								BLOC_WH, BLOC_WH, true, ShopImage.ICEDIRTBLOCK);// CheckPoint
-						listBloc.add(b);
-						listCPBloc.add(b);
-						b.setCheck(true);
-					} else {
-						listBloc.add(new Bloc(-BLOC_WH / 4 + BLOC_WH * (i + player.x / 50 - 1), groundH, BLOC_WH,
-								BLOC_WH, true, ShopImage.PATHBLOCK));// classic
-						// bloc
-					}
-					// block in the sky
-					if (i % 20 == 4) {
-						listBloc.add(new Bloc(-BLOC_WH / 4 + BLOC_WH * (i + 2 + player.x / 50 - 1),
-								-2.5 * BLOC_WH + groundH, BLOC_WH, BLOC_WH, true, ShopImage.FORESTBLOCK));
-					}
 
-					// block on the ground
-					if (i % 20 == 9) {
-						listBloc.add(new Bloc(-BLOC_WH / 4 + BLOC_WH * (i + player.x / 50 - 1), -BLOC_WH + groundH,
-								BLOC_WH, BLOC_WH, true, ShopImage.ICEBLOCK));
-					}
+				// path = 1st Layer
+				if (listBloc.isEmpty()) {
+					CheckPointBloc b = new CheckPointBloc(-BLOC_WH / 4 + BLOC_WH * (i + player.x / 50 - 1), groundH,
+							BLOC_WH, BLOC_WH, true, ShopImage.ICEDIRTBLOCK);// CheckPoint
+					listBloc.add(b);
+					listCPBloc.add(b);
+					b.setCheck(true);
+				} else {
+					listBloc.add(new Bloc(-BLOC_WH / 4 + BLOC_WH * (i + player.x / 50 - 1), groundH, BLOC_WH, BLOC_WH,
+							true, ShopImage.PATHBLOCK));// classic
+					// bloc
+				}
+				// block in the sky
+				if (i % 20 == 4) {
+					listBloc.add(new Bloc(-BLOC_WH / 4 + BLOC_WH * (i + 2 + player.x / 50 - 1),
+							-2.5 * BLOC_WH + groundH, BLOC_WH, BLOC_WH, true, ShopImage.FORESTBLOCK));
+				}
 
-					// checkpoint
-					if (i % 20 == 13) {
-						CheckPointBloc b2 = new CheckPointBloc(-BLOC_WH / 4 + BLOC_WH * (i + player.x / 50 - 1),
-								groundH, BLOC_WH, BLOC_WH, true, ShopImage.ICEBLOCKTOP);// CheckPoint
-						listBloc.add(b2);
-						listCPBloc.add(b2);
-					}
+				// checkpoint
+				if (i % 20 == 13) {
+					CheckPointBloc b2 = new CheckPointBloc(-BLOC_WH / 4 + BLOC_WH * (i + player.x / 50 - 1), groundH,
+							BLOC_WH, BLOC_WH, true, ShopImage.ICEBLOCKTOP);// CheckPoint
+					listBloc.add(b2);
+					listCPBloc.add(b2);
+				}
+
+			} else if (hasBeenSet) {
+				for (Bloc bloc : listBloc) {
+					bloc.moveByY(groundH - bloc.y);
+				}
+				for (Bloc bloc : listCPBloc) {
+					bloc.moveByY(groundH - bloc.y);
 				}
 
 			}
 			// decoration
 			{
-				if (i % alea == 3) {//cloud between 151 & 221 on y parameter
-					listCloud.add(new Cloud(CLOUD_WH*i,groundH/4+alea*7-CLOUD_WH/3+6, CLOUD_WH, CLOUD_WH,
+				if (i % alea == 3) {// cloud between 151 & 221 on y parameter
+					listCloud.add(new Cloud(CLOUD_WH * i, groundH / 4 + alea * 7 - CLOUD_WH / 3 + 6, CLOUD_WH, CLOUD_WH,
 							true, ShopImage.CLOUD));
 				}
 			}
 
 		}
-//end block
-//		CheckPointBloc b = new CheckPointBloc(BLOC_WH * (1 + 5 * getGame().getWidth() / 50), groundH, BLOC_WH, BLOC_WH,
-//				true, ShopImage.ICEDIRTBLOCK);// CheckPoint
-//		listBloc.add(b);
-//		listCPBloc.add(b);
+		hasBeenSet = true;
+		player.respawn();
 	}
 
 //getters & setters
