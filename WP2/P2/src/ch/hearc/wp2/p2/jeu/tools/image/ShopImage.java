@@ -55,5 +55,9 @@ public class ShopImage extends Object {
 	public static final Image COIN = function("/Blocks/coin.png");
 	public static final Image HEART = function("/Blocks/heart.png");
 	public static final Image SPIKES = function("/Blocks/spikes.png");
+	
+	//decorations
+	public static final Image SUN = function("/Blocks/sun.png");
+	public static final Image CLOUD = function("/Blocks/cloud.png");
 
 }
