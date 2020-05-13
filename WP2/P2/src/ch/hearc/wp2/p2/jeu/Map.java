@@ -268,12 +268,22 @@ public class Map extends JPanel {
 			}
 
 			// trap
-			// spike
+			// spike from top
 			if (i % 17 == 0) {
-				Bloc b2 = new Bloc(-BLOC_WH / 4 + BLOC_WH * (i + player.x / 50 - 1), groundH, BLOC_WH,
-						BLOC_WH, false, ShopImage.PATHBLOCK);
-				SpikeBloc tBloc = new SpikeBloc(-BLOC_WH / 4 + BLOC_WH * (i + player.x / 50 - 1), groundH - 1, BLOC_WH,
-						BLOC_WH, false, ShopImage.SPIKES, true, true,b2);
+				Bloc b2 = new Bloc(-BLOC_WH / 4 + BLOC_WH * (i + player.x / 50 - 1), -3*BLOC_WH+groundH, BLOC_WH,
+						BLOC_WH, true, ShopImage.PATHBLOCK);
+				SpikeBloc tBloc = new SpikeBloc(-BLOC_WH / 4 + BLOC_WH * (i + player.x / 50 - 1),-3*BLOC_WH+ groundH + 1, BLOC_WH,
+						BLOC_WH, false, ShopImage.SPIKEST, false, true,b2);
+				listBloc.add(b2);
+				listBloc.add(tBloc);
+				listTrap.add(tBloc);
+			}
+			//from left
+			if (i % 14 == 0) {
+				Bloc b2 = new Bloc(-BLOC_WH / 4 + BLOC_WH * (i + player.x / 50 - 1), -BLOC_WH+groundH, BLOC_WH,
+						BLOC_WH, true, ShopImage.PATHBLOCK);
+				SpikeBloc tBloc = new SpikeBloc(-BLOC_WH / 4 + BLOC_WH * (i + player.x / 50 - 1)-1,-BLOC_WH+ groundH, BLOC_WH,
+						BLOC_WH, false, ShopImage.SPIKESL, true, false,b2);
 				listBloc.add(b2);
 				listBloc.add(tBloc);
 				listTrap.add(tBloc);

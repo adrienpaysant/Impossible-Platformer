@@ -7,7 +7,7 @@ import ch.hearc.wp2.p2.jeu.items.blocs.traps.SpikeBloc;
 import ch.hearc.wp2.p2.jeu.items.blocs.traps.TrapBloc;
 
 public class ChronoTrap implements Runnable {
-	private final int DELAY = 4000;// timer between 2 repaint 60FPS
+	private final int DELAY = 2000;// timer between 2 repaint 60FPS
 
 	@Override
 	public void run() {
