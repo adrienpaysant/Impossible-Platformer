@@ -187,9 +187,7 @@ public class Map extends JPanel {
 						ShopImage.HEART.getWidth(null), ShopImage.HEART.getHeight(null), null);
 
 			} else {
-				System.out.println("youloose");
 				init();
-
 				getGame().setSize(getGame().getWidth() + 1, getGame().getHeight() + 1);
 				getGame().setContentPane(MainMenu.getInstance());
 				getGame().setSize(getGame().getWidth() - 1, getGame().getHeight() - 1);
