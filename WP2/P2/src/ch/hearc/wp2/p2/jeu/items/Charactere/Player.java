@@ -11,6 +11,7 @@ import ch.hearc.wp2.p2.jeu.Map;
 import ch.hearc.wp2.p2.jeu.items.Item;
 import ch.hearc.wp2.p2.jeu.items.blocs.Bloc;
 import ch.hearc.wp2.p2.jeu.items.blocs.actions.CheckPointBloc;
+import jdk.nashorn.api.tree.ForInLoopTree;
 
 public class Player extends Item {
 
@@ -133,21 +134,20 @@ public class Player extends Item {
 		CheckPointBloc last = new CheckPointBloc(Map.getInstance().getListCPBloc().get(0));
 		for (CheckPointBloc cp : Map.getInstance().getListCPBloc()) {
 			if (cp.isCheck()) {
-				last = cp;
+				last = new CheckPointBloc(cp);
 			}
 		}
-		//issue there //TODO TOFIX
+
+		// issue there //TODO TOFIX
 		for (Bloc bloc : Map.getInstance().getListBloc()) {
-			
-				if (last.x > x) {
-					bloc.moveByX(Math.abs(-getCenterX()-last.x));
-				} else {
-					bloc.moveByX(Math.abs(getCenterX()-last.x));
-				}
-			
+			if (last.x >= x) {
+				bloc.moveByX(-Math.abs(last.getCenterX()-getCenterX()));
+			} else {
+				bloc.moveByX(Math.abs(last.getCenterX()-getCenterX()));
+			}
 
 		}
-		moveTo(new Point2D.Double(x, Map.getInstance().getGame().getHeight() / 3));
-	}
+		moveByY(-Math.abs(x - Map.getInstance().getGame().getHeight() / 3));
 
+	}
 }
