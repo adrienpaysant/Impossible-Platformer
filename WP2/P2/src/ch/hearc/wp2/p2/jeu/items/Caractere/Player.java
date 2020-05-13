@@ -8,6 +8,9 @@ public class Player extends Item {
 
 	private int heart;
 	private boolean isAlive;
+	private boolean isWalking;
+	private boolean run = false;
+	
 
 	public Player(Item it) {
 		super(it);
@@ -20,23 +23,26 @@ public class Player extends Item {
 		this.setAlive(true);
 	}
 
-	// getters & setters
-	public int getHeart() {
-		return heart;
-	}
+	// getters 
+	public int getHeart() { return heart; }
+	
+	public boolean isAlive() { return isAlive; }
+	
+	public boolean isWalking() { return this.isWalking; }
+	
+	public boolean isRunning() { return this.isRunning(); }
+	
 
-	public void setHeart(int heart) {
-		this.heart = heart;
-	}
+	
+	//setters
+	public void setHeart(int heart) { this.heart = heart; }
 
-	public boolean isAlive() {
-		return isAlive;
-	}
+	public void setAlive(boolean isAlive) {	this.isAlive = isAlive; }
 
-	public void setAlive(boolean isAlive) {
-		this.isAlive = isAlive;
-	}
-
+	public void setWalk(boolean walk) { this.isWalking = walk; }
+	
+	public void setRun(boolean run) { this.run = run; }
+	
 	public void jump() {
 		for (int i = 0; i < 8 * Map.BLOC_WH / 5; i++) {
 			this.moveByY(-1);
