@@ -17,6 +17,7 @@ import javax.swing.SwingUtilities;
 import ch.hearc.wp2.p2.jeu.items.Charactere.Player;
 import ch.hearc.wp2.p2.jeu.items.blocs.Bloc;
 import ch.hearc.wp2.p2.jeu.items.blocs.actions.CheckPointBloc;
+import ch.hearc.wp2.p2.jeu.items.decoration.Cloud;
 import ch.hearc.wp2.p2.jeu.menus.MainMenu;
 import ch.hearc.wp2.p2.jeu.tools.Chrono;
 import ch.hearc.wp2.p2.jeu.tools.Keyboard;
@@ -26,6 +27,8 @@ import ch.hearc.wp2.p2.jeu.tools.image.ShopImage;
 public class Map extends JPanel {
 
 	public static final int BLOC_WH = 50;
+	private static final int SUN_WH = 150;
+	private static final int CLOUD_WH = 75;
 	private static final int SPEED = 3;
 	private static final int PLAYER_H = 55;
 	private static final int PLAYER_W = 25;
@@ -39,6 +42,7 @@ public class Map extends JPanel {
 
 	private ArrayList<Bloc> listBloc = new ArrayList<Bloc>();
 	private ArrayList<CheckPointBloc> listCPBloc = new ArrayList<CheckPointBloc>();
+	private ArrayList<Cloud> listCloud = new ArrayList<Cloud>();
 
 	private static Map map = null;
 	private Player player;
@@ -153,7 +157,7 @@ public class Map extends JPanel {
 				// blocs
 				g2d.setColor(Color.green);
 				for (Bloc bloc : listBloc) {
-					// - dX to move the player
+					// - dX to move with the player
 					bloc.moveByX(-dX * SPEED);
 
 					if (DEBUG) {
@@ -167,6 +171,22 @@ public class Map extends JPanel {
 						}
 					}
 				}
+
+				// cloud
+				for (Cloud cld : listCloud) {
+					// - dX to move with the player
+					cld.moveByX(-dX * SPEED);
+					if (cld.isVisible()) {
+						g2d.drawImage(cld.getTexture(), (int) cld.x, (int) cld.y, (int) (cld.width + cld.x),
+								(int) (cld.height + cld.y), 0, 0, cld.getTexture().getWidth(null),
+								cld.getTexture().getHeight(null), null);
+
+					}
+				}
+
+				// sun
+				g2d.drawImage(ShopImage.SUN, game.getWidth() - SUN_WH, 0, game.getWidth(), SUN_WH, 0, 0,
+						ShopImage.HEART.getWidth(null), ShopImage.HEART.getHeight(null), null);
 
 			} else {
 				System.out.println("youloose");
@@ -198,42 +218,54 @@ public class Map extends JPanel {
 	private void setBlocList() {
 
 		for (int i = 0; i < 2 * getGame().getWidth() / 50; i++) {
+			int alea = 5 + (int) (Math.random() * ((15 - 5) + 1));
 			if (i % 20 != 0) {
-				// path = 1st Layer
-				if (listBloc.isEmpty()) {
-					CheckPointBloc b = new CheckPointBloc(-BLOC_WH/4+BLOC_WH * (i + player.x / 50 - 1), groundH, BLOC_WH, BLOC_WH,
-							true, ShopImage.ICEDIRTBLOCK);// CheckPoint
-					listBloc.add(b);
-					listCPBloc.add(b);
-					b.setCheck(true);
-				} else {
-					listBloc.add(new Bloc(-BLOC_WH/4+BLOC_WH * (i + player.x / 50 - 1), groundH, BLOC_WH, BLOC_WH, true,
-							ShopImage.PATHBLOCK));// classic
-					// bloc
-				}
-				// block in the sky
-				if (i % 20 == 4) {
-					listBloc.add(new Bloc(-BLOC_WH/4+BLOC_WH * (i + 2 + player.x / 50 - 1), -2.5 * BLOC_WH + groundH, BLOC_WH,
-							BLOC_WH, true, ShopImage.SANDBLOCK));
+				// Bloc
+				{
+					// path = 1st Layer
+					if (listBloc.isEmpty()) {
+						CheckPointBloc b = new CheckPointBloc(-BLOC_WH / 4 + BLOC_WH * (i + player.x / 50 - 1), groundH,
+								BLOC_WH, BLOC_WH, true, ShopImage.ICEDIRTBLOCK);// CheckPoint
+						listBloc.add(b);
+						listCPBloc.add(b);
+						b.setCheck(true);
+					} else {
+						listBloc.add(new Bloc(-BLOC_WH / 4 + BLOC_WH * (i + player.x / 50 - 1), groundH, BLOC_WH,
+								BLOC_WH, true, ShopImage.PATHBLOCK));// classic
+						// bloc
+					}
+					// block in the sky
+					if (i % 20 == 4) {
+						listBloc.add(new Bloc(-BLOC_WH / 4 + BLOC_WH * (i + 2 + player.x / 50 - 1),
+								-2.5 * BLOC_WH + groundH, BLOC_WH, BLOC_WH, true, ShopImage.SANDBLOCK));
+					}
+
+					// block on the ground
+					if (i % 20 == 9) {
+						listBloc.add(new Bloc(-BLOC_WH / 4 + BLOC_WH * (i + player.x / 50 - 1), -BLOC_WH + groundH,
+								BLOC_WH, BLOC_WH, true, ShopImage.ICEBLOCK));
+					}
+
+					// checkpoint
+					if (i % 20 == 13) {
+						CheckPointBloc b2 = new CheckPointBloc(-BLOC_WH / 4 + BLOC_WH * (i + player.x / 50 - 1),
+								groundH, BLOC_WH, BLOC_WH, true, ShopImage.ICEBLOCKTOP);// CheckPoint
+						listBloc.add(b2);
+						listCPBloc.add(b2);
+					}
 				}
 
-				// block on the ground
-				if (i % 20 == 9) {
-					listBloc.add(new Bloc(-BLOC_WH/4+BLOC_WH * (i + player.x / 50 - 1), -BLOC_WH + groundH, BLOC_WH, BLOC_WH, true,
-							ShopImage.ICEBLOCK));
-				}
-
-				// checkpoint
-				if (i % 20 == 13) {
-					CheckPointBloc b2 = new CheckPointBloc(-BLOC_WH/4+BLOC_WH * (i + player.x / 50 - 1), groundH, BLOC_WH, BLOC_WH,
-							true, ShopImage.ICEBLOCKTOP);// CheckPoint
-					listBloc.add(b2);
-					listCPBloc.add(b2);
+			}
+			// decoration
+			{
+				if (i % alea == 3) {//cloud between 151 & 221 on y parameter
+					listCloud.add(new Cloud(CLOUD_WH*i,groundH/4+alea*7-CLOUD_WH/3+6, CLOUD_WH, CLOUD_WH,
+							true, ShopImage.CLOUD));
 				}
 			}
 
 		}
-
+//end block
 //		CheckPointBloc b = new CheckPointBloc(BLOC_WH * (1 + 5 * getGame().getWidth() / 50), groundH, BLOC_WH, BLOC_WH,
 //				true, ShopImage.ICEDIRTBLOCK);// CheckPoint
 //		listBloc.add(b);
