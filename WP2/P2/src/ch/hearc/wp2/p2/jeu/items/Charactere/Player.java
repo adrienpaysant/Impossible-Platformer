@@ -138,7 +138,6 @@ public class Player extends Item {
 			}
 		}
 
-		// issue there //TODO TOFIX
 		for (Bloc bloc : Map.getInstance().getListBloc()) {
 			if (last.x >= x) {
 				bloc.moveByX(-Math.abs(last.getCenterX()-getCenterX()));
