@@ -7,13 +7,11 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
-import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 
 import javax.swing.JButton;
 import javax.swing.JPanel;
-import javax.swing.SwingUtilities;
 
 import ch.hearc.wp2.p2.jeu.items.Charactere.Player;
 import ch.hearc.wp2.p2.jeu.items.blocs.Bloc;
@@ -35,7 +33,7 @@ public class Map extends JPanel {
 	private static final int PLAYER_W = 25;
 	public static final int GRAVITY = 4;
 	private static final int HEART_WH = 25;
-	private static final int PLAYER_NB_LIFE = 5;
+	private static final int PLAYER_NB_LIFE = 3;
 	private static final boolean DEBUG = false;
 
 	private Game game;
@@ -51,7 +49,6 @@ public class Map extends JPanel {
 	private double dX;
 	private int groundH;
 	private boolean isPaused;
-	private boolean blocHasBeenSetted;
 
 	public static Map getInstance() {
 		if (map == null) {
@@ -78,7 +75,6 @@ public class Map extends JPanel {
 		this.dX = 0;
 		this.groundH = 2 * getGame().getHeight() / 3;
 		this.isPaused = false;
-		this.blocHasBeenSetted = false;
 
 		// listeners
 		buttonExit.addActionListener(new ActionListener() {
@@ -90,10 +86,24 @@ public class Map extends JPanel {
 			}
 		});
 
+		this.addComponentListener(new ComponentAdapter() {
+
+			@Override
+			public void componentResized(ComponentEvent e) {
+				groundH = 2 * getGame().getHeight() / 3;
+				if (listBloc.isEmpty() && listCloud.isEmpty())
+					setBlocList();
+				else {
+					listCloud.clear();
+					setBlocList();
+				}
+			}
+
+		});
+
 		Thread chronoMap = new Thread(new Chrono());
 		chronoMap.start();
-
-		init();
+		
 	}
 
 	// painting
@@ -200,22 +210,20 @@ public class Map extends JPanel {
 	}
 
 	private void init() {
-
-		if (listBloc.isEmpty() && listCloud.isEmpty())
-			setBlocList();
-		else {
-			listCloud.clear();//new cloud each generation
-			setBlocList();
-		}
-
 		player.setHeart(Map.PLAYER_NB_LIFE);
 		player.setAlive(true);
+		
+		boolean first=true;
 		for (CheckPointBloc cpBloc : listCPBloc) {
-			cpBloc.setCheck(false);
+			if(first) {
+				cpBloc.setCheck(true);
+				first=false;
+			}
+			else {
+				cpBloc.setCheck(false);
+			}
 		}
-		if (!listCloud.isEmpty())
-			listCPBloc.get(0).setCheck(true);
-		System.out.println(listCPBloc.get(0));
+		player.respawn();
 	}
 
 	// creating the map
@@ -224,7 +232,7 @@ public class Map extends JPanel {
 		for (int i = 0; i < 2 * Main.WIDTH / 50; i++) {
 
 			int alea = 5 + (int) (Math.random() * ((15 - 5) + 1));
-			if (i % 20 != 0 && !blocHasBeenSetted) {
+			if (i % 20 != 0) {
 				// Bloc
 
 				// path = 1st Layer
@@ -261,7 +269,6 @@ public class Map extends JPanel {
 						true, ShopImage.CLOUD));
 			}
 		}
-		blocHasBeenSetted = true;
 		player.respawn();
 	}
 
