@@ -15,10 +15,6 @@ public class FallBloc extends Bloc implements TrapBloc {
 		// TODO Auto-generated constructor stub
 	}
 
-	public FallBloc(Double rect, boolean v, Image texture) {
-		super(rect, v, texture);
-		// TODO Auto-generated constructor stub
-	}
 
 	public FallBloc(double x, double y, double w, double h, boolean v, Image texture) {
 		super(x, y, w, h, v, texture);

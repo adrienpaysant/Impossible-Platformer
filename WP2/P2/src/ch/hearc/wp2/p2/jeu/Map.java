@@ -48,9 +48,10 @@ public class Map extends JPanel {
 	private static Map map = null;
 	private Player player;
 
-	private int dX;
+	private double dX;
 	private int groundH;
 	private boolean isPaused;
+	private boolean blocHasBeenSetted;
 
 	public static Map getInstance() {
 		if (map == null) {
@@ -77,6 +78,7 @@ public class Map extends JPanel {
 		this.dX = 0;
 		this.groundH = 2 * getGame().getHeight() / 3;
 		this.isPaused = false;
+		this.blocHasBeenSetted = false;
 
 		// listeners
 		buttonExit.addActionListener(new ActionListener() {
@@ -86,21 +88,6 @@ public class Map extends JPanel {
 				getGame().setContentPane(MainMenu.getInstance());
 				getGame().setSize(getGame().getWidth() - 1, getGame().getHeight() - 1);
 			}
-		});
-
-		this.addComponentListener(new ComponentAdapter() {
-
-			@Override
-			public void componentResized(ComponentEvent e) {
-				groundH = 2 * getGame().getHeight() / 3;
-				if (listBloc.isEmpty() && listCloud.isEmpty())
-					setBlocList();
-				else {
-					listCloud.clear();
-					setBlocList();
-				}
-			}
-
 		});
 
 		Thread chronoMap = new Thread(new Chrono());
@@ -213,7 +200,22 @@ public class Map extends JPanel {
 	}
 
 	private void init() {
+
+		if (listBloc.isEmpty() && listCloud.isEmpty())
+			setBlocList();
+		else {
+			listCloud.clear();//new cloud each generation
+			setBlocList();
+		}
+
 		player.setHeart(Map.PLAYER_NB_LIFE);
+		player.setAlive(true);
+		for (CheckPointBloc cpBloc : listCPBloc) {
+			cpBloc.setCheck(false);
+		}
+		if (!listCloud.isEmpty())
+			listCPBloc.get(0).setCheck(true);
+		System.out.println(listCPBloc.get(0));
 	}
 
 	// creating the map
@@ -222,7 +224,7 @@ public class Map extends JPanel {
 		for (int i = 0; i < 2 * Main.WIDTH / 50; i++) {
 
 			int alea = 5 + (int) (Math.random() * ((15 - 5) + 1));
-			if (i % 20 != 0) {
+			if (i % 20 != 0 && !blocHasBeenSetted) {
 				// Bloc
 
 				// path = 1st Layer
@@ -259,6 +261,7 @@ public class Map extends JPanel {
 						true, ShopImage.CLOUD));
 			}
 		}
+		blocHasBeenSetted = true;
 		player.respawn();
 	}
 
@@ -273,12 +276,12 @@ public class Map extends JPanel {
 
 	}
 
-	public int getdX() {
+	public double getdX() {
 		return dX;
 	}
 
-	public void setdX(int dX) {
-		this.dX = dX;
+	public void setdX(double d) {
+		this.dX = d;
 	}
 
 	public ArrayList<Bloc> getListBloc() {

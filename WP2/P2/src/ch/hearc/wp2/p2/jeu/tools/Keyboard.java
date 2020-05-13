@@ -16,12 +16,12 @@ public class Keyboard implements KeyListener {
 	private void test() {
 		if (left && whoIsLast == "left") {
 			if(shift)
-				Map.getInstance().setdX(-2);
+				Map.getInstance().setdX(-1.5);
 			else
 				Map.getInstance().setdX(-1);
 		} else if (right && whoIsLast == "right") {
 			if(shift)
-				Map.getInstance().setdX(2);
+				Map.getInstance().setdX(1.5);
 			else
 				Map.getInstance().setdX(1);
 		} else {

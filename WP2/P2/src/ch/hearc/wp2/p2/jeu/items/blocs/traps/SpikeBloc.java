@@ -14,11 +14,7 @@ public class SpikeBloc extends Bloc implements TrapBloc {
 		// TODO Auto-generated constructor stub
 	}
 
-	public SpikeBloc(Double rect, boolean v, Image texture) {
-		super(rect, v, texture);
-		// TODO Auto-generated constructor stub
-	}
-
+	
 	public SpikeBloc(double x, double y, double w, double h, boolean v, Image texture) {
 		super(x, y, w, h, v, texture);
 		// TODO Auto-generated constructor stub
