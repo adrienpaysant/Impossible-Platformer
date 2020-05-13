@@ -7,13 +7,7 @@ import java.awt.geom.Rectangle2D.Double;
 import ch.hearc.wp2.p2.jeu.Map;
 import ch.hearc.wp2.p2.jeu.items.blocs.Bloc;
 
-public class FallBloc extends Bloc implements TrapBloc {
-
-
-	public FallBloc(Bloc it) {
-		super(it);
-		// TODO Auto-generated constructor stub
-	}
+public class FallBloc extends  Bloc implements TrapBloc {
 
 
 	public FallBloc(double x, double y, double w, double h, boolean v, Image texture) {
@@ -22,9 +16,16 @@ public class FallBloc extends Bloc implements TrapBloc {
 	}
 
 	@Override
-	public void trapAction(Map map) {
+	public void trapAction() {
 		// TODO Auto-generated method stub
 
+	}
+
+
+	@Override
+	public void revertAction() {
+		// TODO Auto-generated method stub
+		
 	}
 	
 

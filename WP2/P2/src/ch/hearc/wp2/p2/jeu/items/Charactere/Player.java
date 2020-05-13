@@ -11,6 +11,7 @@ import ch.hearc.wp2.p2.jeu.Map;
 import ch.hearc.wp2.p2.jeu.items.Item;
 import ch.hearc.wp2.p2.jeu.items.blocs.Bloc;
 import ch.hearc.wp2.p2.jeu.items.blocs.actions.CheckPointBloc;
+import ch.hearc.wp2.p2.jeu.items.blocs.traps.TrapBloc;
 import jdk.nashorn.api.tree.ForInLoopTree;
 
 public class Player extends Item {
@@ -93,14 +94,25 @@ public class Player extends Item {
 		// horizontal hit
 		if (contactRight(it) || contactLeft(it)) {
 			Map.getInstance().setdX(-Map.getInstance().getdX());
+			trapThePlayer(it);
 		}
 		// bottom hit
 		if (contactBottom(it) && isJumping) {
 
 			this.moveByY(-Map.GRAVITY);
 			setJumping(false);
-		} else if (contactBottom(it)) {// jumping over item
+			trapThePlayer(it);
+		} else if (contactBottom(it)) {
 			this.moveByY(-Map.GRAVITY);
+			trapThePlayer(it);
+		}
+	}
+
+	private void trapThePlayer(Item it) {
+		if(it instanceof TrapBloc) {
+			((TrapBloc) it).trapAction();
+			this.setHeart(getHeart()-1);
+			respawn();
 		}
 	}
 
@@ -111,6 +123,7 @@ public class Player extends Item {
 				boolean test = true;
 				for (Bloc b : Map.getInstance().getListBloc()) {
 					if (contactTop(b)) {
+						trapThePlayer(b);
 						test = false;
 					}
 				}

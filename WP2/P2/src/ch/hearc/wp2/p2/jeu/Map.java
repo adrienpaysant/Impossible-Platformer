@@ -16,9 +16,12 @@ import javax.swing.JPanel;
 import ch.hearc.wp2.p2.jeu.items.Charactere.Player;
 import ch.hearc.wp2.p2.jeu.items.blocs.Bloc;
 import ch.hearc.wp2.p2.jeu.items.blocs.actions.CheckPointBloc;
+import ch.hearc.wp2.p2.jeu.items.blocs.traps.SpikeBloc;
+import ch.hearc.wp2.p2.jeu.items.blocs.traps.TrapBloc;
 import ch.hearc.wp2.p2.jeu.items.decoration.Cloud;
 import ch.hearc.wp2.p2.jeu.menus.MainMenu;
 import ch.hearc.wp2.p2.jeu.tools.Chrono;
+import ch.hearc.wp2.p2.jeu.tools.ChronoTrap;
 import ch.hearc.wp2.p2.jeu.tools.Keyboard;
 import ch.hearc.wp2.p2.jeu.tools.image.ShopImage;
 
@@ -33,7 +36,7 @@ public class Map extends JPanel {
 	private static final int PLAYER_W = 25;
 	public static final int GRAVITY = 4;
 	private static final int HEART_WH = 25;
-	private static final int PLAYER_NB_LIFE = 3;
+	private static final int PLAYER_NB_LIFE = 5;
 	private static final boolean DEBUG = false;
 
 	private Game game;
@@ -42,6 +45,7 @@ public class Map extends JPanel {
 	private ArrayList<Bloc> listBloc = new ArrayList<Bloc>();
 	private ArrayList<CheckPointBloc> listCPBloc = new ArrayList<CheckPointBloc>();
 	private ArrayList<Cloud> listCloud = new ArrayList<Cloud>();
+	private ArrayList<TrapBloc> listTrap = new ArrayList<TrapBloc>();
 
 	private static Map map = null;
 	private Player player;
@@ -101,9 +105,9 @@ public class Map extends JPanel {
 
 		});
 
-		Thread chronoMap = new Thread(new Chrono());
-		chronoMap.start();
-		
+		new Thread(new Chrono()).start();
+		new Thread(new ChronoTrap()).start();
+
 	}
 
 	// painting
@@ -210,16 +214,18 @@ public class Map extends JPanel {
 	private void init() {
 		player.setHeart(Map.PLAYER_NB_LIFE);
 		player.setAlive(true);
-		
-		boolean first=true;
+
+		boolean first = true;
 		for (CheckPointBloc cpBloc : listCPBloc) {
-			if(first) {
+			if (first) {
 				cpBloc.setCheck(true);
-				first=false;
-			}
-			else {
+				first = false;
+			} else {
 				cpBloc.setCheck(false);
 			}
+		}
+		for (TrapBloc trap : listTrap) {
+			trap.revertAction();
 		}
 		player.respawn();
 	}
@@ -266,6 +272,15 @@ public class Map extends JPanel {
 				listCloud.add(new Cloud(CLOUD_WH * i, groundH / 4 + alea * 7 - CLOUD_WH / 3 + 6, CLOUD_WH, CLOUD_WH,
 						true, ShopImage.CLOUD));
 			}
+
+			// trap
+			// spike
+			if (i % 17 == 0) {
+				SpikeBloc tBloc = new SpikeBloc(-BLOC_WH / 4 + BLOC_WH * (i + player.x / 50 - 1), groundH - 1, BLOC_WH,
+						BLOC_WH, false, ShopImage.SPIKES, true, true);
+				listBloc.add(tBloc);
+				listTrap.add(tBloc);
+			}
 		}
 		player.respawn();
 	}
@@ -299,5 +314,10 @@ public class Map extends JPanel {
 
 	public Game getGame() {
 		return game;
+	}
+
+	public ArrayList<TrapBloc> getListTrap() {
+
+		return listTrap;
 	}
 }
