@@ -36,8 +36,8 @@ public class Map extends JPanel {
 	private static final int PLAYER_W = 25;
 	public static final int GRAVITY = 4;
 	private static final int HEART_WH = 25;
-	private static final int PLAYER_NB_LIFE = 5;
-	private static final boolean DEBUG = false;
+	private static final int PLAYER_NB_LIFE = 50;
+	private static final boolean DEBUG = true;
 
 	private Game game;
 	private JButton buttonExit;
@@ -58,12 +58,6 @@ public class Map extends JPanel {
 		if (map == null) {
 			map = new Map();
 			map.addKeyListener(new Keyboard());
-//			// for the focus in map
-//			SwingUtilities.invokeLater(new Runnable() {
-//				public void run() {
-//					map.requestFocusInWindow();
-//				}
-//			});
 		}
 
 		return map;

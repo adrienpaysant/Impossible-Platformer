@@ -23,6 +23,7 @@ public class ChronoTrap implements Runnable {
 				if (tBloc instanceof SpikeBloc) {
 					if (((SpikeBloc) tBloc).isVisible()) {
 						tBloc.revertAction();
+						tBloc.revertAction();
 					}
 				}
 				if (tBloc instanceof FallBloc) {
