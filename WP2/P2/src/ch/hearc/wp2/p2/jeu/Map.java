@@ -92,10 +92,11 @@ public class Map extends JPanel {
 			@Override
 			public void componentResized(ComponentEvent e) {
 				groundH = 2 * getGame().getHeight() / 3;
-				if (listBloc.isEmpty())
+				if (listBloc.isEmpty() && listCloud.isEmpty())
 					setBlocList();
 				else {
 					listBloc.clear();
+					listCloud.clear();
 					setBlocList();
 				}
 			}
