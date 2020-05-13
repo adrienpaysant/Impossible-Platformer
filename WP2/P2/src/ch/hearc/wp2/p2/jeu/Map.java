@@ -38,7 +38,7 @@ public class Map extends JPanel {
 	public static final int GRAVITY = 4;
 	private static final int HEART_WH = 25;
 	private static final int PLAYER_NB_LIFE = 10;
-	private static final boolean DEBUG = false;
+	private static final boolean DEBUG = true;
 
 	private Game game;
 	private JButton buttonExit;
@@ -315,7 +315,7 @@ public class Map extends JPanel {
 			if (i % 15 ==1 ) {
 				Bloc b2 = new Bloc(-BLOC_WH / 4 + BLOC_WH * (i + player.x / 50 +2), -BLOC_WH + groundH, BLOC_WH,
 						BLOC_WH, true, ShopImage.PATHBLOCK);
-				SpikeBloc tBloc = new SpikeBloc(-BLOC_WH / 4 + BLOC_WH * (i + player.x / 50 +2) - 1,
+				SpikeBloc tBloc = new SpikeBloc(-BLOC_WH / 4 + BLOC_WH * (i + player.x / 50 +2) - 5,
 						-BLOC_WH + groundH, BLOC_WH, BLOC_WH, false, ShopImage.SPIKESL, true, false, b2,TypeTrap.SPIKEL);
 				listBloc.add(b2);
 				listBloc.add(tBloc);

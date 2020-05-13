@@ -66,20 +66,20 @@ public class SpikeBloc extends TrapBloc {
 			// ground or floor
 			if (directionPosDown) {
 				// stick on the ground
-				moveTo(new Point2D.Double(bSource.x, bSource.y - 1));
+				moveTo(new Point2D.Double(bSource.x, bSource.y - 5));
 			} else {
 				// floor
 				moveByY(Map.BLOC_WH);
-				moveTo(new Point2D.Double(bSource.x, bSource.y + 1));
+				moveTo(new Point2D.Double(bSource.x, bSource.y + 5));
 			}
 		} else {
 			// wall L or R
 			if (directionPosDown) {
 				// stick of a wall need to expand by left
-				moveTo(new Point2D.Double(bSource.x - 1, bSource.y));
+				moveTo(new Point2D.Double(bSource.x - 5, bSource.y));
 			} else {
 				// stick of a wall need to expand by right
-				moveTo(new Point2D.Double(bSource.x + 1, bSource.y));
+				moveTo(new Point2D.Double(bSource.x + 5, bSource.y));
 			}
 		}
 
