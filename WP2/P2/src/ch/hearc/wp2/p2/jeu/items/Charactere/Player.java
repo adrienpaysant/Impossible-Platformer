@@ -12,7 +12,7 @@ import ch.hearc.wp2.p2.jeu.items.Item;
 import ch.hearc.wp2.p2.jeu.items.blocs.Bloc;
 import ch.hearc.wp2.p2.jeu.items.blocs.actions.CheckPointBloc;
 import ch.hearc.wp2.p2.jeu.items.blocs.traps.TrapBloc;
-import jdk.nashorn.api.tree.ForInLoopTree;
+import ch.hearc.wp2.p2.jeu.items.blocs.traps.TypeTrap;
 
 public class Player extends Item {
 
@@ -90,7 +90,7 @@ public class Player extends Item {
 		}
 	}
 
-	public void contact(Item it) {
+	public void contact(Bloc it) {
 		// horizontal hit
 		if (contactRight(it) || contactLeft(it)) {
 			Map.getInstance().setdX(-Map.getInstance().getdX());
@@ -110,7 +110,27 @@ public class Player extends Item {
 
 	private void trapThePlayer(Item it) {
 		if (it instanceof TrapBloc) {
-			((TrapBloc) it).trapAction();
+			if (((TrapBloc) it).type == TypeTrap.SPIKET || ((TrapBloc) it).type == TypeTrap.SPIKEB
+					|| ((TrapBloc) it).type == TypeTrap.SPIKER || ((TrapBloc) it).type == TypeTrap.SPIKEL)
+				switch (((TrapBloc) it).type) {
+				case SPIKER:
+					if (contactLeft(it))
+						((TrapBloc) it).trapAction();
+					break;
+				case SPIKEL:
+					if (contactRight(it))
+						((TrapBloc) it).trapAction();
+					break;
+				case SPIKET:
+					if (contactBottom(it))
+						((TrapBloc) it).trapAction();
+					break;
+				// SPIKEB
+				default:
+					if (contactTop(it))
+						((TrapBloc) it).trapAction();
+					break;
+				}
 			this.setHeart(getHeart() - 1);
 			respawn();
 		}
@@ -155,7 +175,6 @@ public class Player extends Item {
 		}
 		// moveByY(-Math.abs(y - Map.getInstance().getGame().getHeight() / 3));
 		moveTo(new Point2D.Double(x, last.y - height - Map.BLOC_WH / 2));
-		
 
 	}
 }

@@ -12,15 +12,15 @@ import ch.hearc.wp2.p2.jeu.Map;
 import ch.hearc.wp2.p2.jeu.items.blocs.Bloc;
 import ch.hearc.wp2.p2.jeu.tools.image.ShopImage;
 
-public class SpikeBloc extends Bloc implements TrapBloc {
+public class SpikeBloc extends TrapBloc {
 
 	private boolean directionPosDown;
 	private boolean groundTrueOrWall;
 	private Bloc bSource;
 
 	public SpikeBloc(double x, double y, double w, double h, boolean v, Image texture, boolean directionPosDown,
-			boolean groundTrueOrWall, Bloc bS) {
-		super(x, y, w, h, false, texture);
+			boolean groundTrueOrWall, Bloc bS,TypeTrap type) {
+		super(x, y, w, h, false, texture,type);
 		this.directionPosDown = directionPosDown;
 		this.groundTrueOrWall = groundTrueOrWall;
 		this.bSource = bS;
@@ -35,11 +35,12 @@ public class SpikeBloc extends Bloc implements TrapBloc {
 				// stick on the ground
 				moveByY(-Map.BLOC_WH);
 				setTexture(ShopImage.SPIKESB);
+
 			} else {
 				// floor
 				moveByY(Map.BLOC_WH);
 				setTexture(ShopImage.SPIKEST);
-				
+
 			}
 		} else {
 			// wall L or R
@@ -47,10 +48,12 @@ public class SpikeBloc extends Bloc implements TrapBloc {
 				// stick of a wall need to expand by left
 				setTexture(ShopImage.SPIKESL);
 				moveByX(-Map.BLOC_WH);
+
 			} else {
 				// stick of a wall need to expand by right
 				moveByX(Map.BLOC_WH);
 				setTexture(ShopImage.SPIKESR);
+
 			}
 		}
 	}
@@ -67,16 +70,16 @@ public class SpikeBloc extends Bloc implements TrapBloc {
 			} else {
 				// floor
 				moveByY(Map.BLOC_WH);
-				moveTo(new Point2D.Double(bSource.x, bSource.y +1));
+				moveTo(new Point2D.Double(bSource.x, bSource.y + 1));
 			}
 		} else {
 			// wall L or R
 			if (directionPosDown) {
 				// stick of a wall need to expand by left
-				moveTo(new Point2D.Double(bSource.x-1, bSource.y));
+				moveTo(new Point2D.Double(bSource.x - 1, bSource.y));
 			} else {
 				// stick of a wall need to expand by right
-				moveTo(new Point2D.Double(bSource.x+1, bSource.y));
+				moveTo(new Point2D.Double(bSource.x + 1, bSource.y));
 			}
 		}
 
