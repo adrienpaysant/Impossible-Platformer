@@ -73,8 +73,6 @@ public class Map extends JPanel {
 		this.groundH = 2 * getGame().getHeight() / 3;
 		this.isPaused = false;
 
-		setBlocList();
-
 		// listeners
 		buttonExit.addActionListener(new ActionListener() {
 			@Override
@@ -103,9 +101,7 @@ public class Map extends JPanel {
 		Thread chronoMap = new Thread(new Chrono());
 		chronoMap.start();
 
-		// TODO thread pour grer les collisions ?
-
-		// player.respawn();
+		init();
 	}
 
 	// painting
@@ -123,18 +119,6 @@ public class Map extends JPanel {
 			g2d.setColor(new Color(51, 204, 250));
 			g2d.fill(new Rectangle2D.Double(0, 0, getWidth(), getHeight()));
 
-			// player
-			player.moveByY(GRAVITY);
-			g2d.setColor(Color.black);
-			if (player.isVisible())
-				g2d.fill(player);
-
-			// hearts of the player :
-			for (int i = 0; i < player.getHeart(); i++) {
-				g2d.drawImage(ShopImage.HEART, 5 + i * HEART_WH, 0, 5 + i * HEART_WH + HEART_WH, HEART_WH, 0, 0,
-						ShopImage.HEART.getWidth(null), ShopImage.HEART.getHeight(null), null);
-			}
-
 			// test & collisions
 			for (Bloc bloc : listBloc) {
 				player.contact(bloc);
@@ -150,17 +134,22 @@ public class Map extends JPanel {
 				player.setAlive(false);
 			}
 
-			// Update of last checkpoint
-			for (CheckPointBloc cpBloc : listCPBloc) {
-				if (player.getCenterX() >= cpBloc.getCenterX()) {
-					cpBloc.setCheck(true);
-
-				}
-			}
-			listCPBloc.get(0).setCheck(true);
+			checkLastCP();
 
 			// player is Alive ?
 			if (player.isAlive()) {
+				// player
+				player.moveByY(GRAVITY);
+				g2d.setColor(Color.black);
+				if (player.isVisible())
+					g2d.fill(player);
+
+				// hearts of the player :
+				for (int i = 0; i < player.getHeart(); i++) {
+					g2d.drawImage(ShopImage.HEART, 5 + i * HEART_WH, 0, 5 + i * HEART_WH + HEART_WH, HEART_WH, 0, 0,
+							ShopImage.HEART.getWidth(null), ShopImage.HEART.getHeight(null), null);
+				}
+
 				// blocs
 				g2d.setColor(Color.green);
 				for (Bloc bloc : listBloc) {
@@ -190,13 +179,19 @@ public class Map extends JPanel {
 		}
 	}
 
-	private void init() {
+	private void checkLastCP() {
+		// Update of last checkpoint
 		for (CheckPointBloc cpBloc : listCPBloc) {
-			cpBloc.setCheck(false);
+			if (player.getCenterX() >= cpBloc.getCenterX()) {
+				cpBloc.setCheck(true);
+			}
+			if (listCPBloc.indexOf(cpBloc) == 0)
+				cpBloc.setCheck(true);
 		}
-		listCPBloc.get(0).setCheck(true);
+	}
+
+	private void init() {
 		player.setHeart(Map.PLAYER_NB_LIFE);
-		player.respawn();
 	}
 
 	// creating the map
@@ -206,30 +201,32 @@ public class Map extends JPanel {
 			if (i % 20 != 0) {
 				// path = 1st Layer
 				if (listBloc.isEmpty()) {
-					CheckPointBloc b = new CheckPointBloc(BLOC_WH * i, groundH, BLOC_WH, BLOC_WH, true,
-							ShopImage.ICEDIRTBLOCK);// CheckPoint
+					CheckPointBloc b = new CheckPointBloc(-BLOC_WH/4+BLOC_WH * (i + player.x / 50 - 1), groundH, BLOC_WH, BLOC_WH,
+							true, ShopImage.ICEDIRTBLOCK);// CheckPoint
 					listBloc.add(b);
 					listCPBloc.add(b);
 					b.setCheck(true);
 				} else {
-					listBloc.add(new Bloc(BLOC_WH * i, groundH, BLOC_WH, BLOC_WH, true, ShopImage.PATHBLOCK));// classic
-																												// bloc
+					listBloc.add(new Bloc(-BLOC_WH/4+BLOC_WH * (i + player.x / 50 - 1), groundH, BLOC_WH, BLOC_WH, true,
+							ShopImage.PATHBLOCK));// classic
+					// bloc
 				}
 				// block in the sky
 				if (i % 20 == 4) {
-					listBloc.add(new Bloc(BLOC_WH * i + 2 * BLOC_WH, -2.5 * BLOC_WH + groundH, BLOC_WH, BLOC_WH, true,
-							ShopImage.SANDBLOCK));
+					listBloc.add(new Bloc(-BLOC_WH/4+BLOC_WH * (i + 2 + player.x / 50 - 1), -2.5 * BLOC_WH + groundH, BLOC_WH,
+							BLOC_WH, true, ShopImage.SANDBLOCK));
 				}
 
 				// block on the ground
 				if (i % 20 == 9) {
-					listBloc.add(new Bloc(BLOC_WH * i, -BLOC_WH + groundH, BLOC_WH, BLOC_WH, true, ShopImage.ICEBLOCK));
+					listBloc.add(new Bloc(-BLOC_WH/4+BLOC_WH * (i + player.x / 50 - 1), -BLOC_WH + groundH, BLOC_WH, BLOC_WH, true,
+							ShopImage.ICEBLOCK));
 				}
 
 				// checkpoint
 				if (i % 20 == 13) {
-					CheckPointBloc b2 = new CheckPointBloc(BLOC_WH * i, groundH, BLOC_WH, BLOC_WH, true,
-							ShopImage.ICEBLOCKTOP);// CheckPoint
+					CheckPointBloc b2 = new CheckPointBloc(-BLOC_WH/4+BLOC_WH * (i + player.x / 50 - 1), groundH, BLOC_WH, BLOC_WH,
+							true, ShopImage.ICEBLOCKTOP);// CheckPoint
 					listBloc.add(b2);
 					listCPBloc.add(b2);
 				}
@@ -237,10 +234,10 @@ public class Map extends JPanel {
 
 		}
 
-		CheckPointBloc b = new CheckPointBloc(BLOC_WH * (1 + 5 * getGame().getWidth() / 50), groundH, BLOC_WH, BLOC_WH,
-				true, ShopImage.ICEDIRTBLOCK);// CheckPoint
-		listBloc.add(b);
-		listCPBloc.add(b);
+//		CheckPointBloc b = new CheckPointBloc(BLOC_WH * (1 + 5 * getGame().getWidth() / 50), groundH, BLOC_WH, BLOC_WH,
+//				true, ShopImage.ICEDIRTBLOCK);// CheckPoint
+//		listBloc.add(b);
+//		listCPBloc.add(b);
 	}
 
 //getters & setters
