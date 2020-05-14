@@ -15,6 +15,7 @@ import javax.swing.JPanel;
 
 import ch.hearc.wp2.p2.jeu.items.Charactere.Player;
 import ch.hearc.wp2.p2.jeu.items.blocs.Bloc;
+import ch.hearc.wp2.p2.jeu.items.blocs.MovingBloc;
 import ch.hearc.wp2.p2.jeu.items.blocs.actions.CheckPointBloc;
 import ch.hearc.wp2.p2.jeu.items.blocs.traps.SpikeBloc;
 import ch.hearc.wp2.p2.jeu.items.blocs.traps.TrapBloc;
@@ -23,6 +24,7 @@ import ch.hearc.wp2.p2.jeu.items.decoration.Cloud;
 import ch.hearc.wp2.p2.jeu.menus.LeaderBoard;
 import ch.hearc.wp2.p2.jeu.menus.MainMenu;
 import ch.hearc.wp2.p2.jeu.tools.Chrono;
+import ch.hearc.wp2.p2.jeu.tools.ChronoMovingBloc;
 import ch.hearc.wp2.p2.jeu.tools.ChronoTrap;
 import ch.hearc.wp2.p2.jeu.tools.ExitButton;
 import ch.hearc.wp2.p2.jeu.tools.Keyboard;
@@ -49,6 +51,7 @@ public class Map extends JPanel {
 	private ArrayList<CheckPointBloc> listCPBloc = new ArrayList<CheckPointBloc>();
 	private ArrayList<Cloud> listCloud = new ArrayList<Cloud>();
 	private ArrayList<TrapBloc> listTrap = new ArrayList<TrapBloc>();
+	private ArrayList<MovingBloc> listMovingBloc = new ArrayList<MovingBloc>();
 
 	private CheckPointBloc lastCP;
 	private CheckPointBloc firstCP;
@@ -101,6 +104,7 @@ public class Map extends JPanel {
 
 		new Thread(new Chrono()).start();
 		new Thread(new ChronoTrap()).start();
+		new Thread(new ChronoMovingBloc()).start();
 
 	}
 
@@ -357,5 +361,9 @@ public class Map extends JPanel {
 	public ArrayList<TrapBloc> getListTrap() {
 
 		return listTrap;
+	}
+
+	public ArrayList<MovingBloc> getListMovingBloc() {
+		return listMovingBloc;
 	}
 }
