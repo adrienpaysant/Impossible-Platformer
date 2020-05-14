@@ -155,7 +155,7 @@ public class Player extends Item {
 	public void jump() {
 		if (!isJumping) {
 			setJumping(true);
-			for (int i = 0; i < 8 * Map.BLOC_WH / 5; i++) {
+			for (int i = 0; i < 12 * Map.BLOC_WH / 5; i++) {
 				boolean test = true;
 				for (Bloc b : Map.getInstance().getListBloc()) {
 					if (contactTop(b)) {
