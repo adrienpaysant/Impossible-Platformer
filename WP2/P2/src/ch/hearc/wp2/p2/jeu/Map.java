@@ -273,11 +273,11 @@ public class Map extends JPanel {
 						ShopImage.PATHBLOCK));// classic
 				// bloc
 
-				// block in the sky
-				if (i % 20 == 4) {
-					listBloc.add(new Bloc(-BLOC_WH / 4 + BLOC_WH * (i + 2 + player.x / 50 - 1),
-							-2.5 * BLOC_WH + groundH, BLOC_WH, BLOC_WH, true, ShopImage.FORESTBLOCK));
-				}
+//				// block in the sky
+//				if (i % 20 == 4) {
+//					listBloc.add(new Bloc(-BLOC_WH / 4 + BLOC_WH * (i + 2 + player.x / 50 - 1),
+//							-2.5 * BLOC_WH + groundH, BLOC_WH, BLOC_WH, true, ShopImage.FORESTBLOCK));
+//				}
 
 				// checkpoint
 				if (i % 20 == 13) {
@@ -317,6 +317,13 @@ public class Map extends JPanel {
 //				listBloc.add(tBloc);
 //				listTrap.add(tBloc);
 //			}
+			
+			//try Moving Bloc
+			if(i%15==1) {
+				MovingBloc mB = new MovingBloc(-BLOC_WH / 4 + BLOC_WH * (i + 2 + player.x / 50 - 1),-2.5 * BLOC_WH + groundH, BLOC_WH, BLOC_WH, true, ShopImage.PURPLEBLOCK, false, -BLOC_WH / 4 + BLOC_WH * (i + 2 + player.x / 50 - 1), -BLOC_WH / 4 + BLOC_WH * (i + 2 + player.x / 50 - 1)+3*BLOC_WH);
+				listBloc.add(mB);
+				listMovingBloc.add(mB);
+			}
 		}
 		lastCP = new CheckPointBloc(-BLOC_WH / 4 + BLOC_WH * (2 * Main.WIDTH / 50 + player.x / 50 - 1), groundH,
 				BLOC_WH, BLOC_WH, true, ShopImage.SANDBLOCK);

@@ -5,7 +5,7 @@ import ch.hearc.wp2.p2.jeu.Map;
 import ch.hearc.wp2.p2.jeu.items.blocs.MovingBloc;
 
 public class ChronoMovingBloc implements Runnable {
-	private final int DELAY = 2000;// timer between 2 repaint 60FPS
+	private final int DELAY = 15;// timer between 2 repaint 60FPS
 
 	@Override
 	public void run() {
@@ -16,11 +16,10 @@ public class ChronoMovingBloc implements Runnable {
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
-
 			for (MovingBloc mbloc : Map.getInstance().getListMovingBloc()) {
-				
-				}
+				mbloc.moveMe();
 			}
 		}
-
 	}
+
+}
