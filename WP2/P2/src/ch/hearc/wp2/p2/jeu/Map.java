@@ -75,7 +75,7 @@ public class Map extends JPanel {
 	private Map() {
 
 		this.game = Game.getInstance();
-		this.exitButton = new ExitButton("Back To Main Menu","MainMenu");
+		this.exitButton = new ExitButton("Back To Main Menu", "MainMenu");
 		this.player = new Player(getGame().getWidth() / 2, getGame().getHeight() / 3, PLAYER_W, PLAYER_H, true,
 				PLAYER_NB_LIFE);
 		this.dX = 0;
@@ -83,8 +83,6 @@ public class Map extends JPanel {
 		this.isPaused = false;
 		this.win = false;
 		this.lastCPset = false;
-
-		
 
 		this.addComponentListener(new ComponentAdapter() {
 
@@ -194,7 +192,7 @@ public class Map extends JPanel {
 							ShopImage.HEART.getWidth(null), ShopImage.HEART.getHeight(null), null);
 
 				} else {
-					System.err.println("you loose");
+					LeaderBoard.getInstance().setTextLabel("Hum... It's a fail ! You Loose !");
 					init();
 					getGame().setSize(getGame().getWidth() + 1, getGame().getHeight() + 1);
 					getGame().setContentPane(LeaderBoard.getInstance());
@@ -202,7 +200,7 @@ public class Map extends JPanel {
 
 				}
 			} else {
-				System.err.println("you win");
+				LeaderBoard.getInstance().setTextLabel("Congrats  ! You Win  !");
 				init();
 				getGame().setSize(getGame().getWidth() + 1, getGame().getHeight() + 1);
 				getGame().setContentPane(LeaderBoard.getInstance());
@@ -306,15 +304,15 @@ public class Map extends JPanel {
 //				listTrap.add(tBloc);
 //			}
 			// from left
-			if (i % 15 ==1 ) {
-				Bloc b2 = new Bloc(-BLOC_WH / 4 + BLOC_WH * (i + player.x / 50 +2), -BLOC_WH + groundH, BLOC_WH,
-						BLOC_WH, true, ShopImage.PATHBLOCK);
-				SpikeBloc tBloc = new SpikeBloc(-BLOC_WH / 4 + BLOC_WH * (i + player.x / 50 +2) - 5,
-						-BLOC_WH + groundH, BLOC_WH, BLOC_WH, false, ShopImage.SPIKESL, true, false, b2,TypeTrap.SPIKEL);
-				listBloc.add(b2);
-				listBloc.add(tBloc);
-				listTrap.add(tBloc);
-			}
+//			if (i % 15 ==1 ) {
+//				Bloc b2 = new Bloc(-BLOC_WH / 4 + BLOC_WH * (i + player.x / 50 +2), -BLOC_WH + groundH, BLOC_WH,
+//						BLOC_WH, true, ShopImage.PATHBLOCK);
+//				SpikeBloc tBloc = new SpikeBloc(-BLOC_WH / 4 + BLOC_WH * (i + player.x / 50 +2) - 5,
+//						-BLOC_WH + groundH, BLOC_WH, BLOC_WH, false, ShopImage.SPIKESL, true, false, b2,TypeTrap.SPIKEL);
+//				listBloc.add(b2);
+//				listBloc.add(tBloc);
+//				listTrap.add(tBloc);
+//			}
 		}
 		lastCP = new CheckPointBloc(-BLOC_WH / 4 + BLOC_WH * (2 * Main.WIDTH / 50 + player.x / 50 - 1), groundH,
 				BLOC_WH, BLOC_WH, true, ShopImage.SANDBLOCK);
