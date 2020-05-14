@@ -6,18 +6,18 @@ import java.io.IOException;
 
 import javax.imageio.ImageIO;
 
-
 public class ShopImage extends Object {
-	
-	private static ShopImage shopImage=null;
-	
+
+	private static ShopImage shopImage = null;
+
 	public static ShopImage getInstance() {
 		if (shopImage == null)
 			shopImage = new ShopImage();
 		return shopImage;
 	}
 
-	private ShopImage() {}
+	private ShopImage() {
+	}
 
 	public static Image function(String fName) {
 		try {
@@ -58,9 +58,11 @@ public class ShopImage extends Object {
 	public static final Image SPIKER = function("/Blocks/spikesR.png");
 	public static final Image SPIKEL = function("/Blocks/spikesL.png");
 	public static final Image SPIKET = function("/Blocks/spikesT.png");
-	
-	//decorations
+
+	// decorations
 	public static final Image SUN = function("/Blocks/sun.png");
 	public static final Image CLOUD = function("/Blocks/cloud.png");
+	public static final Image BACKGROUND = function("/images/bg.png");
+	public static final Image PAUSE = function("/images/pause.png");
 
 }

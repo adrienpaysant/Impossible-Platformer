@@ -10,6 +10,7 @@ import java.awt.event.ComponentEvent;
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import ch.hearc.wp2.p2.jeu.items.Charactere.Player;
@@ -21,6 +22,7 @@ import ch.hearc.wp2.p2.jeu.items.blocs.traps.TrapBloc;
 import ch.hearc.wp2.p2.jeu.items.blocs.traps.TypeTrap;
 import ch.hearc.wp2.p2.jeu.items.decoration.Cloud;
 import ch.hearc.wp2.p2.jeu.menus.LeaderBoard;
+import ch.hearc.wp2.p2.jeu.menus.PauseMenu;
 import ch.hearc.wp2.p2.jeu.tools.Chrono;
 import ch.hearc.wp2.p2.jeu.tools.ChronoMovingBloc;
 import ch.hearc.wp2.p2.jeu.tools.ChronoTrap;
@@ -59,7 +61,6 @@ public class Map extends JPanel {
 
 	private double dX;
 	private int groundH;
-	private boolean isPaused;
 	private boolean win;
 	private boolean lastCPset;
 
@@ -81,10 +82,8 @@ public class Map extends JPanel {
 				PLAYER_NB_LIFE);
 		this.dX = 0;
 		this.groundH = 2 * getGame().getHeight() / 3;
-		this.isPaused = false;
 		this.win = false;
 		this.lastCPset = false;
-
 		this.addComponentListener(new ComponentAdapter() {
 
 			@Override
@@ -103,7 +102,6 @@ public class Map extends JPanel {
 		new Thread(new Chrono()).start();
 		new Thread(new ChronoTrap()).start();
 		new Thread(new ChronoMovingBloc()).start();
-
 	}
 
 	// painting
@@ -115,100 +113,103 @@ public class Map extends JPanel {
 	}
 
 	private void draw(Graphics2D g2d) {
-		if (!isPaused) {
-			if (!win) {
-				add(exitButton);
-				// background
-				g2d.setColor(new Color(51, 204, 250));
-				g2d.fill(new Rectangle2D.Double(0, 0, getWidth(), getHeight()));
 
-				// test & collisions
-				for (Bloc bloc : listBloc) {
-					player.contact(bloc);
+		if (!win) {
+			add(exitButton);
+//				// background
+//				g2d.setColor(new Color(51, 204, 250));
+//				g2d.fill(new Rectangle2D.Double(0, 0, getWidth(), getHeight()));
+//			
+			g2d.drawImage(ShopImage.BACKGROUND, 0, 0, getWidth(), getHeight(), 0, 0,
+					ShopImage.BACKGROUND.getWidth(null), ShopImage.BACKGROUND.getHeight(null), null);
+
+			// test & collisions
+			for (Bloc bloc : listBloc) {
+				player.contact(bloc);
+			}
+
+			// test statement player
+			if (player.getMaxY() >= getGame().getHeight()) {
+				player.setHeart(player.getHeart() - 1);
+				player.setJumping(true);
+				player.respawn();
+			}
+			if (player.getHeart() <= 0) {
+				player.setAlive(false);
+			}
+
+			updateLastCP();
+
+			// test the victory
+			if (lastCPset)
+				if (player.getMaxX() >= lastCP.getCenterX()) {
+					win = true;
 				}
 
-				// test statement player
-				if (player.getMaxY() >= getGame().getHeight()) {
-					player.setHeart(player.getHeart() - 1);
-					player.setJumping(true);
-					player.respawn();
-				}
-				if (player.getHeart() <= 0) {
-					player.setAlive(false);
-				}
+			// player is Alive ?
+			if (player.isAlive()) {
+				// player
+				player.moveByY(GRAVITY);
+				g2d.setColor(Color.black);
+				if (player.isVisible())
+					g2d.fill(player);
 
-				updateLastCP();
-
-				// test the victory
-				if (lastCPset)
-					if (player.getMaxX() >= lastCP.getCenterX()) {
-						win = true;
-					}
-
-				// player is Alive ?
-				if (player.isAlive()) {
-					// player
-					player.moveByY(GRAVITY);
-					g2d.setColor(Color.black);
-					if (player.isVisible())
-						g2d.fill(player);
-
-					// hearts of the player :
-					for (int i = 0; i < player.getHeart(); i++) {
-						g2d.drawImage(ShopImage.HEART, 5 + i * HEART_WH, 0, 5 + i * HEART_WH + HEART_WH, HEART_WH, 0, 0,
-								ShopImage.HEART.getWidth(null), ShopImage.HEART.getHeight(null), null);
-					}
-
-					// blocs
-					g2d.setColor(Color.green);
-					for (Bloc bloc : listBloc) {
-						// - dX to move with the player
-						bloc.moveByX(-dX * SPEED);
-
-						if (DEBUG) {
-							// debug mode
-							g2d.drawRect((int) bloc.x, (int) bloc.y, (int) bloc.width, (int) bloc.height);
-						} else {
-							if (bloc.isVisible()) {
-								g2d.drawImage(bloc.getTexture(), (int) bloc.x, (int) bloc.y,
-										(int) (bloc.width + bloc.x), (int) (bloc.height + bloc.y), 0, 0,
-										bloc.getTexture().getWidth(null), bloc.getTexture().getHeight(null), null);
-							}
-						}
-					}
-
-					// cloud
-					for (Cloud cld : listCloud) {
-						// - dX to move with the player
-						cld.moveByX(-dX * SPEED);
-						if (cld.isVisible()) {
-							g2d.drawImage(cld.getTexture(), (int) cld.x, (int) cld.y, (int) (cld.width + cld.x),
-									(int) (cld.height + cld.y), 0, 0, cld.getTexture().getWidth(null),
-									cld.getTexture().getHeight(null), null);
-
-						}
-					}
-
-					// sun
-					g2d.drawImage(ShopImage.SUN, game.getWidth() - SUN_WH, 0, game.getWidth(), SUN_WH, 0, 0,
+				// hearts of the player :
+				for (int i = 0; i < player.getHeart(); i++) {
+					g2d.drawImage(ShopImage.HEART, 5 + i * HEART_WH, 0, 5 + i * HEART_WH + HEART_WH, HEART_WH, 0, 0,
 							ShopImage.HEART.getWidth(null), ShopImage.HEART.getHeight(null), null);
-
-				} else {
-					LeaderBoard.getInstance().setTextLabel("Hum... It's a fail ! You Loose !");
-					init();
-					getGame().setSize(getGame().getWidth() + 1, getGame().getHeight() + 1);
-					getGame().setContentPane(LeaderBoard.getInstance());
-					getGame().setSize(getGame().getWidth() - 1, getGame().getHeight() - 1);
-
 				}
+
+				// blocs
+				g2d.setColor(Color.green);
+				for (Bloc bloc : listBloc) {
+					// - dX to move with the player
+					bloc.moveByX(-dX * SPEED);
+
+					if (DEBUG) {
+						// debug mode
+						g2d.drawRect((int) bloc.x, (int) bloc.y, (int) bloc.width, (int) bloc.height);
+					} else {
+						if (bloc.isVisible()) {
+							g2d.drawImage(bloc.getTexture(), (int) bloc.x, (int) bloc.y, (int) (bloc.width + bloc.x),
+									(int) (bloc.height + bloc.y), 0, 0, bloc.getTexture().getWidth(null),
+									bloc.getTexture().getHeight(null), null);
+						}
+					}
+				}
+
+				// cloud
+				for (Cloud cld : listCloud) {
+					// - dX to move with the player
+					cld.moveByX(-dX * SPEED);
+					if (cld.isVisible()) {
+						g2d.drawImage(cld.getTexture(), (int) cld.x, (int) cld.y, (int) (cld.width + cld.x),
+								(int) (cld.height + cld.y), 0, 0, cld.getTexture().getWidth(null),
+								cld.getTexture().getHeight(null), null);
+
+					}
+				}
+
+				// sun
+				g2d.drawImage(ShopImage.SUN, game.getWidth() - SUN_WH, 0, game.getWidth(), SUN_WH, 0, 0,
+						ShopImage.HEART.getWidth(null), ShopImage.HEART.getHeight(null), null);
+
 			} else {
-				LeaderBoard.getInstance().setTextLabel("Congrats  ! You Win  !");
+				LeaderBoard.getInstance().setTextLabel("Hum... It's a fail ! You Loose !");
 				init();
 				getGame().setSize(getGame().getWidth() + 1, getGame().getHeight() + 1);
 				getGame().setContentPane(LeaderBoard.getInstance());
 				getGame().setSize(getGame().getWidth() - 1, getGame().getHeight() - 1);
+
 			}
+		} else {
+			LeaderBoard.getInstance().setTextLabel("Congrats  ! You Win  !");
+			init();
+			getGame().setSize(getGame().getWidth() + 1, getGame().getHeight() + 1);
+			getGame().setContentPane(LeaderBoard.getInstance());
+			getGame().setSize(getGame().getWidth() - 1, getGame().getHeight() - 1);
 		}
+
 	}
 
 	public CheckPointBloc checkLastCP() {
@@ -233,9 +234,11 @@ public class Map extends JPanel {
 	}
 
 	private void init() {
+
 		player.setHeart(Map.PLAYER_NB_LIFE);
 		player.setAlive(true);
 		win = false;
+		setdX(0);
 		boolean first = true;
 		for (CheckPointBloc cpBloc : listCPBloc) {
 			if (first) {
@@ -249,6 +252,7 @@ public class Map extends JPanel {
 			trap.revertAction();
 		}
 		player.respawn();
+
 	}
 
 	// creating the map
@@ -288,7 +292,7 @@ public class Map extends JPanel {
 			}
 
 			// decoration
-			if (i % alea == 3) {// cloud between 151 & 221 on y parameter
+			if (i % alea == 1) {// cloud between 151 & 221 on y parameter
 				listCloud.add(new Cloud(CLOUD_WH * i, groundH / 4 + alea * 7 - CLOUD_WH / 3 + 6, CLOUD_WH, CLOUD_WH,
 						true, ShopImage.CLOUD));
 			}
@@ -311,7 +315,7 @@ public class Map extends JPanel {
 				listTrap.add(tBloc);
 			}
 			// from left
-			if (i % 15 == 1) {
+			if (i % 15 == 16) {
 
 				SpikeBloc tBloc = new SpikeBloc(-BLOC_WH / 4 + BLOC_WH * (i + player.x / 50 + 2), -BLOC_WH + groundH,
 						BLOC_WH, BLOC_WH, false, ShopImage.SPIKER, false, false, TypeTrap.SPIKER);
@@ -321,13 +325,6 @@ public class Map extends JPanel {
 			}
 
 		}
-
-		// try Moving Bloc
-
-		MovingBloc mB = new MovingBloc(BLOC_WH * 25, -2.5 * BLOC_WH + groundH,
-				BLOC_WH, BLOC_WH, true, ShopImage.PURPLEBLOCK, false, 4 * BLOC_WH);
-		listBloc.add(mB);
-		listMovingBloc.add(mB);
 
 		// last cp
 		lastCP = new CheckPointBloc(-BLOC_WH / 4 + BLOC_WH * (2 * Main.WIDTH / 50 + player.x / 50 - 1), groundH,
@@ -378,4 +375,6 @@ public class Map extends JPanel {
 	public ArrayList<MovingBloc> getListMovingBloc() {
 		return listMovingBloc;
 	}
+
+
 }

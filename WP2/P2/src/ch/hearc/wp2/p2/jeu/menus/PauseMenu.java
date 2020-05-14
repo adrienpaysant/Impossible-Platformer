@@ -9,9 +9,12 @@ import java.io.IOException;
 import javax.imageio.ImageIO;
 import javax.swing.Box;
 import javax.swing.JPanel;
+import javax.swing.SwingUtilities;
 
 import ch.hearc.wp2.p2.jeu.Game;
 import ch.hearc.wp2.p2.jeu.Map;
+import ch.hearc.wp2.p2.jeu.tools.Keyboard;
+import ch.hearc.wp2.p2.jeu.tools.KeyboardMenu;
 import ch.hearc.wp2.p2.jeu.tools.position.JCenter;
 import ch.hearc.wp2.p2.jeu.tools.position.JCenterH;
 
@@ -23,13 +26,17 @@ public class PauseMenu extends JPanel {
 	private JButtonMenu resume;
 	private JButtonMenu options;
 	private Game game;
-	//singleton
-	private static PauseMenu pauseMenu=null;
+	// singleton
+	private static PauseMenu pauseMenu = null;
+
 	public static PauseMenu getInstance() {
-		if (pauseMenu==null)
+		if (pauseMenu == null) {
 			pauseMenu = new PauseMenu();
+			pauseMenu.addKeyListener(new KeyboardMenu());
+		}
 		return pauseMenu;
 	}
+
 	private PauseMenu() {
 
 		this.game = Game.getInstance();
@@ -49,28 +56,39 @@ public class PauseMenu extends JPanel {
 		boxV.add(Box.createVerticalStrut(20));
 		boxV.add(new JCenterH(exit));
 		add(new JCenter(boxV));
-		
+
 		resume.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				game.setSize(game.getWidth() + 1, game.getHeight() + 1);
 				game.setContentPane(Map.getInstance());
+				// for the focus in map
+				SwingUtilities.invokeLater(new Runnable() {
+					public void run() {
+						Map.getInstance().requestFocusInWindow();
+					}
+				});
 				game.setSize(game.getWidth() - 1, game.getHeight() - 1);
 			}
 		});
-		options.addActionListener(new ActionListener(){
+		options.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				
+				game.setSize(game.getWidth() + 1, game.getHeight() + 1);
+				game.setContentPane(Options.getInstance());
+				game.setSize(game.getWidth() - 1, game.getHeight() - 1);
 			}
 		});
 		exit.addActionListener(new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-
+				game.setSize(game.getWidth() + 1, game.getHeight() + 1);
+				game.setContentPane(MainMenu.getInstance());
+				game.setSize(game.getWidth() - 1, game.getHeight() - 1);
 			}
 		});
+
 	}
 
 	@Override
