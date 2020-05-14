@@ -296,35 +296,29 @@ public class Map extends JPanel {
 			}
 
 			// trap
-//			// spike from top
-			if (i % 15 == 7) {
-				Bloc b2 = new Bloc(-BLOC_WH / 4 + BLOC_WH * (i + player.x / 50 - 1), groundH, BLOC_WH, BLOC_WH, true,
-						ShopImage.SANDBLOCK);
-				SpikeBloc tBloc = new SpikeBloc(-BLOC_WH / 4 + BLOC_WH * (i + player.x / 50 - 1) + 5, groundH - 5,
-						BLOC_WH - 10, BLOC_WH, false, ShopImage.SPIKEB, false, true, b2, TypeTrap.SPIKEB);
-				listBloc.add(b2);
+//			// spike from bottom
+			if (i % 15 == 76) {
+
+				SpikeBloc tBloc = new SpikeBloc(-BLOC_WH / 4 + BLOC_WH * (i + player.x / 50 - 1), groundH,
+						BLOC_WH , BLOC_WH, false, ShopImage.SPIKEB, false, true, TypeTrap.SPIKEB);
 				listBloc.add(tBloc);
 				listTrap.add(tBloc);
 			}
-			// spike from bottom
+			// spike from top
 			if (i % 11 == 7) {
-				Bloc b2 = new Bloc(-BLOC_WH / 4 + BLOC_WH * (i + player.x / 50 + 3), -3 * BLOC_WH + groundH, BLOC_WH,
-						BLOC_WH, true, ShopImage.SANDBLOCK);
-				SpikeBloc tBloc = new SpikeBloc(-BLOC_WH / 4 + BLOC_WH * (i + player.x / 50 + 3) + 5,
-						-3 * BLOC_WH + groundH + 5, BLOC_WH - 10, BLOC_WH, false, ShopImage.SPIKET, true, true, b2,
+				SpikeBloc tBloc = new SpikeBloc(-BLOC_WH / 4 + BLOC_WH * (i + player.x / 50 + 3) ,
+						-3 * BLOC_WH + groundH, BLOC_WH , BLOC_WH, false, ShopImage.SPIKET, true, true,
 						TypeTrap.SPIKET);
-				listBloc.add(b2);
+
 				listBloc.add(tBloc);
 				listTrap.add(tBloc);
 			}
 			// from left
-			if (i % 15 == 16) {
-				Bloc b2 = new Bloc(-BLOC_WH / 4 + BLOC_WH * (i + player.x / 50 + 2), -BLOC_WH + groundH, BLOC_WH,
-						BLOC_WH, true, ShopImage.PATHBLOCK);
-				SpikeBloc tBloc = new SpikeBloc(-BLOC_WH / 4 + BLOC_WH * (i + player.x / 50 + 2) - 5,
-						-BLOC_WH + groundH, BLOC_WH, BLOC_WH, false, ShopImage.SPIKEL, true, false, b2,
-						TypeTrap.SPIKEL);
-				listBloc.add(b2);
+			if (i % 15 == 1) {
+
+				SpikeBloc tBloc = new SpikeBloc(-BLOC_WH / 4 + BLOC_WH * (i + player.x / 50 + 2) ,
+						-BLOC_WH + groundH, BLOC_WH, BLOC_WH, false, ShopImage.SPIKER, false, false, TypeTrap.SPIKER);
+
 				listBloc.add(tBloc);
 				listTrap.add(tBloc);
 			}
