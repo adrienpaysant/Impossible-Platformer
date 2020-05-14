@@ -20,9 +20,11 @@ import ch.hearc.wp2.p2.jeu.items.blocs.traps.SpikeBloc;
 import ch.hearc.wp2.p2.jeu.items.blocs.traps.TrapBloc;
 import ch.hearc.wp2.p2.jeu.items.blocs.traps.TypeTrap;
 import ch.hearc.wp2.p2.jeu.items.decoration.Cloud;
+import ch.hearc.wp2.p2.jeu.menus.LeaderBoard;
 import ch.hearc.wp2.p2.jeu.menus.MainMenu;
 import ch.hearc.wp2.p2.jeu.tools.Chrono;
 import ch.hearc.wp2.p2.jeu.tools.ChronoTrap;
+import ch.hearc.wp2.p2.jeu.tools.ExitButton;
 import ch.hearc.wp2.p2.jeu.tools.Keyboard;
 import ch.hearc.wp2.p2.jeu.tools.image.ShopImage;
 
@@ -41,7 +43,7 @@ public class Map extends JPanel {
 	private static final boolean DEBUG = true;
 
 	private Game game;
-	private JButton buttonExit;
+	private ExitButton exitButton;
 
 	private ArrayList<Bloc> listBloc = new ArrayList<Bloc>();
 	private ArrayList<CheckPointBloc> listCPBloc = new ArrayList<CheckPointBloc>();
@@ -73,7 +75,7 @@ public class Map extends JPanel {
 	private Map() {
 
 		this.game = Game.getInstance();
-		this.buttonExit = new JButton("Back to Menu");
+		this.exitButton = new ExitButton("Back To Main Menu","MainMenu");
 		this.player = new Player(getGame().getWidth() / 2, getGame().getHeight() / 3, PLAYER_W, PLAYER_H, true,
 				PLAYER_NB_LIFE);
 		this.dX = 0;
@@ -82,15 +84,7 @@ public class Map extends JPanel {
 		this.win = false;
 		this.lastCPset = false;
 
-		// listeners
-		buttonExit.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				getGame().setSize(getGame().getWidth() + 1, getGame().getHeight() + 1);
-				getGame().setContentPane(MainMenu.getInstance());
-				getGame().setSize(getGame().getWidth() - 1, getGame().getHeight() - 1);
-			}
-		});
+		
 
 		this.addComponentListener(new ComponentAdapter() {
 
@@ -123,7 +117,7 @@ public class Map extends JPanel {
 	private void draw(Graphics2D g2d) {
 		if (!isPaused) {
 			if (!win) {
-				add(buttonExit);
+				add(exitButton);
 				// background
 				g2d.setColor(new Color(51, 204, 250));
 				g2d.fill(new Rectangle2D.Double(0, 0, getWidth(), getHeight()));
@@ -203,7 +197,7 @@ public class Map extends JPanel {
 					System.err.println("you loose");
 					init();
 					getGame().setSize(getGame().getWidth() + 1, getGame().getHeight() + 1);
-					getGame().setContentPane(MainMenu.getInstance());
+					getGame().setContentPane(LeaderBoard.getInstance());
 					getGame().setSize(getGame().getWidth() - 1, getGame().getHeight() - 1);
 
 				}
@@ -211,7 +205,7 @@ public class Map extends JPanel {
 				System.err.println("you win");
 				init();
 				getGame().setSize(getGame().getWidth() + 1, getGame().getHeight() + 1);
-				getGame().setContentPane(MainMenu.getInstance());
+				getGame().setContentPane(LeaderBoard.getInstance());
 				getGame().setSize(getGame().getWidth() - 1, getGame().getHeight() - 1);
 			}
 		}
