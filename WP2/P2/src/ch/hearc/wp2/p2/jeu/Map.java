@@ -39,8 +39,8 @@ public class Map extends JPanel {
 	private static final int PLAYER_W = 25;
 	public static final int GRAVITY = 4;
 	private static final int HEART_WH = 25;
-	private static final int PLAYER_NB_LIFE = 10;
-	private static final boolean DEBUG = true;
+	private static final int PLAYER_NB_LIFE = 3;
+	private static final boolean DEBUG = false;
 
 	private Game game;
 	private ExitButton exitButton;
