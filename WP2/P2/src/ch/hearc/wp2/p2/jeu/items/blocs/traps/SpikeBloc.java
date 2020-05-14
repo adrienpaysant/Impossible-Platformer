@@ -25,7 +25,7 @@ public class SpikeBloc extends TrapBloc {
 		this.directionPosDown = directionPosDown;
 		this.groundTrueOrWall = groundTrueOrWall;
 		this.bSource = bS;
-		this.setOut(false);
+		this.isOut=false;
 	}
 
 	@Override
@@ -34,17 +34,15 @@ public class SpikeBloc extends TrapBloc {
 		if (!isOut) {
 			if (groundTrueOrWall) {
 				// ground or floor
-
-				// ground
 				if (directionPosDown) {
 					// stick on the ground
-					moveByY(-Map.BLOC_WH);
-					setTexture(ShopImage.SPIKEB);
+					moveByY(Map.BLOC_WH-5);
+					setTexture(ShopImage.SPIKET);
 					isOut = true;
 				} else {
 					// floor
-					moveByY(Map.BLOC_WH);
-					setTexture(ShopImage.SPIKET);
+					moveByY(-Map.BLOC_WH+5);
+					setTexture(ShopImage.SPIKEB);
 					isOut = true;
 				}
 			} else {
@@ -52,11 +50,11 @@ public class SpikeBloc extends TrapBloc {
 				if (directionPosDown) {
 					// stick of a wall need to expand by left
 					setTexture(ShopImage.SPIKEL);
-					moveByX(-Map.BLOC_WH);
+					moveByX(-Map.BLOC_WH+5);
 					isOut = true;
 				} else {
 					// stick of a wall need to expand by right
-					moveByX(Map.BLOC_WH);
+					moveByX(Map.BLOC_WH-5);
 					setTexture(ShopImage.SPIKER);
 					isOut = true;
 				}
@@ -88,15 +86,8 @@ public class SpikeBloc extends TrapBloc {
 				moveTo(new Point2D.Double(bSource.x + 5, bSource.y));
 			}
 		}
-		setOut(false);
+		isOut=false;
 
 	}
 
-	public boolean isOut() {
-		return isOut;
-	}
-
-	public void setOut(boolean isOut) {
-		this.isOut = isOut;
-	}
 }

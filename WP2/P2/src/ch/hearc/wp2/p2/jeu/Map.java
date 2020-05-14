@@ -41,7 +41,7 @@ public class Map extends JPanel {
 	private static final int PLAYER_W = 25;
 	public static final int GRAVITY = 4;
 	private static final int HEART_WH = 25;
-	private static final int PLAYER_NB_LIFE = 3;
+	private static final int PLAYER_NB_LIFE = 30;
 	private static final boolean DEBUG = false;
 
 	private Game game;
@@ -297,10 +297,10 @@ public class Map extends JPanel {
 
 			// trap
 //			// spike from top
-			if (i % 10 == 7) {
+			if (i % 15 == 7) {
 				Bloc b2 = new Bloc(-BLOC_WH / 4 + BLOC_WH * (i + player.x / 50 - 1), groundH, BLOC_WH, BLOC_WH, true,
 						ShopImage.SANDBLOCK);
-				SpikeBloc tBloc = new SpikeBloc(-BLOC_WH / 4 + BLOC_WH * (i + player.x / 50 - 1) + 5, groundH,
+				SpikeBloc tBloc = new SpikeBloc(-BLOC_WH / 4 + BLOC_WH * (i + player.x / 50 - 1) + 5, groundH - 5,
 						BLOC_WH - 10, BLOC_WH, false, ShopImage.SPIKEB, false, true, b2, TypeTrap.SPIKEB);
 				listBloc.add(b2);
 				listBloc.add(tBloc);
@@ -308,21 +308,22 @@ public class Map extends JPanel {
 			}
 			// spike from bottom
 			if (i % 11 == 7) {
-				Bloc b2 = new Bloc(-BLOC_WH / 4 + BLOC_WH * (i + player.x / 50 - 1), -3 * BLOC_WH + groundH, BLOC_WH,
+				Bloc b2 = new Bloc(-BLOC_WH / 4 + BLOC_WH * (i + player.x / 50 + 3), -3 * BLOC_WH + groundH, BLOC_WH,
 						BLOC_WH, true, ShopImage.SANDBLOCK);
-				SpikeBloc tBloc = new SpikeBloc(-BLOC_WH / 4 + BLOC_WH * (i + player.x / 50 - 1) + 5,
-						-3 * BLOC_WH + groundH + 1, BLOC_WH - 10, BLOC_WH, false, ShopImage.SPIKET, true, true, b2,
+				SpikeBloc tBloc = new SpikeBloc(-BLOC_WH / 4 + BLOC_WH * (i + player.x / 50 + 3) + 5,
+						-3 * BLOC_WH + groundH + 5, BLOC_WH - 10, BLOC_WH, false, ShopImage.SPIKET, true, true, b2,
 						TypeTrap.SPIKET);
 				listBloc.add(b2);
 				listBloc.add(tBloc);
 				listTrap.add(tBloc);
 			}
 			// from left
-			if (i % 15 ==1 ) {
-				Bloc b2 = new Bloc(-BLOC_WH / 4 + BLOC_WH * (i + player.x / 50 +2), -BLOC_WH + groundH, BLOC_WH,
+			if (i % 15 == 16) {
+				Bloc b2 = new Bloc(-BLOC_WH / 4 + BLOC_WH * (i + player.x / 50 + 2), -BLOC_WH + groundH, BLOC_WH,
 						BLOC_WH, true, ShopImage.PATHBLOCK);
-				SpikeBloc tBloc = new SpikeBloc(-BLOC_WH / 4 + BLOC_WH * (i + player.x / 50 +2) -5,
-						-BLOC_WH + groundH, BLOC_WH, BLOC_WH, false, ShopImage.SPIKEL, true, false, b2,TypeTrap.SPIKEL);
+				SpikeBloc tBloc = new SpikeBloc(-BLOC_WH / 4 + BLOC_WH * (i + player.x / 50 + 2) - 5,
+						-BLOC_WH + groundH, BLOC_WH, BLOC_WH, false, ShopImage.SPIKEL, true, false, b2,
+						TypeTrap.SPIKEL);
 				listBloc.add(b2);
 				listBloc.add(tBloc);
 				listTrap.add(tBloc);

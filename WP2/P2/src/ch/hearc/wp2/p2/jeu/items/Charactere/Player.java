@@ -111,29 +111,44 @@ public class Player extends Item {
 
 	private void trapThePlayer(Item it) {
 		if (it instanceof TrapBloc) {
-			if (((TrapBloc) it).type == TypeTrap.SPIKET || ((TrapBloc) it).type == TypeTrap.SPIKEB
-					|| ((TrapBloc) it).type == TypeTrap.SPIKER || ((TrapBloc) it).type == TypeTrap.SPIKEL)
+			if ((((TrapBloc) it).type == TypeTrap.SPIKET) || (((TrapBloc) it).type == TypeTrap.SPIKEB)
+					|| (((TrapBloc) it).type == TypeTrap.SPIKER) || (((TrapBloc) it).type == TypeTrap.SPIKEL))
 				switch (((TrapBloc) it).type) {
 				case SPIKER:
-					if (contactLeft(it))
+					if (contactLeft(it)) {
 						((TrapBloc) it).trapAction();
+						this.setHeart(getHeart() - 1);
+						respawn();
+					}
 					break;
 				case SPIKEL:
-					if (contactRight(it))
+
+					if (contactRight(it)) {
 						((TrapBloc) it).trapAction();
+						this.setHeart(getHeart() - 1);
+						respawn();
+					}
 					break;
 				case SPIKET:
-					if (contactBottom(it))
+					if (contactTop(it)) {
 						((TrapBloc) it).trapAction();
+						this.setHeart(getHeart() - 1);
+						respawn();
+					}
 					break;
-				// SPIKEB
-				default:
-					if (contactTop(it))
+				case SPIKEB:
+
+					if (contactBottom(it)) {
 						((TrapBloc) it).trapAction();
+						this.setHeart(getHeart() - 1);
+						respawn();
+					}
+					break;
+				default:
+
 					break;
 				}
-			this.setHeart(getHeart() - 1);
-			respawn();
+
 		}
 	}
 
