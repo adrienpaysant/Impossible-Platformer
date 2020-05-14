@@ -321,8 +321,8 @@ public class Map extends JPanel {
 			if (i % 15 ==1 ) {
 				Bloc b2 = new Bloc(-BLOC_WH / 4 + BLOC_WH * (i + player.x / 50 +2), -BLOC_WH + groundH, BLOC_WH,
 						BLOC_WH, true, ShopImage.PATHBLOCK);
-				SpikeBloc tBloc = new SpikeBloc(-BLOC_WH / 4 + BLOC_WH * (i + player.x / 50 +2) +5,
-						-BLOC_WH + groundH, BLOC_WH-4, BLOC_WH, false, ShopImage.SPIKER, false, false, b2,TypeTrap.SPIKER);
+				SpikeBloc tBloc = new SpikeBloc(-BLOC_WH / 4 + BLOC_WH * (i + player.x / 50 +2) -5,
+						-BLOC_WH + groundH, BLOC_WH, BLOC_WH, false, ShopImage.SPIKEL, true, false, b2,TypeTrap.SPIKEL);
 				listBloc.add(b2);
 				listBloc.add(tBloc);
 				listTrap.add(tBloc);

@@ -17,45 +17,49 @@ public class SpikeBloc extends TrapBloc {
 	private boolean directionPosDown;
 	private boolean groundTrueOrWall;
 	private Bloc bSource;
+	private boolean isOut;
 
 	public SpikeBloc(double x, double y, double w, double h, boolean v, Image texture, boolean directionPosDown,
-			boolean groundTrueOrWall, Bloc bS,TypeTrap type) {
-		super(x, y, w, h, false, texture,type);
+			boolean groundTrueOrWall, Bloc bS, TypeTrap type) {
+		super(x, y, w, h, false, texture, type);
 		this.directionPosDown = directionPosDown;
 		this.groundTrueOrWall = groundTrueOrWall;
 		this.bSource = bS;
+		this.setOut(false);
 	}
 
 	@Override
 	public void trapAction() {
 		this.setVisible(true);
-		if (groundTrueOrWall) {
-			// ground or floor
-			
-			//ground
-			if (directionPosDown) {
-				// stick on the ground
-				moveByY(-Map.BLOC_WH);
-				setTexture(ShopImage.SPIKEB);
+		if (!isOut) {
+			if (groundTrueOrWall) {
+				// ground or floor
 
+				// ground
+				if (directionPosDown) {
+					// stick on the ground
+					moveByY(-Map.BLOC_WH);
+					setTexture(ShopImage.SPIKEB);
+					isOut = true;
+				} else {
+					// floor
+					moveByY(Map.BLOC_WH);
+					setTexture(ShopImage.SPIKET);
+					isOut = true;
+				}
 			} else {
-				// floor
-				moveByY(Map.BLOC_WH);
-				setTexture(ShopImage.SPIKET);
-
-			}
-		} else {
-			// wall L or R
-			if (directionPosDown) {
-				// stick of a wall need to expand by left
-				setTexture(ShopImage.SPIKEL);
-				moveByX(-Map.BLOC_WH);
-
-			} else {
-				// stick of a wall need to expand by right
-				moveByX(Map.BLOC_WH);
-				setTexture(ShopImage.SPIKER);
-
+				// wall L or R
+				if (directionPosDown) {
+					// stick of a wall need to expand by left
+					setTexture(ShopImage.SPIKEL);
+					moveByX(-Map.BLOC_WH);
+					isOut = true;
+				} else {
+					// stick of a wall need to expand by right
+					moveByX(Map.BLOC_WH);
+					setTexture(ShopImage.SPIKER);
+					isOut = true;
+				}
 			}
 		}
 	}
@@ -84,6 +88,15 @@ public class SpikeBloc extends TrapBloc {
 				moveTo(new Point2D.Double(bSource.x + 5, bSource.y));
 			}
 		}
+		setOut(false);
 
+	}
+
+	public boolean isOut() {
+		return isOut;
+	}
+
+	public void setOut(boolean isOut) {
+		this.isOut = isOut;
 	}
 }
