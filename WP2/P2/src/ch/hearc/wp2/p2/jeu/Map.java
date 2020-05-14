@@ -297,30 +297,43 @@ public class Map extends JPanel {
 
 			// trap
 //			// spike from top
-//			if (i % 23 == 1) {
-//				Bloc b2 = new Bloc(-BLOC_WH / 4 + BLOC_WH * (i + player.x / 50 - 1), -3 * BLOC_WH + groundH, BLOC_WH,
-//						BLOC_WH, true, ShopImage.PATHBLOCK);
-//				SpikeBloc tBloc = new SpikeBloc(-BLOC_WH / 4 + BLOC_WH * (i + player.x / 50 - 1),
-//						-3 * BLOC_WH + groundH + 1, BLOC_WH, BLOC_WH, false, ShopImage.SPIKEST, false, true, b2,
-//						TypeTrap.SPIKET);
-//				listBloc.add(b2);
-//				listBloc.add(tBloc);
-//				listTrap.add(tBloc);
-//			}
+			if (i % 10 == 7) {
+				Bloc b2 = new Bloc(-BLOC_WH / 4 + BLOC_WH * (i + player.x / 50 - 1), groundH, BLOC_WH, BLOC_WH, true,
+						ShopImage.SANDBLOCK);
+				SpikeBloc tBloc = new SpikeBloc(-BLOC_WH / 4 + BLOC_WH * (i + player.x / 50 - 1) + 5, groundH,
+						BLOC_WH - 10, BLOC_WH, false, ShopImage.SPIKEB, false, true, b2, TypeTrap.SPIKEB);
+				listBloc.add(b2);
+				listBloc.add(tBloc);
+				listTrap.add(tBloc);
+			}
+			// spike from bottom
+			if (i % 11 == 7) {
+				Bloc b2 = new Bloc(-BLOC_WH / 4 + BLOC_WH * (i + player.x / 50 - 1), -3 * BLOC_WH + groundH, BLOC_WH,
+						BLOC_WH, true, ShopImage.SANDBLOCK);
+				SpikeBloc tBloc = new SpikeBloc(-BLOC_WH / 4 + BLOC_WH * (i + player.x / 50 - 1) + 5,
+						-3 * BLOC_WH + groundH + 1, BLOC_WH - 10, BLOC_WH, false, ShopImage.SPIKET, true, true, b2,
+						TypeTrap.SPIKET);
+				listBloc.add(b2);
+				listBloc.add(tBloc);
+				listTrap.add(tBloc);
+			}
 			// from left
-//			if (i % 15 ==1 ) {
-//				Bloc b2 = new Bloc(-BLOC_WH / 4 + BLOC_WH * (i + player.x / 50 +2), -BLOC_WH + groundH, BLOC_WH,
-//						BLOC_WH, true, ShopImage.PATHBLOCK);
-//				SpikeBloc tBloc = new SpikeBloc(-BLOC_WH / 4 + BLOC_WH * (i + player.x / 50 +2) - 5,
-//						-BLOC_WH + groundH, BLOC_WH, BLOC_WH, false, ShopImage.SPIKESL, true, false, b2,TypeTrap.SPIKEL);
-//				listBloc.add(b2);
-//				listBloc.add(tBloc);
-//				listTrap.add(tBloc);
-//			}
-			
-			//try Moving Bloc
-			if(i%15==1) {
-				MovingBloc mB = new MovingBloc(-BLOC_WH / 4 + BLOC_WH * (i + 2 + player.x / 50 - 1),-2.5 * BLOC_WH + groundH, BLOC_WH, BLOC_WH, true, ShopImage.PURPLEBLOCK, false, -BLOC_WH / 4 + BLOC_WH * (i + 2 + player.x / 50 - 1), -BLOC_WH / 4 + BLOC_WH * (i + 2 + player.x / 50 - 1)+3*BLOC_WH);
+			if (i % 15 ==1 ) {
+				Bloc b2 = new Bloc(-BLOC_WH / 4 + BLOC_WH * (i + player.x / 50 +2), -BLOC_WH + groundH, BLOC_WH,
+						BLOC_WH, true, ShopImage.PATHBLOCK);
+				SpikeBloc tBloc = new SpikeBloc(-BLOC_WH / 4 + BLOC_WH * (i + player.x / 50 +2) +5,
+						-BLOC_WH + groundH, BLOC_WH-4, BLOC_WH, false, ShopImage.SPIKER, false, false, b2,TypeTrap.SPIKER);
+				listBloc.add(b2);
+				listBloc.add(tBloc);
+				listTrap.add(tBloc);
+			}
+
+			// try Moving Bloc
+			if (i % 15 == 1) {
+				MovingBloc mB = new MovingBloc(-BLOC_WH / 4 + BLOC_WH * (i + 2 + player.x / 50 - 1),
+						-2.5 * BLOC_WH + groundH, BLOC_WH, BLOC_WH, true, ShopImage.PURPLEBLOCK, false,
+						-BLOC_WH / 4 + BLOC_WH * (i + 2 + player.x / 50 - 1),
+						-BLOC_WH / 4 + BLOC_WH * (i + 2 + player.x / 50 - 1) + 3 * BLOC_WH);
 				listBloc.add(mB);
 				listMovingBloc.add(mB);
 			}

@@ -31,28 +31,30 @@ public class SpikeBloc extends TrapBloc {
 		this.setVisible(true);
 		if (groundTrueOrWall) {
 			// ground or floor
+			
+			//ground
 			if (directionPosDown) {
 				// stick on the ground
 				moveByY(-Map.BLOC_WH);
-				setTexture(ShopImage.SPIKESB);
+				setTexture(ShopImage.SPIKEB);
 
 			} else {
 				// floor
 				moveByY(Map.BLOC_WH);
-				setTexture(ShopImage.SPIKEST);
+				setTexture(ShopImage.SPIKET);
 
 			}
 		} else {
 			// wall L or R
 			if (directionPosDown) {
 				// stick of a wall need to expand by left
-				setTexture(ShopImage.SPIKESL);
+				setTexture(ShopImage.SPIKEL);
 				moveByX(-Map.BLOC_WH);
 
 			} else {
 				// stick of a wall need to expand by right
 				moveByX(Map.BLOC_WH);
-				setTexture(ShopImage.SPIKESR);
+				setTexture(ShopImage.SPIKER);
 
 			}
 		}
