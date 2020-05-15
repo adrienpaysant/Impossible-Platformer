@@ -48,7 +48,7 @@ public class Keyboard implements KeyListener {
 		else if (e.getKeyCode() == KeyEvent.VK_RIGHT) {
 			this.right = true;
 			this.whoIsLast = "right";
-		} else if (e.getKeyCode() == KeyEvent.VK_SPACE) {
+		} else if (e.getKeyCode() == KeyEvent.VK_SPACE || e.getKeyCode() == KeyEvent.VK_UP) {
 			Map.getInstance().getPlayer().jump();
 		} else if (e.getKeyCode() == KeyEvent.VK_SHIFT) {
 			shift = true;
