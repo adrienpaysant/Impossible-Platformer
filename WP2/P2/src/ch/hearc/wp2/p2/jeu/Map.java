@@ -17,6 +17,7 @@ import ch.hearc.wp2.p2.jeu.items.Charactere.Player;
 import ch.hearc.wp2.p2.jeu.items.blocs.Bloc;
 import ch.hearc.wp2.p2.jeu.items.blocs.MovingBloc;
 import ch.hearc.wp2.p2.jeu.items.blocs.actions.CheckPointBloc;
+import ch.hearc.wp2.p2.jeu.items.blocs.traps.FallBloc;
 import ch.hearc.wp2.p2.jeu.items.blocs.traps.SpikeBloc;
 import ch.hearc.wp2.p2.jeu.items.blocs.traps.TrapBloc;
 import ch.hearc.wp2.p2.jeu.items.blocs.traps.TypeTrap;
@@ -307,9 +308,17 @@ public class Map extends JPanel {
 				listTrap.add(tBloc);
 			}
 			// spike from top
-			if (i % 11 == 2) {
+			if (i % 11 == 21) {
 				SpikeBloc tBloc = new SpikeBloc(-BLOC_WH / 4 + BLOC_WH * (i + player.x / 50 + 3),
 						-3 * BLOC_WH + groundH, BLOC_WH, BLOC_WH, false, ShopImage.SPIKET, TypeTrap.SPIKET);
+
+				listBloc.add(tBloc);
+				listTrap.add(tBloc);
+			}
+			// fall trap
+			if (i % 20 == 0) {
+				FallBloc tBloc = new FallBloc(-BLOC_WH / 4 + BLOC_WH * (i + player.x / 50 - 3),groundH, BLOC_WH,
+						BLOC_WH, true, ShopImage.LEAVESBLOCK, TypeTrap.FALL);
 
 				listBloc.add(tBloc);
 				listTrap.add(tBloc);

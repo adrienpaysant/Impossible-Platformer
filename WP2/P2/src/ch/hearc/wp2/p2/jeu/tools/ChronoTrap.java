@@ -25,11 +25,6 @@ public class ChronoTrap implements Runnable {
 						tBloc.revertAction();
 					}
 				}
-				if (tBloc instanceof FallBloc) {
-					if (((FallBloc) tBloc).isVisible()) {
-						tBloc.revertAction();
-					}
-				}
 			}
 		}
 

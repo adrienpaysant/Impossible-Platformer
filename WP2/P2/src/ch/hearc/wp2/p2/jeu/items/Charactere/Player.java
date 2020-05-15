@@ -91,7 +91,14 @@ public class Player extends Item {
 		}
 	}
 
-	public void contact(Bloc it) {
+	public boolean contactTest(Item it) {
+		if (contactBottom(new Bloc(it.x, it.y - 5, it.width, it.height, it.isVisible(), ((TrapBloc) it).getTexture()))
+				|| contactLeft(it) || contactRight(it) || contactTop(it))
+			return true;
+		return false;
+	}
+
+	public void contact(Item it) {
 		// horizontal hit
 		if (contactRight(it) || contactLeft(it)) {
 			Map.getInstance().setdX(-Map.getInstance().getdX());
@@ -111,43 +118,43 @@ public class Player extends Item {
 
 	private void trapThePlayer(Item it) {
 		if (it instanceof TrapBloc) {
-			if ((((TrapBloc) it).type == TypeTrap.SPIKET) || (((TrapBloc) it).type == TypeTrap.SPIKEG)
-					|| (((TrapBloc) it).type == TypeTrap.SPIKER) || (((TrapBloc) it).type == TypeTrap.SPIKEL))
-				switch (((TrapBloc) it).type) {
-				case SPIKER:
-					if (contactLeft(it)) {
-						((TrapBloc) it).trapAction();
-						this.setHeart(getHeart() - 1);
-						respawn();
-					}
-					break;
-				case SPIKEL:
-
-					if (contactRight(it)) {
-						((TrapBloc) it).trapAction();
-						this.setHeart(getHeart() - 1);
-						respawn();
-					}
-					break;
-				case SPIKET:
-					if (contactTop(it)) {
-						((TrapBloc) it).trapAction();
-						this.setHeart(getHeart() - 1);
-						respawn();
-					}
-					break;
-				case SPIKEG:
-
-					if (contactBottom(new Bloc(it.x, it.y-5, it.width, it.height, it.isVisible(), ((TrapBloc) it).getTexture()))) {
-						((TrapBloc) it).trapAction();
-						this.setHeart(getHeart() - 1);
-						respawn();
-					}
-					break;
-				default:
-
-					break;
+			switch (((TrapBloc) it).type) {
+			case SPIKER:
+				if (contactLeft(it)) {
+					((TrapBloc) it).trapAction();
+					respawn();
 				}
+				break;
+			case SPIKEL:
+
+				if (contactRight(it)) {
+					((TrapBloc) it).trapAction();
+					respawn();
+				}
+				break;
+			case SPIKET:
+				if (contactTop(it)) {
+					((TrapBloc) it).trapAction();
+					respawn();
+				}
+				break;
+			case SPIKEG:
+
+				if (contactBottom(
+						new Bloc(it.x, it.y - 5, it.width, it.height, it.isVisible(), ((TrapBloc) it).getTexture()))) {
+					((TrapBloc) it).trapAction();
+					respawn();
+				}
+				break;
+			case FALL:
+				if (contactTest(it)) {
+					((TrapBloc) it).trapAction();
+				}
+				break;
+			default:
+
+				break;
+			}
 
 		}
 	}
@@ -155,7 +162,7 @@ public class Player extends Item {
 	public void jump() {
 		if (!isJumping) {
 			setJumping(true);
-			for (int i = 0; i < 12 * Map.BLOC_WH / 5; i++) {
+			for (int i = 0; i < 3 * Map.BLOC_WH; i++) {
 				boolean test = true;
 				for (Bloc b : Map.getInstance().getListBloc()) {
 					if (contactTop(b)) {
@@ -182,6 +189,11 @@ public class Player extends Item {
 
 		CheckPointBloc last = Map.getInstance().checkLastCP();
 		for (Bloc bloc : Map.getInstance().getListBloc()) {
+			if (bloc instanceof TrapBloc) {
+				if (((TrapBloc) bloc).getType() == TypeTrap.FALL) {
+					((TrapBloc) bloc).revertAction();
+				}
+			}
 			if (last.x >= x) {
 				bloc.moveByX(-Math.abs(last.getCenterX() - getCenterX()));
 			} else {
@@ -189,7 +201,6 @@ public class Player extends Item {
 			}
 
 		}
-		// moveByY(-Math.abs(y - Map.getInstance().getGame().getHeight() / 3));
 		moveTo(new Point2D.Double(x, last.y - height - Map.BLOC_WH / 2));
 
 	}

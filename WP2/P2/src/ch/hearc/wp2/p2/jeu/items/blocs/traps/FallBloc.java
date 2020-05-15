@@ -2,31 +2,39 @@
 package ch.hearc.wp2.p2.jeu.items.blocs.traps;
 
 import java.awt.Image;
-import java.awt.geom.Rectangle2D.Double;
+import java.awt.geom.Point2D;
 
+import ch.hearc.wp2.p2.jeu.Main;
 import ch.hearc.wp2.p2.jeu.Map;
-import ch.hearc.wp2.p2.jeu.items.blocs.Bloc;
 
-public class FallBloc extends   TrapBloc {
+public class FallBloc extends TrapBloc {
 
+	private boolean status;
+	private double yOrig;
 
-	public FallBloc(double x, double y, double w, double h, boolean v, Image texture) {
-		super(x, y, w, h, v, texture, TypeTrap.FALL);
-		// TODO Auto-generated constructor stub
+	public FallBloc(double x, double y, double w, double h, boolean v, Image texture, TypeTrap type) {
+		super(x, y, w, h, v, texture, type);
+		this.status = false;
+		this.yOrig = y;
 	}
 
 	@Override
 	public void trapAction() {
-		// TODO Auto-generated method stub
+		if (!status) {
+			while (y <= Main.HEIGHT + 4 * Map.BLOC_WH) {
+				moveByY(1);
+			}
+		}
+		status = true;
 
 	}
-
 
 	@Override
 	public void revertAction() {
-		// TODO Auto-generated method stub
-		
+		if (status) {
+			moveTo(new Point2D.Double(x, yOrig));
+		}
+		status = false;
 	}
-	
 
 }
