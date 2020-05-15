@@ -1,6 +1,7 @@
 package ch.hearc.wp2.p2.jeu;
 
 import java.awt.Color;
+import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 
@@ -144,6 +145,8 @@ public class Map extends JPanel {
 			// number of death
 			g2d.drawImage(ShopImage.DEATH, 0, 0, DEATH_WH, DEATH_WH, 0, 0, ShopImage.DEATH.getWidth(null),
 					ShopImage.DEATH.getHeight(null), null);
+			g2d.setFont(new Font("Monospaced",Font.BOLD,45));
+			g2d.drawString(":"+(nbDeath-1)+" DEATHS", DEATH_WH, 2*DEATH_WH/3);
 
 			// player is Alive ?
 			if (player.isAlive()) {
