@@ -1,25 +1,30 @@
 
 package ch.hearc.wp2.p2.jeu.items.Charactere;
 
-import java.awt.Graphics2D;
-import java.awt.geom.Line2D;
+import java.awt.Image;
 import java.awt.geom.Point2D;
-import java.awt.geom.Point2D.Double;
-import java.util.ArrayList;
+import java.io.IOException;
+import javax.imageio.ImageIO;
 
 import ch.hearc.wp2.p2.jeu.Map;
 import ch.hearc.wp2.p2.jeu.items.Item;
 import ch.hearc.wp2.p2.jeu.items.blocs.Bloc;
 import ch.hearc.wp2.p2.jeu.items.blocs.actions.CheckPointBloc;
-import ch.hearc.wp2.p2.jeu.items.blocs.traps.SpikeBloc;
 import ch.hearc.wp2.p2.jeu.items.blocs.traps.TrapBloc;
 import ch.hearc.wp2.p2.jeu.items.blocs.traps.TypeTrap;
+import ch.hearc.wp2.p2.jeu.tools.image.ShopImage;
 
+@SuppressWarnings("serial")
 public class Player extends Item {
 
 	private int heart;
 	private boolean isAlive;
 	private boolean isJumping;
+	private boolean isWalking;
+	private boolean run = false;
+	private Thread animator;
+	private int spriteCmpt = 0;
+	private Image sprite;
 
 	public Player(Item it) {
 		super(it);
@@ -31,6 +36,21 @@ public class Player extends Item {
 		this.setHeart(heart);
 		this.setAlive(true);
 		this.setJumping(false);
+		
+		animator = new Thread(new Runnable() {
+			@Override
+			public void run() {
+				while (true) {
+					setImage();
+					try {
+						Thread.sleep(300);
+					} catch (InterruptedException e) {
+						e.printStackTrace();
+					}
+				}
+			}
+		});
+		animator.start();
 
 	}
 
@@ -50,8 +70,37 @@ public class Player extends Item {
 	public void setAlive(boolean isAlive) {
 		this.isAlive = isAlive;
 	}
+	
+	public boolean isWalking() {
+		return this.isWalking;
+	}
+
+	public boolean isRunning() {
+		return this.isRunning();
+	}
+
+	public void setWalk(boolean walk) {
+		this.isWalking = walk;
+	}
+
+	public void setRun(boolean run) {
+		this.run = run;
+	}
 
 	// methodes
+	
+	public void setImage() {
+		if (!(isWalking && run)) {try {
+				sprite = ImageIO.read(getClass().getResource("/sprites/idle/adventurer-idle-0" + spriteCmpt % 3 +".png"));
+				System.out.println("/sprites/idle/adventurer-idle-0" + spriteCmpt % 3 +".png");
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		spriteCmpt++;
+	}
+
 
 	public boolean contactRight(Item it) {
 		if (intersectsLine(it.x - 5, it.y + 5, it.x - 5, it.getMaxY())) {
@@ -194,3 +243,9 @@ public class Player extends Item {
 
 	}
 }
+
+
+
+
+
+
