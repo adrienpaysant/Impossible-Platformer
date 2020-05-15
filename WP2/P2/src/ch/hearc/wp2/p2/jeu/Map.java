@@ -316,14 +316,7 @@ public class Map extends JPanel {
 				listBloc.add(tBloc);
 				listTrap.add(tBloc);
 			}
-			// fall trap
-			if (i % 20 == 0) {
-				FallBloc tBloc = new FallBloc(-BLOC_WH / 4 + BLOC_WH * (i + player.x / 50 - 3), groundH, BLOC_WH,
-						BLOC_WH, true, ShopImage.LEAVESBLOCK, TypeTrap.FALL);
-
-				listBloc.add(tBloc);
-				listTrap.add(tBloc);
-			}
+			
 			// from left
 			if (i % 15 == 1) {
 
