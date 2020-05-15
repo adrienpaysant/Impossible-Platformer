@@ -20,8 +20,10 @@ public class Game extends JFrame {
 		setAlwaysOnTop(true);
 		setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 		setLocationRelativeTo(null);
-		setMinimumSize(new Dimension(3*Main.WIDTH/5,2*Main.HEIGHT/3));
+		setMinimumSize(new Dimension(Main.WIDTH,Main.HEIGHT));
+		setUndecorated(true);
 		setLocationRelativeTo(null);
-		//setResizable(false);
+		setResizable(false);
+		setFocusable(true);
 	}
 }
