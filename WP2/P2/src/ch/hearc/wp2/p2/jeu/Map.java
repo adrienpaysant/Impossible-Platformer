@@ -23,7 +23,6 @@ import ch.hearc.wp2.p2.jeu.items.blocs.traps.TrapBloc;
 import ch.hearc.wp2.p2.jeu.items.blocs.traps.TypeTrap;
 import ch.hearc.wp2.p2.jeu.items.decoration.Cloud;
 import ch.hearc.wp2.p2.jeu.menus.LeaderBoard;
-import ch.hearc.wp2.p2.jeu.menus.PauseMenu;
 import ch.hearc.wp2.p2.jeu.tools.Chrono;
 import ch.hearc.wp2.p2.jeu.tools.ChronoMovingBloc;
 import ch.hearc.wp2.p2.jeu.tools.ChronoTrap;
@@ -41,8 +40,6 @@ public class Map extends JPanel {
 	private static final int PLAYER_H = 55;
 	private static final int PLAYER_W = 25;
 	public static final int GRAVITY = 4;
-	private static final int HEART_WH = 25;
-	private static final int PLAYER_NB_LIFE = 30;
 	private static final boolean DEBUG = false;
 
 	private Game game;
@@ -62,6 +59,7 @@ public class Map extends JPanel {
 
 	private double dX;
 	private int groundH;
+	private int nbDeath;
 	private boolean win;
 	private boolean lastCPset;
 
@@ -79,9 +77,9 @@ public class Map extends JPanel {
 
 		this.game = Game.getInstance();
 		this.exitButton = new ExitButton("Pause", "PauseMenu");
-		this.player = new Player(getGame().getWidth() / 2, getGame().getHeight() / 3, PLAYER_W, PLAYER_H, true,
-				PLAYER_NB_LIFE);
+		this.player = new Player(getGame().getWidth() / 2, getGame().getHeight() / 3, PLAYER_W, PLAYER_H, true);
 		this.dX = 0;
+		this.nbDeath = 0;
 		this.groundH = 2 * getGame().getHeight() / 3;
 		this.win = false;
 		this.lastCPset = false;
@@ -131,11 +129,10 @@ public class Map extends JPanel {
 
 			// test statement player
 			if (player.getMaxY() >= getGame().getHeight()) {
-				player.setHeart(player.getHeart() - 1);
 				player.setJumping(true);
 				player.respawn();
 			}
-			if (player.getHeart() <= 0) {
+			if (player.y >= Main.HEIGHT + BLOC_WH) {
 				player.setAlive(false);
 			}
 
@@ -154,12 +151,6 @@ public class Map extends JPanel {
 				g2d.setColor(Color.black);
 				if (player.isVisible())
 					g2d.fill(player);
-
-				// hearts of the player :
-				for (int i = 0; i < player.getHeart(); i++) {
-					g2d.drawImage(ShopImage.HEART, 5 + i * HEART_WH, 0, 5 + i * HEART_WH + HEART_WH, HEART_WH, 0, 0,
-							ShopImage.HEART.getWidth(null), ShopImage.HEART.getHeight(null), null);
-				}
 
 				// blocs
 				g2d.setColor(Color.green);
@@ -197,30 +188,37 @@ public class Map extends JPanel {
 
 			} else {
 				LeaderBoard.getInstance().setTextLabel("Hum... It's a fail ! You Loose !");
-				init();
-				getGame().setSize(getGame().getWidth() + 1, getGame().getHeight() + 1);
-				getGame().setContentPane(LeaderBoard.getInstance());
-				getGame().setSize(getGame().getWidth() - 1, getGame().getHeight() - 1);
+				setActivePageLeaderBoard();
 
 			}
 		} else {
 			LeaderBoard.getInstance().setTextLabel("Congrats  ! You Win  !");
-			init();
-			getGame().setSize(getGame().getWidth() + 1, getGame().getHeight() + 1);
-			getGame().setContentPane(LeaderBoard.getInstance());
-			getGame().setSize(getGame().getWidth() - 1, getGame().getHeight() - 1);
+			setActivePageLeaderBoard();
 		}
 
 	}
 
+	private void setActivePageLeaderBoard() {
+		LeaderBoard.getInstance().setDeathCount(nbDeath);
+		init();
+		Game.getInstance().setSize(Game.getInstance().getWidth() + 1, Game.getInstance().getHeight() + 1);
+		Game.getInstance().setContentPane(LeaderBoard.getInstance());
+		Game.getInstance().setSize(Game.getInstance().getWidth() - 1, Game.getInstance().getHeight() - 1);
+	}
+
 	public CheckPointBloc checkLastCP() {
-		CheckPointBloc last = new CheckPointBloc(Map.getInstance().getListCPBloc().get(0));
-		for (CheckPointBloc cp : Map.getInstance().getListCPBloc()) {
-			if (cp.isCheck()) {
-				last = new CheckPointBloc(cp);
+
+		if (!listCPBloc.isEmpty()) {
+			CheckPointBloc last = new CheckPointBloc(getListCPBloc().get(0));
+			for (CheckPointBloc cp : getListCPBloc()) {
+				if (cp.isCheck()) {
+					last = new CheckPointBloc(cp);
+				}
+
 			}
+			return last;
 		}
-		return last;
+		return null;
 	}
 
 	private void updateLastCP() {
@@ -235,8 +233,7 @@ public class Map extends JPanel {
 	}
 
 	public void init() {
-
-		player.setHeart(Map.PLAYER_NB_LIFE);
+		nbDeath = 0;
 		player.setAlive(true);
 		win = false;
 		setdX(0);
@@ -300,7 +297,7 @@ public class Map extends JPanel {
 
 			// trap
 //			// spike from ground
-			if (i % 15 == 76) {
+			if (i % 15 == 7) {
 
 				SpikeBloc tBloc = new SpikeBloc(-BLOC_WH / 4 + BLOC_WH * (i + player.x / 50 - 1), groundH, BLOC_WH,
 						BLOC_WH, false, ShopImage.SPIKEG, TypeTrap.SPIKEG);
@@ -317,14 +314,14 @@ public class Map extends JPanel {
 			}
 			// fall trap
 			if (i % 20 == 0) {
-				FallBloc tBloc = new FallBloc(-BLOC_WH / 4 + BLOC_WH * (i + player.x / 50 - 3),groundH, BLOC_WH,
+				FallBloc tBloc = new FallBloc(-BLOC_WH / 4 + BLOC_WH * (i + player.x / 50 - 3), groundH, BLOC_WH,
 						BLOC_WH, true, ShopImage.LEAVESBLOCK, TypeTrap.FALL);
 
 				listBloc.add(tBloc);
 				listTrap.add(tBloc);
 			}
 			// from left
-			if (i % 15 == 16) {
+			if (i % 15 == 1) {
 
 				SpikeBloc tBloc = new SpikeBloc(-BLOC_WH / 4 + BLOC_WH * (i + player.x / 50 + 2), -BLOC_WH + groundH,
 						BLOC_WH, BLOC_WH, false, ShopImage.SPIKEL, TypeTrap.SPIKEL);
@@ -383,6 +380,14 @@ public class Map extends JPanel {
 
 	public ArrayList<MovingBloc> getListMovingBloc() {
 		return listMovingBloc;
+	}
+
+	public int getNbDeath() {
+		return nbDeath;
+	}
+
+	public void setNbDeath(int nbDeath) {
+		this.nbDeath = nbDeath;
 	}
 
 }

@@ -1,23 +1,17 @@
 
 package ch.hearc.wp2.p2.jeu.items.Charactere;
 
-import java.awt.Graphics2D;
-import java.awt.geom.Line2D;
 import java.awt.geom.Point2D;
-import java.awt.geom.Point2D.Double;
-import java.util.ArrayList;
 
 import ch.hearc.wp2.p2.jeu.Map;
 import ch.hearc.wp2.p2.jeu.items.Item;
 import ch.hearc.wp2.p2.jeu.items.blocs.Bloc;
 import ch.hearc.wp2.p2.jeu.items.blocs.actions.CheckPointBloc;
-import ch.hearc.wp2.p2.jeu.items.blocs.traps.SpikeBloc;
 import ch.hearc.wp2.p2.jeu.items.blocs.traps.TrapBloc;
 import ch.hearc.wp2.p2.jeu.items.blocs.traps.TypeTrap;
 
 public class Player extends Item {
 
-	private int heart;
 	private boolean isAlive;
 	private boolean isJumping;
 
@@ -26,22 +20,14 @@ public class Player extends Item {
 
 	}
 
-	public Player(double x, double y, double w, double h, boolean v, int heart) {
+	public Player(double x, double y, double w, double h, boolean v) {
 		super(x, y, w, h, v);
-		this.setHeart(heart);
 		this.setAlive(true);
 		this.setJumping(false);
 
 	}
 
 	// getters & setters
-	public int getHeart() {
-		return heart;
-	}
-
-	public void setHeart(int heart) {
-		this.heart = heart;
-	}
 
 	public boolean isAlive() {
 		return isAlive;

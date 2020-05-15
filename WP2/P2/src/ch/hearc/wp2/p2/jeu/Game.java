@@ -26,4 +26,6 @@ public class Game extends JFrame {
 		setResizable(false);
 		setFocusable(true);
 	}
+	
+	
 }

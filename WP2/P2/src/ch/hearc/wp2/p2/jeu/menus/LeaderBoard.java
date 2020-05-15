@@ -24,6 +24,7 @@ public class LeaderBoard extends JPanel {
 	private Game game;
 	private ExitButton exitButton;
 	private JLabel label;
+	private int nbDeath;
 
 	// singleton
 	public static LeaderBoard getInstance() {
@@ -35,8 +36,9 @@ public class LeaderBoard extends JPanel {
 	private LeaderBoard() {
 
 		this.game = Game.getInstance();
+		nbDeath = 0;
 		this.exitButton = new ExitButton("Back to Menu", "MainMenu");
-		this.label=new JLabel();
+		this.label = new JLabel();
 		try {
 			bgImage = ImageIO.read(getClass().getResource("/images/menubg2.jpg"));
 		} catch (IOException e) {
@@ -65,5 +67,9 @@ public class LeaderBoard extends JPanel {
 	// getters & setters
 	public void setTextLabel(String txt) {
 		this.label.setText(txt);
+	}
+
+	public void setDeathCount(int nbDeath) {
+		this.nbDeath = nbDeath;
 	}
 }
