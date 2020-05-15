@@ -49,7 +49,7 @@ public class PauseMenu extends JPanel {
 		}
 		Box boxV = Box.createVerticalBox();
 		resume = new JButtonMenu("Resume");
-		exit = new JButtonMenu("Exit To Menu");
+		exit = new JButtonMenu("Exit To Leaderboard");
 		options = new JButtonMenu("Options");
 		boxV.add(new JCenterH(resume));
 		boxV.add(Box.createVerticalStrut(20));
@@ -84,10 +84,15 @@ public class PauseMenu extends JPanel {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				LeaderBoard.getInstance().setDeathCount(Map.getInstance().getNbDeath() - 1);
+				LeaderBoard.getInstance().setTextLabel("fail");
 				game.setSize(game.getWidth() + 1, game.getHeight() + 1);
 				game.setContentPane(LeaderBoard.getInstance());
 				Map.getInstance().init();
 				game.setSize(game.getWidth() - 1, game.getHeight() - 1);
+				
+				
+				
 			}
 		});
 	}

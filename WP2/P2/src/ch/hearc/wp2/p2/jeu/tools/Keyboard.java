@@ -44,11 +44,14 @@ public class Keyboard implements KeyListener {
 		if (e.getKeyCode() == KeyEvent.VK_LEFT) {
 			this.left = true;
 			this.whoIsLast = "left";
+			Map.getInstance().setHasPlay(true);
 		} // right
 		else if (e.getKeyCode() == KeyEvent.VK_RIGHT) {
+			Map.getInstance().setHasPlay(true);
 			this.right = true;
 			this.whoIsLast = "right";
 		} else if (e.getKeyCode() == KeyEvent.VK_SPACE || e.getKeyCode() == KeyEvent.VK_UP) {
+			Map.getInstance().setHasPlay(true);
 			Map.getInstance().getPlayer().jump();
 		} else if (e.getKeyCode() == KeyEvent.VK_SHIFT) {
 			shift = true;

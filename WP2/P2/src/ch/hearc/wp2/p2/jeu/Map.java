@@ -61,6 +61,7 @@ public class Map extends JPanel {
 	private int nbDeath;
 	private boolean win;
 	private boolean lastCPset;
+	private boolean hasPlay;
 
 	public static Map getInstance() {
 		if (map == null) {
@@ -82,6 +83,7 @@ public class Map extends JPanel {
 		this.groundH = 2 * getGame().getHeight() / 3;
 		this.win = false;
 		this.lastCPset = false;
+		this.hasPlay = false;
 		this.addComponentListener(new ComponentAdapter() {
 
 			@Override
@@ -145,8 +147,8 @@ public class Map extends JPanel {
 			// number of death
 			g2d.drawImage(ShopImage.DEATH, 0, 0, DEATH_WH, DEATH_WH, 0, 0, ShopImage.DEATH.getWidth(null),
 					ShopImage.DEATH.getHeight(null), null);
-			g2d.setFont(new Font("Monospaced",Font.BOLD,45));
-			g2d.drawString(":"+(nbDeath-1)+" DEATHS", DEATH_WH, 2*DEATH_WH/3);
+			g2d.setFont(new Font("Monospaced", Font.BOLD, 45));
+			g2d.drawString(":" + (nbDeath - 1) + " DEATHS", DEATH_WH, 2 * DEATH_WH / 3);
 
 			// player is Alive ?
 			if (player.isAlive()) {
@@ -185,20 +187,16 @@ public class Map extends JPanel {
 
 					}
 				}
-			} else {
-				LeaderBoard.getInstance().setTextLabel("Hum... It's a fail ! You Loose !");
-				setActivePageLeaderBoard();
-
 			}
 		} else {
-			LeaderBoard.getInstance().setTextLabel("Congrats  ! You Win  !");
+			LeaderBoard.getInstance().setTextLabel("win");
 			setActivePageLeaderBoard();
 		}
 
 	}
 
 	private void setActivePageLeaderBoard() {
-		LeaderBoard.getInstance().setDeathCount(nbDeath);
+		LeaderBoard.getInstance().setDeathCount(nbDeath - 1);
 		init();
 		Game.getInstance().setSize(Game.getInstance().getWidth() + 1, Game.getInstance().getHeight() + 1);
 		Game.getInstance().setContentPane(LeaderBoard.getInstance());
@@ -385,6 +383,14 @@ public class Map extends JPanel {
 
 	public void setNbDeath(int nbDeath) {
 		this.nbDeath = nbDeath;
+	}
+
+	public boolean isHasPlay() {
+		return hasPlay;
+	}
+
+	public void setHasPlay(boolean hasPlay) {
+		this.hasPlay = hasPlay;
 	}
 
 }
