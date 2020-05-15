@@ -1,6 +1,13 @@
 
 package ch.hearc.wp2.p2.jeu.items.Caractere;
 
+import java.awt.Graphics;
+import java.awt.Image;
+import java.awt.image.ImageObserver;
+import java.awt.image.ImageProducer;
+
+import javax.swing.ImageIcon;
+
 import ch.hearc.wp2.p2.jeu.Map;
 import ch.hearc.wp2.p2.jeu.items.Item;
 
@@ -10,11 +17,27 @@ public class Player extends Item {
 	private boolean isAlive;
 	private boolean isWalking;
 	private boolean run = false;
-	
+	private Thread animator;
+	private int spriteCmpt = 0;
+	private Image playerImage;
+	private ImageIcon playerIcon;
 
 	public Player(Item it) {
 		super(it);
-
+		animator = new Thread(new Runnable() {
+			@Override
+			public void run() {
+				System.out.println("setting image");
+				setImage();
+				try {
+					Thread.sleep(300);
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
+			}
+		});
+		animator.start();
+		
 	}
 
 	public Player(double x, double y, double w, double h, boolean v, int heart) {
@@ -33,7 +56,6 @@ public class Player extends Item {
 	public boolean isRunning() { return this.isRunning(); }
 	
 
-	
 	//setters
 	public void setHeart(int heart) { this.heart = heart; }
 
@@ -42,6 +64,14 @@ public class Player extends Item {
 	public void setWalk(boolean walk) { this.isWalking = walk; }
 	
 	public void setRun(boolean run) { this.run = run; }
+	
+	public void setImage(){
+		if (!(isWalking && run)){
+			playerIcon = new ImageIcon("ressources/sprites/idle/adventurer-idle-0"+spriteCmpt%3+".png");
+			this.playerImage = this.playerIcon.getImage();
+		}
+		spriteCmpt ++;
+	}
 	
 	public void jump() {
 		for (int i = 0; i < 8 * Map.BLOC_WH / 5; i++) {

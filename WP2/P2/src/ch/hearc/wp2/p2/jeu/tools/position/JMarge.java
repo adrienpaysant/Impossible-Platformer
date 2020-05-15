@@ -6,6 +6,8 @@ import java.awt.BorderLayout;
 import javax.swing.JComponent;
 import javax.swing.JPanel;
 
+import ch.hearc.wp2.p2.jeu.tools.JComponents;
+
 public class JMarge extends JPanel
 	{
 
