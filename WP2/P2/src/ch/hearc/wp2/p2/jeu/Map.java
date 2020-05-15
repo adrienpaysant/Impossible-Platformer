@@ -38,7 +38,7 @@ public class Map extends JPanel {
 	private static final int CLOUD_WH = 75;
 	private static final int SPEED = 3;
 	private static final int PLAYER_H = 55;
-	private static final int PLAYER_W = 25;
+	private static final int PLAYER_W = 30;
 	public static final int GRAVITY = 4;
 	private static final int HEART_WH = 25;
 	private static final int PLAYER_NB_LIFE = 30;
@@ -78,7 +78,7 @@ public class Map extends JPanel {
 
 		this.game = Game.getInstance();
 		this.exitButton = new ExitButton("Back To Main Menu", "MainMenu");
-		this.player = new Player(getGame().getWidth() / 2, getGame().getHeight() / 3, PLAYER_W, PLAYER_H, true,
+		this.player = new Player(getGame().getWidth() / 2, 0, PLAYER_W, PLAYER_H, true,
 				PLAYER_NB_LIFE);
 		this.dX = 0;
 		this.groundH = 2 * getGame().getHeight() / 3;
@@ -150,9 +150,13 @@ public class Map extends JPanel {
 			if (player.isAlive()) {
 				// player
 				player.moveByY(GRAVITY);
-				g2d.setColor(Color.black);
-				if (player.isVisible())
-					g2d.fill(player);
+				//g2d.setColor(Color.black);
+				if (player.isVisible()) {
+					//g2d.fill(player);
+					g2d.drawImage(player.getImage(), (int)player.height, (int)player.width, (int)player.y, (int)player.x, 0, 0,
+							player.getImage().getHeight(null), player.getImage().getWidth(null), null);
+					g2d.draw(player);
+				}
 
 				// hearts of the player :
 				for (int i = 0; i < player.getHeart(); i++) {
