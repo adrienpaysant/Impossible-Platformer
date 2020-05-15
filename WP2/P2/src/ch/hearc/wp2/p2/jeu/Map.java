@@ -42,7 +42,7 @@ public class Map extends JPanel {
 	public static final int GRAVITY = 4;
 	private static final int HEART_WH = 25;
 	private static final int PLAYER_NB_LIFE = 30;
-	private static final boolean DEBUG = false;
+	private static final boolean DEBUG = true;
 
 	private Game game;
 	private ExitButton exitButton;
@@ -298,18 +298,18 @@ public class Map extends JPanel {
 			}
 
 			// trap
-//			// spike from bottom
+//			// spike from ground
 			if (i % 15 == 76) {
 
 				SpikeBloc tBloc = new SpikeBloc(-BLOC_WH / 4 + BLOC_WH * (i + player.x / 50 - 1), groundH, BLOC_WH,
-						BLOC_WH, false, ShopImage.SPIKEB, false, true, TypeTrap.SPIKEB);
+						BLOC_WH, false, ShopImage.SPIKEG, TypeTrap.SPIKEG);
 				listBloc.add(tBloc);
 				listTrap.add(tBloc);
 			}
 			// spike from top
-			if (i % 11 == 23) {
+			if (i % 11 == 2) {
 				SpikeBloc tBloc = new SpikeBloc(-BLOC_WH / 4 + BLOC_WH * (i + player.x / 50 + 3),
-						-3 * BLOC_WH + groundH, BLOC_WH, BLOC_WH, false, ShopImage.SPIKET, true, true, TypeTrap.SPIKET);
+						-3 * BLOC_WH + groundH, BLOC_WH, BLOC_WH, false, ShopImage.SPIKET, TypeTrap.SPIKET);
 
 				listBloc.add(tBloc);
 				listTrap.add(tBloc);
@@ -318,7 +318,7 @@ public class Map extends JPanel {
 			if (i % 15 == 16) {
 
 				SpikeBloc tBloc = new SpikeBloc(-BLOC_WH / 4 + BLOC_WH * (i + player.x / 50 + 2), -BLOC_WH + groundH,
-						BLOC_WH, BLOC_WH, false, ShopImage.SPIKER, false, false, TypeTrap.SPIKER);
+						BLOC_WH, BLOC_WH, false, ShopImage.SPIKEL, TypeTrap.SPIKEL);
 
 				listBloc.add(tBloc);
 				listTrap.add(tBloc);
@@ -375,6 +375,5 @@ public class Map extends JPanel {
 	public ArrayList<MovingBloc> getListMovingBloc() {
 		return listMovingBloc;
 	}
-
 
 }

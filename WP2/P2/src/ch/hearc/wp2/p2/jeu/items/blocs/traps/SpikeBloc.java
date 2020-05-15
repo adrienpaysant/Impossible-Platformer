@@ -14,23 +14,20 @@ import ch.hearc.wp2.p2.jeu.tools.image.ShopImage;
 
 public class SpikeBloc extends TrapBloc {
 
-	private boolean directionPosDown;
-	private boolean groundTrueOrWall;
 	private Bloc bSource;
 	private boolean isOut;
 
-	public SpikeBloc(double x, double y, double w, double h, boolean v, Image texture, boolean directionPosDown,
-			boolean groundTrueOrWall, TypeTrap type) {
+	public SpikeBloc(double x, double y, double w, double h, boolean v, Image texture, TypeTrap type) {
 		super(x, y, w, h, false, texture, type);
 
 		switch (type) {
 		case SPIKER:
 			bSource = new Bloc(x, y, Map.BLOC_WH, Map.BLOC_WH, true, ShopImage.PATHBLOCK);
-			this.x=x+5;
+			this.x = x + 5;
 			break;
 		case SPIKEL:
 			bSource = new Bloc(x, y, Map.BLOC_WH, Map.BLOC_WH, true, ShopImage.PATHBLOCK);
-			this.x=x-5;
+			this.x = x - 5;
 			break;
 		case SPIKET:
 			bSource = new Bloc(x, y, Map.BLOC_WH, Map.BLOC_WH, true, ShopImage.PATHBLOCK);
@@ -38,7 +35,7 @@ public class SpikeBloc extends TrapBloc {
 			this.width = width - 10;
 			this.y = y + 5;
 			break;
-		case SPIKEB:
+		case SPIKEG:
 			bSource = new Bloc(x, y, Map.BLOC_WH, Map.BLOC_WH, true, ShopImage.PATHBLOCK);
 			this.x = x + 5;
 			this.width = width - 10;
@@ -48,9 +45,6 @@ public class SpikeBloc extends TrapBloc {
 			break;
 		}
 		Map.getInstance().getListBloc().add(bSource);
-
-		this.directionPosDown = directionPosDown;
-		this.groundTrueOrWall = groundTrueOrWall;
 		this.isOut = false;
 	}
 
@@ -58,59 +52,56 @@ public class SpikeBloc extends TrapBloc {
 	public void trapAction() {
 		this.setVisible(true);
 		if (!isOut) {
-			if (groundTrueOrWall) {
-				// ground or floor
-				if (directionPosDown) {
-					// stick on the ground
-					moveByY(Map.BLOC_WH - 5);
-					setTexture(ShopImage.SPIKET);
-					isOut = true;
-				} else {
-					// floor
-					moveByY(-Map.BLOC_WH + 5);
-					setTexture(ShopImage.SPIKEB);
-					isOut = true;
-				}
-			} else {
-				// wall L or R
-				if (directionPosDown) {
-					// stick of a wall need to expand by left
-					setTexture(ShopImage.SPIKEL);
-					moveByX(-Map.BLOC_WH + 5);
-					isOut = true;
-				} else {
-					// stick of a wall need to expand by right
-					moveByX(Map.BLOC_WH - 5);
-					setTexture(ShopImage.SPIKER);
-					isOut = true;
-				}
+
+			switch (type) {
+			case SPIKER://spike expanding by right
+				moveByX(Map.BLOC_WH - 5);
+				setTexture(ShopImage.SPIKER);
+				isOut = true;
+				break;
+			case SPIKEL://spike expanding by left
+				setTexture(ShopImage.SPIKEL);
+				moveByX(-Map.BLOC_WH + 5);
+				isOut = true;
+				break;
+			case SPIKET: //spike expanding down
+				moveByY(Map.BLOC_WH - 5);
+				setTexture(ShopImage.SPIKET);
+				isOut = true;
+				break;
+			case SPIKEG://spike expanding up
+				moveByY(-Map.BLOC_WH + 5);
+				setTexture(ShopImage.SPIKEG);
+				isOut = true;
+				break;
+			default:
+				break;
 			}
+
 		}
+
 	}
 
 	@Override
 	public void revertAction() {
 		this.setVisible(false);
-//		this.moveTo(new Point2D.Double(bSource.x, bSource.y - 1));
-		if (groundTrueOrWall) {
-			// ground or floor
-			if (directionPosDown) {
-				// stick on the ground
-				moveTo(new Point2D.Double(bSource.x+5, bSource.y +5));
-			} else {
-				// floor
-				moveByY(Map.BLOC_WH);
-				moveTo(new Point2D.Double(bSource.x+5, bSource.y - 5));
-			}
-		} else {
-			// wall L or R
-			if (directionPosDown) {
-				// stick of a wall need to expand by left
-				moveTo(new Point2D.Double(bSource.x, bSource.y));
-			} else {
-				// stick of a wall need to expand by right
-				moveTo(new Point2D.Double(bSource.x + 5, bSource.y));
-			}
+//		
+
+		switch (type) {
+		case SPIKER:
+			moveTo(new Point2D.Double(bSource.x + 5, bSource.y));
+			break;
+		case SPIKEL:
+			moveTo(new Point2D.Double(bSource.x, bSource.y));
+			break;
+		case SPIKET:
+			moveTo(new Point2D.Double(bSource.x + 5, bSource.y + 5));
+			break;
+		case SPIKEG:
+			moveTo(new Point2D.Double(bSource.x + 5, bSource.y - 5));
+			break;
+		default:
+			break;
 		}
 		isOut = false;
 

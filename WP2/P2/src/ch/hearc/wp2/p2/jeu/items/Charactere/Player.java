@@ -111,7 +111,7 @@ public class Player extends Item {
 
 	private void trapThePlayer(Item it) {
 		if (it instanceof TrapBloc) {
-			if ((((TrapBloc) it).type == TypeTrap.SPIKET) || (((TrapBloc) it).type == TypeTrap.SPIKEB)
+			if ((((TrapBloc) it).type == TypeTrap.SPIKET) || (((TrapBloc) it).type == TypeTrap.SPIKEG)
 					|| (((TrapBloc) it).type == TypeTrap.SPIKER) || (((TrapBloc) it).type == TypeTrap.SPIKEL))
 				switch (((TrapBloc) it).type) {
 				case SPIKER:
@@ -136,9 +136,9 @@ public class Player extends Item {
 						respawn();
 					}
 					break;
-				case SPIKEB:
+				case SPIKEG:
 
-					if (contactBottom(it)) {
+					if (contactBottom(new Bloc(it.x, it.y-5, it.width, it.height, it.isVisible(), ((TrapBloc) it).getTexture()))) {
 						((TrapBloc) it).trapAction();
 						this.setHeart(getHeart() - 1);
 						respawn();

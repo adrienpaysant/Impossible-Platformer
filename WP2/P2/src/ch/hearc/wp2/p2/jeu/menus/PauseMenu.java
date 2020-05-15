@@ -14,7 +14,8 @@ import javax.swing.SwingUtilities;
 import ch.hearc.wp2.p2.jeu.Game;
 import ch.hearc.wp2.p2.jeu.Map;
 import ch.hearc.wp2.p2.jeu.tools.Keyboard;
-import ch.hearc.wp2.p2.jeu.tools.KeyboardMenu;
+import ch.hearc.wp2.p2.jeu.tools.KeyboardMenuPause;
+import ch.hearc.wp2.p2.jeu.tools.KeyboardMenuPause;
 import ch.hearc.wp2.p2.jeu.tools.position.JCenter;
 import ch.hearc.wp2.p2.jeu.tools.position.JCenterH;
 
@@ -32,7 +33,7 @@ public class PauseMenu extends JPanel {
 	public static PauseMenu getInstance() {
 		if (pauseMenu == null) {
 			pauseMenu = new PauseMenu();
-			pauseMenu.addKeyListener(new KeyboardMenu());
+			pauseMenu.addKeyListener(new KeyboardMenuPause());
 		}
 		return pauseMenu;
 	}

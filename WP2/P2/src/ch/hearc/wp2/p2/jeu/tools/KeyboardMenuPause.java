@@ -10,7 +10,7 @@ import ch.hearc.wp2.p2.jeu.Game;
 import ch.hearc.wp2.p2.jeu.Map;
 import ch.hearc.wp2.p2.jeu.menus.PauseMenu;
 
-public class KeyboardMenu implements KeyListener {
+public class KeyboardMenuPause implements KeyListener {
 
 	@Override
 	public void keyTyped(KeyEvent e) {
