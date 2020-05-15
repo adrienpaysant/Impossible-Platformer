@@ -3,14 +3,11 @@ package ch.hearc.wp2.p2.jeu;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
-import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 
-import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import ch.hearc.wp2.p2.jeu.items.Charactere.Player;
@@ -141,7 +138,7 @@ public class Map extends JPanel {
 
 			// test the victory
 			if (lastCPset)
-				if (player.getMaxX() >= lastCP.getCenterX()) {
+				if (player.getMaxX() >= lastCP.getCenterX() && player.getMaxY() <= lastCP.y) {
 					win = true;
 				}
 			// number of death
@@ -185,11 +182,6 @@ public class Map extends JPanel {
 
 					}
 				}
-
-				// sun
-				g2d.drawImage(ShopImage.SUN, game.getWidth() - SUN_WH, 0, game.getWidth(), SUN_WH, 0, 0,
-						ShopImage.DEATH.getWidth(null), ShopImage.DEATH.getHeight(null), null);
-
 			} else {
 				LeaderBoard.getInstance().setTextLabel("Hum... It's a fail ! You Loose !");
 				setActivePageLeaderBoard();
@@ -228,7 +220,7 @@ public class Map extends JPanel {
 	private void updateLastCP() {
 		// Update of last checkpoint
 		for (CheckPointBloc cpBloc : listCPBloc) {
-			if (player.getCenterX() >= cpBloc.getCenterX() && player.getMaxY() >= cpBloc.y) {
+			if (player.getCenterX() >= cpBloc.x && player.getMaxY() <= cpBloc.y) {
 				cpBloc.setCheck(true);
 			}
 			if (listCPBloc.indexOf(cpBloc) == 0)
@@ -316,7 +308,7 @@ public class Map extends JPanel {
 				listBloc.add(tBloc);
 				listTrap.add(tBloc);
 			}
-			
+
 			// from left
 			if (i % 15 == 1) {
 

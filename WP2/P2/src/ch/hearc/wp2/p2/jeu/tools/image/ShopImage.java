@@ -60,7 +60,6 @@ public class ShopImage extends Object {
 	public static final Image SPIKET = function("/Blocks/spikesT.png");
 
 	// decorations
-	public static final Image SUN = function("/Blocks/sun.png");
 	public static final Image CLOUD = function("/Blocks/cloud.png");
 	public static final Image BACKGROUND = function("/images/bg.png");
 	public static final Image PAUSE = function("/images/pause.png");
