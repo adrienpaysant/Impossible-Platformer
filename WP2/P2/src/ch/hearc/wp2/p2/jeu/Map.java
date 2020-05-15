@@ -43,7 +43,7 @@ public class Map extends JPanel {
 	public static final int GRAVITY = 4;
 	private static final int HEART_WH = 25;
 	private static final int PLAYER_NB_LIFE = 30;
-	private static final boolean DEBUG = true;
+	private static final boolean DEBUG = false;
 
 	private Game game;
 	private ExitButton exitButton;
@@ -78,7 +78,7 @@ public class Map extends JPanel {
 	private Map() {
 
 		this.game = Game.getInstance();
-		this.exitButton = new ExitButton("Back To Main Menu", "MainMenu");
+		this.exitButton = new ExitButton("Pause", "PauseMenu");
 		this.player = new Player(getGame().getWidth() / 2, getGame().getHeight() / 3, PLAYER_W, PLAYER_H, true,
 				PLAYER_NB_LIFE);
 		this.dX = 0;
@@ -234,7 +234,7 @@ public class Map extends JPanel {
 		}
 	}
 
-	private void init() {
+	public void init() {
 
 		player.setHeart(Map.PLAYER_NB_LIFE);
 		player.setAlive(true);

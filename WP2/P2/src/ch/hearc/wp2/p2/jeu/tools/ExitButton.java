@@ -7,6 +7,7 @@ import javax.swing.JButton;
 
 import ch.hearc.wp2.p2.jeu.Game;
 import ch.hearc.wp2.p2.jeu.menus.MainMenu;
+import ch.hearc.wp2.p2.jeu.menus.PauseMenu;
 
 public class ExitButton extends JButton {
 
@@ -22,8 +23,11 @@ public class ExitButton extends JButton {
 				case "MainMenu":
 					Game.getInstance().setContentPane(MainMenu.getInstance());
 					break;
+				case "PauseMenu":
+					Game.getInstance().setContentPane(PauseMenu.getInstance());
+					break;
 
-				default:Game.getInstance().setContentPane(MainMenu.getInstance());
+				default:Game.getInstance().setContentPane(PauseMenu.getInstance());
 					break;
 				}
 

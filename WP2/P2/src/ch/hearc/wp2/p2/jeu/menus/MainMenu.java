@@ -24,15 +24,17 @@ public class MainMenu extends JPanel {
 	private JButtonMenu play;
 	private JButtonMenu about;
 	private JButtonMenu options;
+	private JButtonMenu leaderBoard;
 	private Game game;
-	private static MainMenu mainMenu=null;
-	
-	//singleton
+	private static MainMenu mainMenu = null;
+
+	// singleton
 	public static MainMenu getInstance() {
-		if(mainMenu==null)
+		if (mainMenu == null)
 			mainMenu = new MainMenu();
 		return mainMenu;
 	}
+
 	private MainMenu() {
 
 		this.game = Game.getInstance();
@@ -47,7 +49,10 @@ public class MainMenu extends JPanel {
 		quit = new JButtonMenu("Quit");
 		about = new JButtonMenu("About");
 		options = new JButtonMenu("Options");
+		leaderBoard = new JButtonMenu("LeaderBoard");
 		boxV.add(new JCenterH(play));
+		boxV.add(Box.createVerticalStrut(20));
+		boxV.add(new JCenterH(leaderBoard));
 		boxV.add(Box.createVerticalStrut(20));
 		boxV.add(new JCenterH(options));
 		boxV.add(Box.createVerticalStrut(20));
@@ -74,6 +79,14 @@ public class MainMenu extends JPanel {
 						Map.getInstance().requestFocusInWindow();
 					}
 				});
+				game.setSize(game.getWidth() - 1, game.getHeight() - 1);
+			}
+		});
+		leaderBoard.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				game.setSize(game.getWidth() + 1, game.getHeight() + 1);
+				game.setContentPane(LeaderBoard.getInstance());
 				game.setSize(game.getWidth() - 1, game.getHeight() - 1);
 			}
 		});

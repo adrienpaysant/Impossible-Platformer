@@ -86,10 +86,10 @@ public class PauseMenu extends JPanel {
 			public void actionPerformed(ActionEvent e) {
 				game.setSize(game.getWidth() + 1, game.getHeight() + 1);
 				game.setContentPane(MainMenu.getInstance());
+				Map.getInstance().init();
 				game.setSize(game.getWidth() - 1, game.getHeight() - 1);
 			}
 		});
-
 	}
 
 	@Override
