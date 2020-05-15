@@ -3,7 +3,18 @@ package ch.hearc.wp2.p2.jeu.menus;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Image;
+import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
+import java.io.EOFException;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.util.ArrayList;
 
 import javax.imageio.ImageIO;
 import javax.swing.JButton;
@@ -25,6 +36,7 @@ public class LeaderBoard extends JPanel {
 	private ExitButton exitButton;
 	private JLabel label;
 	private int nbDeath;
+	private ArrayList<String> listData = new ArrayList<String>();
 
 	// singleton
 	public static LeaderBoard getInstance() {
@@ -34,7 +46,6 @@ public class LeaderBoard extends JPanel {
 	}
 
 	private LeaderBoard() {
-
 		this.game = Game.getInstance();
 		nbDeath = 0;
 		this.exitButton = new ExitButton("Back to Menu", "MainMenu");
@@ -47,6 +58,21 @@ public class LeaderBoard extends JPanel {
 
 		add(new JCenterH(exitButton));
 		add(new JCenter(label));
+
+		readFile();
+		updateFile();
+
+	}
+
+	public void readFile() {
+
+	}
+
+	public void updateFile() {
+
+	}
+
+	public void addToList() {
 
 	}
 
