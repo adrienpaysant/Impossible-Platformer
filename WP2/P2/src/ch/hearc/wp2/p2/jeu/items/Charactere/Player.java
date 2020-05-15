@@ -172,7 +172,7 @@ public class Player extends Item {
 	}
 
 	public void respawn() {
-
+		Map.getInstance().setNbDeath(Map.getInstance().getNbDeath() + 1);
 		CheckPointBloc last = Map.getInstance().checkLastCP();
 		for (Bloc bloc : Map.getInstance().getListBloc()) {
 			if (bloc instanceof TrapBloc) {

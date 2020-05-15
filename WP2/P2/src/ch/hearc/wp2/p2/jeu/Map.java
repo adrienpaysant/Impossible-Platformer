@@ -40,6 +40,7 @@ public class Map extends JPanel {
 	private static final int PLAYER_H = 55;
 	private static final int PLAYER_W = 25;
 	public static final int GRAVITY = 4;
+	private static final int DEATH_WH = 75;
 	private static final boolean DEBUG = false;
 
 	private Game game;
@@ -143,6 +144,9 @@ public class Map extends JPanel {
 				if (player.getMaxX() >= lastCP.getCenterX()) {
 					win = true;
 				}
+			// number of death
+			g2d.drawImage(ShopImage.DEATH, 0, 0, DEATH_WH, DEATH_WH, 0, 0, ShopImage.DEATH.getWidth(null),
+					ShopImage.DEATH.getHeight(null), null);
 
 			// player is Alive ?
 			if (player.isAlive()) {
@@ -184,7 +188,7 @@ public class Map extends JPanel {
 
 				// sun
 				g2d.drawImage(ShopImage.SUN, game.getWidth() - SUN_WH, 0, game.getWidth(), SUN_WH, 0, 0,
-						ShopImage.HEART.getWidth(null), ShopImage.HEART.getHeight(null), null);
+						ShopImage.DEATH.getWidth(null), ShopImage.DEATH.getHeight(null), null);
 
 			} else {
 				LeaderBoard.getInstance().setTextLabel("Hum... It's a fail ! You Loose !");
@@ -224,7 +228,7 @@ public class Map extends JPanel {
 	private void updateLastCP() {
 		// Update of last checkpoint
 		for (CheckPointBloc cpBloc : listCPBloc) {
-			if (player.getCenterX() >= cpBloc.getCenterX()) {
+			if (player.getCenterX() >= cpBloc.getCenterX() && player.getMaxY() >= cpBloc.y) {
 				cpBloc.setCheck(true);
 			}
 			if (listCPBloc.indexOf(cpBloc) == 0)
@@ -261,7 +265,7 @@ public class Map extends JPanel {
 		listBloc.add(firstCP);
 		listCPBloc.add(firstCP);
 		firstCP.setCheck(true);
-		for (int i = 0; i < 2 * Main.WIDTH / 50; i++) {
+		for (int i = 0; i < Main.WIDTH / 50; i++) {
 
 			int alea = 5 + (int) (Math.random() * ((15 - 5) + 1));
 			if (i % 20 != 0) {
@@ -331,10 +335,15 @@ public class Map extends JPanel {
 			}
 
 		}
+		// trap before end
+		FallBloc tBloc = new FallBloc(-BLOC_WH / 4 + BLOC_WH * (Main.WIDTH / 50 + player.x / 50 - 1), groundH, BLOC_WH,
+				BLOC_WH, true, ShopImage.LEAVESBLOCK, TypeTrap.FALL);
 
+		listBloc.add(tBloc);
+		listTrap.add(tBloc);
 		// last cp
-		lastCP = new CheckPointBloc(-BLOC_WH / 4 + BLOC_WH * (2 * Main.WIDTH / 50 + player.x / 50 - 1), groundH,
-				BLOC_WH, BLOC_WH, true, ShopImage.SANDBLOCK);
+		lastCP = new CheckPointBloc(-BLOC_WH / 4 + BLOC_WH * (Main.WIDTH / 50 + player.x / 50), groundH, BLOC_WH,
+				BLOC_WH, true, ShopImage.SANDBLOCK);
 		listBloc.add(lastCP);
 		listCPBloc.add(lastCP);
 		lastCPset = true;
