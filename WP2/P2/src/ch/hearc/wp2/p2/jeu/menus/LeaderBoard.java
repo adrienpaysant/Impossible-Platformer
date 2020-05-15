@@ -3,8 +3,17 @@ package ch.hearc.wp2.p2.jeu.menus;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Image;
+import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
+import java.io.EOFException;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.List;
 
 import javax.imageio.ImageIO;
 
@@ -49,20 +58,57 @@ public class LeaderBoard extends JPanel {
 		add(new JCenterH(exitButton));
 		add(new JCenter(label));
 
-		readFile();
-		updateFile();
+//		try {
+//			String tab[] = read();
+//			System.out.println(tab);
+//		} catch (IOException e) {
+//			e.printStackTrace();
+//		}
 
 	}
 
-	public void readFile() {
+	public String[] read() throws IOException {
 
+		FileInputStream fis = new FileInputStream(getClass().getResource("data.csv").getFile());
+		BufferedInputStream bis = new BufferedInputStream(fis);
+		DataInputStream dis = new DataInputStream(bis);
+
+		List<String> listData = new LinkedList<String>();
+
+		try {
+			while (true) {
+				String value = dis.readLine();
+				listData.add(value);
+			}
+		} catch (EOFException e) {
+			// rien
+		}
+
+		String[] tabData = new String[listData.size()];
+		listData.toArray(tabData); // vide la liste dans le tableau, tableau qui a du etre creer avant
+
+		fis.close();
+		bis.close();
+		dis.close();
+
+		return tabData;
+	}
+
+	public static void write(String[] tab) throws IOException {
+		FileOutputStream fos = new FileOutputStream("../ressources/data.csv");
+		BufferedOutputStream bos = new BufferedOutputStream(fos);
+		DataOutputStream dos = new DataOutputStream(bos);
+
+		for (String value : tab) {
+			dos.writeChars(value);
+		}
+
+		dos.close();
+		bos.close();
+		fos.close();
 	}
 
 	public void updateFile() {
-
-	}
-
-	public void addToList() {
 
 	}
 
