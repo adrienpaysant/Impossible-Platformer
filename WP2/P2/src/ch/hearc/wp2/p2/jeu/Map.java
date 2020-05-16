@@ -326,8 +326,13 @@ public class Map extends JPanel {
 
 		listBloc.add(tBloc);
 		listTrap.add(tBloc);
+		FallBloc t2Bloc = new FallBloc(-BLOC_WH / 4 + BLOC_WH * (Main.WIDTH / 50 + player.x / 50 +1), groundH, BLOC_WH,
+				BLOC_WH, true, ShopImage.LEAVESBLOCK, TypeTrap.FALL);
+
+		listBloc.add(t2Bloc);
+		listTrap.add(t2Bloc);
 		// last cp
-		lastCP = new CheckPointBloc(-BLOC_WH / 4 + BLOC_WH * (Main.WIDTH / 50 + player.x / 50), groundH, BLOC_WH,
+		lastCP = new CheckPointBloc(-BLOC_WH / 4 + BLOC_WH * (Main.WIDTH / 50 + player.x / 50+4), groundH, BLOC_WH,
 				BLOC_WH, true, ShopImage.SANDBLOCK);
 		listBloc.add(lastCP);
 		listCPBloc.add(lastCP);
