@@ -11,7 +11,6 @@ public class Audio {
 	private Clip clip;
 
 	public Audio(String path) throws UnsupportedAudioFileException, IOException {
-
 		try {
 			AudioInputStream audio = AudioSystem.getAudioInputStream(getClass().getResource(path));
 			clip = AudioSystem.getClip();
@@ -36,9 +35,16 @@ public class Audio {
 		clip.stop();
 	}
 
-	public static void playSound(String path) throws UnsupportedAudioFileException, IOException {
-		Audio s = new Audio(path);
-		s.play();
+	public static void playSound(String path) {
+		Audio s;
+		try {
+			s = new Audio(path);
+			s.play();
+		} catch (UnsupportedAudioFileException | IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
 	}
 
 }

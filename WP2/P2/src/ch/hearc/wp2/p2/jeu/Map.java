@@ -7,8 +7,10 @@ import java.awt.Graphics2D;
 
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
+import java.io.IOException;
 import java.util.ArrayList;
 
+import javax.sound.sampled.UnsupportedAudioFileException;
 import javax.swing.JPanel;
 
 import ch.hearc.wp2.p2.jeu.items.Charactere.Player;
@@ -21,6 +23,7 @@ import ch.hearc.wp2.p2.jeu.items.blocs.traps.TrapBloc;
 import ch.hearc.wp2.p2.jeu.items.blocs.traps.TypeTrap;
 import ch.hearc.wp2.p2.jeu.items.decoration.Cloud;
 import ch.hearc.wp2.p2.jeu.menus.LeaderBoard;
+import ch.hearc.wp2.p2.jeu.tools.Audio;
 import ch.hearc.wp2.p2.jeu.tools.Chrono;
 import ch.hearc.wp2.p2.jeu.tools.ChronoMovingBloc;
 import ch.hearc.wp2.p2.jeu.tools.ChronoTrap;
@@ -131,11 +134,10 @@ public class Map extends JPanel {
 			// test statement player
 			if (player.getMaxY() >= getGame().getHeight()) {
 				player.setJumping(true);
+				Audio.playSound("/audio/die.wav");
 				player.respawn();
 			}
-			if (player.y >= Main.HEIGHT + BLOC_WH) {
-				player.setAlive(false);
-			}
+
 
 			updateLastCP();
 
@@ -150,44 +152,41 @@ public class Map extends JPanel {
 			g2d.setFont(new Font("Monospaced", Font.BOLD, 45));
 			g2d.drawString(":" + (nbDeath - 1) + " DEATHS", DEATH_WH, 2 * DEATH_WH / 3);
 
-			// player is Alive ?
-			if (player.isAlive()) {
-				// player
-				player.moveByY(GRAVITY);
-				g2d.setColor(Color.black);
-				if (player.isVisible())
-					g2d.fill(player);
+			player.moveByY(GRAVITY);
+			g2d.setColor(Color.black);
+			if (player.isVisible())
+				g2d.fill(player);
 
-				// blocs
-				g2d.setColor(Color.green);
-				for (Bloc bloc : listBloc) {
-					// - dX to move with the player
-					bloc.moveByX(-dX * SPEED);
+			// blocs
+			g2d.setColor(Color.green);
+			for (Bloc bloc : listBloc) {
+				// - dX to move with the player
+				bloc.moveByX(-dX * SPEED);
 
-					if (DEBUG) {
-						// debug mode
-						g2d.drawRect((int) bloc.x, (int) bloc.y, (int) bloc.width, (int) bloc.height);
-					} else {
-						if (bloc.isVisible()) {
-							g2d.drawImage(bloc.getTexture(), (int) bloc.x, (int) bloc.y, (int) (bloc.width + bloc.x),
-									(int) (bloc.height + bloc.y), 0, 0, bloc.getTexture().getWidth(null),
-									bloc.getTexture().getHeight(null), null);
-						}
-					}
-				}
-
-				// cloud
-				for (Cloud cld : listCloud) {
-					// - dX to move with the player
-					cld.moveByX(-dX * SPEED);
-					if (cld.isVisible()) {
-						g2d.drawImage(cld.getTexture(), (int) cld.x, (int) cld.y, (int) (cld.width + cld.x),
-								(int) (cld.height + cld.y), 0, 0, cld.getTexture().getWidth(null),
-								cld.getTexture().getHeight(null), null);
-
+				if (DEBUG) {
+					// debug mode
+					g2d.drawRect((int) bloc.x, (int) bloc.y, (int) bloc.width, (int) bloc.height);
+				} else {
+					if (bloc.isVisible()) {
+						g2d.drawImage(bloc.getTexture(), (int) bloc.x, (int) bloc.y, (int) (bloc.width + bloc.x),
+								(int) (bloc.height + bloc.y), 0, 0, bloc.getTexture().getWidth(null),
+								bloc.getTexture().getHeight(null), null);
 					}
 				}
 			}
+
+			// cloud
+			for (Cloud cld : listCloud) {
+				// - dX to move with the player
+				cld.moveByX(-dX * SPEED);
+				if (cld.isVisible()) {
+					g2d.drawImage(cld.getTexture(), (int) cld.x, (int) cld.y, (int) (cld.width + cld.x),
+							(int) (cld.height + cld.y), 0, 0, cld.getTexture().getWidth(null),
+							cld.getTexture().getHeight(null), null);
+
+				}
+			}
+		
 		} else {
 			LeaderBoard.getInstance().setTextLabel("win");
 			setActivePageLeaderBoard();
@@ -198,6 +197,7 @@ public class Map extends JPanel {
 	private void setActivePageLeaderBoard() {
 		LeaderBoard.getInstance().setDeathCount(nbDeath - 1);
 		init();
+		Game.getInstance().setCurrent("leaderboard");
 		Game.getInstance().setSize(Game.getInstance().getWidth() + 1, Game.getInstance().getHeight() + 1);
 		Game.getInstance().setContentPane(LeaderBoard.getInstance());
 		Game.getInstance().setSize(Game.getInstance().getWidth() - 1, Game.getInstance().getHeight() - 1);
@@ -231,7 +231,6 @@ public class Map extends JPanel {
 
 	public void init() {
 		nbDeath = 0;
-		player.setAlive(true);
 		win = false;
 		setdX(0);
 		boolean first = true;

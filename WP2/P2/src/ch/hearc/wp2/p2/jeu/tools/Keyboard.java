@@ -53,6 +53,7 @@ public class Keyboard implements KeyListener {
 		} else if (e.getKeyCode() == KeyEvent.VK_SPACE || e.getKeyCode() == KeyEvent.VK_UP) {
 			Map.getInstance().setHasPlay(true);
 			Map.getInstance().getPlayer().jump();
+			
 		} else if (e.getKeyCode() == KeyEvent.VK_SHIFT) {
 			shift = true;
 		} else if (e.getKeyCode() == KeyEvent.VK_ESCAPE || e.getKeyCode() == KeyEvent.VK_P) {

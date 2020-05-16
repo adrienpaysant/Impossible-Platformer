@@ -25,6 +25,7 @@ import javax.swing.JPanel;
 import ch.hearc.wp2.p2.jeu.Game;
 import ch.hearc.wp2.p2.jeu.Main;
 import ch.hearc.wp2.p2.jeu.Map;
+import ch.hearc.wp2.p2.jeu.tools.Audio;
 import ch.hearc.wp2.p2.jeu.tools.ExitButton;
 import ch.hearc.wp2.p2.jeu.tools.position.JCenter;
 import ch.hearc.wp2.p2.jeu.tools.position.JCenterH;
@@ -133,9 +134,11 @@ public class LeaderBoard extends JPanel {
 		g2d.setFont(new Font("Monospaced", Font.ITALIC, 25));
 		if (Map.getInstance().isHasPlay())
 			if (label.getText() == "win") {
+				Audio.playSound("/audio/win.wav");
 				printSimpleString("You win after " + (nbDeath) + " death(s).", Main.WIDTH / 3, Main.WIDTH / 3,
 						Main.WIDTH / 13, g2d);
 			} else if (label.getText() == "fail") {
+				Audio.playSound("/audio/fail.wav");
 				System.out.println("fail nbd " + nbDeath);
 				printSimpleString("You play, and died " + (nbDeath) + " time(s)...You should train a bit",
 						Main.WIDTH / 3, Main.WIDTH / 3, Main.WIDTH / 13, g2d);

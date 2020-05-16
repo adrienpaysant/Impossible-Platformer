@@ -3,16 +3,17 @@ package ch.hearc.wp2.p2.jeu.items.Charactere;
 
 import java.awt.geom.Point2D;
 
+import ch.hearc.wp2.p2.jeu.Game;
 import ch.hearc.wp2.p2.jeu.Map;
 import ch.hearc.wp2.p2.jeu.items.Item;
 import ch.hearc.wp2.p2.jeu.items.blocs.Bloc;
 import ch.hearc.wp2.p2.jeu.items.blocs.actions.CheckPointBloc;
 import ch.hearc.wp2.p2.jeu.items.blocs.traps.TrapBloc;
 import ch.hearc.wp2.p2.jeu.items.blocs.traps.TypeTrap;
+import ch.hearc.wp2.p2.jeu.tools.Audio;
 
 public class Player extends Item {
 
-	private boolean isAlive;
 	private boolean isJumping;
 
 	public Player(Item it) {
@@ -22,19 +23,8 @@ public class Player extends Item {
 
 	public Player(double x, double y, double w, double h, boolean v) {
 		super(x, y, w, h, v);
-		this.setAlive(true);
 		this.setJumping(false);
 
-	}
-
-	// getters & setters
-
-	public boolean isAlive() {
-		return isAlive;
-	}
-
-	public void setAlive(boolean isAlive) {
-		this.isAlive = isAlive;
 	}
 
 	// methodes
@@ -148,6 +138,7 @@ public class Player extends Item {
 	public void jump() {
 		if (!isJumping) {
 			setJumping(true);
+			Audio.playSound("/audio/jump.wav");
 			for (int i = 0; i < 3 * Map.BLOC_WH; i++) {
 				boolean test = true;
 				for (Bloc b : Map.getInstance().getListBloc()) {
@@ -161,14 +152,6 @@ public class Player extends Item {
 			}
 		}
 
-	}
-
-	public boolean isJumping() {
-		return isJumping;
-	}
-
-	public void setJumping(boolean isJumping) {
-		this.isJumping = isJumping;
 	}
 
 	public void respawn() {
@@ -188,6 +171,15 @@ public class Player extends Item {
 
 		}
 		moveTo(new Point2D.Double(x, last.y - height - Map.BLOC_WH / 2));
-
 	}
+
+	// getter & setter
+	public boolean isJumping() {
+		return isJumping;
+	}
+
+	public void setJumping(boolean isJumping) {
+		this.isJumping = isJumping;
+	}
+
 }

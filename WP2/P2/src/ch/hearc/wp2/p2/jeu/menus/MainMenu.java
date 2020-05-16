@@ -13,6 +13,7 @@ import javax.swing.SwingUtilities;
 
 import ch.hearc.wp2.p2.jeu.Game;
 import ch.hearc.wp2.p2.jeu.Map;
+import ch.hearc.wp2.p2.jeu.tools.Audio;
 import ch.hearc.wp2.p2.jeu.tools.position.JCenter;
 import ch.hearc.wp2.p2.jeu.tools.position.JCenterH;
 
@@ -71,6 +72,8 @@ public class MainMenu extends JPanel {
 		play.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				Audio.playSound("/audio/respawn.wav");
+				Game.getInstance().setCurrent("map");
 				game.setSize(game.getWidth() + 1, game.getHeight() + 1);
 				game.setContentPane(Map.getInstance());
 				// for the focus in map
@@ -82,9 +85,16 @@ public class MainMenu extends JPanel {
 				game.setSize(game.getWidth() - 1, game.getHeight() - 1);
 			}
 		});
+		options.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				Game.getInstance().setCurrent("options");
+			}
+		});
 		leaderBoard.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				Game.getInstance().setCurrent("leaderboard");
 				game.setSize(game.getWidth() + 1, game.getHeight() + 1);
 				game.setContentPane(LeaderBoard.getInstance());
 				game.setSize(game.getWidth() - 1, game.getHeight() - 1);
@@ -93,6 +103,7 @@ public class MainMenu extends JPanel {
 		about.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				Game.getInstance().setCurrent("about");
 				game.setSize(game.getWidth() + 1, game.getHeight() + 1);
 				game.setContentPane(About.getInstance());
 				game.setSize(game.getWidth() - 1, game.getHeight() - 1);

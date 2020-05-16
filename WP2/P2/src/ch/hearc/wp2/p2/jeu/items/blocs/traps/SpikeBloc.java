@@ -10,6 +10,7 @@ import java.awt.image.BufferedImage;
 
 import ch.hearc.wp2.p2.jeu.Map;
 import ch.hearc.wp2.p2.jeu.items.blocs.Bloc;
+import ch.hearc.wp2.p2.jeu.tools.Audio;
 import ch.hearc.wp2.p2.jeu.tools.image.ShopImage;
 
 public class SpikeBloc extends TrapBloc {
@@ -50,6 +51,7 @@ public class SpikeBloc extends TrapBloc {
 
 	@Override
 	public void trapAction() {
+		Audio.playSound("/audio/die.wav");
 		this.setVisible(true);
 		if (!isOut) {
 

@@ -9,6 +9,7 @@ import javax.swing.WindowConstants;
 @SuppressWarnings("serial")
 public class Game extends JFrame {
 	//singleton
+	private String current;
 	private static Game game=null;
 	public static Game getInstance() {
 		if(game==null)
@@ -25,6 +26,12 @@ public class Game extends JFrame {
 		setLocationRelativeTo(null);
 		setResizable(false);
 		setFocusable(true);
+	}
+	public String getCurrent() {
+		return current;
+	}
+	public void setCurrent(String current) {
+		this.current = current;
 	}
 	
 	

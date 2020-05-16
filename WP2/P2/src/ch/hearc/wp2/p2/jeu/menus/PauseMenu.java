@@ -13,6 +13,7 @@ import javax.swing.SwingUtilities;
 
 import ch.hearc.wp2.p2.jeu.Game;
 import ch.hearc.wp2.p2.jeu.Map;
+import ch.hearc.wp2.p2.jeu.tools.Audio;
 import ch.hearc.wp2.p2.jeu.tools.Keyboard;
 import ch.hearc.wp2.p2.jeu.tools.KeyboardMenuPause;
 import ch.hearc.wp2.p2.jeu.tools.KeyboardMenuPause;
@@ -61,6 +62,8 @@ public class PauseMenu extends JPanel {
 		resume.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				Audio.playSound("/audio/respawn.wav");
+				Game.getInstance().setCurrent("map");
 				game.setSize(game.getWidth() + 1, game.getHeight() + 1);
 				game.setContentPane(Map.getInstance());
 				// for the focus in map
@@ -75,6 +78,7 @@ public class PauseMenu extends JPanel {
 		options.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				Game.getInstance().setCurrent("options");
 				game.setSize(game.getWidth() + 1, game.getHeight() + 1);
 				game.setContentPane(Options.getInstance());
 				game.setSize(game.getWidth() - 1, game.getHeight() - 1);
@@ -84,15 +88,14 @@ public class PauseMenu extends JPanel {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				Game.getInstance().setCurrent("leaderboard");
 				LeaderBoard.getInstance().setDeathCount(Map.getInstance().getNbDeath() - 1);
 				LeaderBoard.getInstance().setTextLabel("fail");
 				game.setSize(game.getWidth() + 1, game.getHeight() + 1);
 				game.setContentPane(LeaderBoard.getInstance());
 				Map.getInstance().init();
 				game.setSize(game.getWidth() - 1, game.getHeight() - 1);
-				
-				
-				
+
 			}
 		});
 	}
