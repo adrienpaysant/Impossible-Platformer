@@ -2,8 +2,12 @@
 package ch.hearc.wp2.p2.jeu;
 
 import java.awt.Dimension;
+import java.io.IOException;
+
+import javax.sound.sampled.UnsupportedAudioFileException;
 
 import ch.hearc.wp2.p2.jeu.menus.MainMenu;
+import ch.hearc.wp2.p2.jeu.tools.Audio;
 
 public class Main {
 
@@ -15,6 +19,8 @@ public class Main {
 		Game game = Game.getInstance();
 		game.setContentPane(MainMenu.getInstance());
 		game.setVisible(true);
+
+		Audio.playSoundLoop("/audio/zipette.wav");
 
 	}
 
