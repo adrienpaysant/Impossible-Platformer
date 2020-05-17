@@ -298,12 +298,12 @@ public class Map extends JPanel {
 		addPlainBloc(10, 1);
 		addPlainBloc(11, 0);
 		addSpikeBloc(11, 4, ShopImage.SPIKER, TypeTrap.SPIKER);
-		addPlainBloc(12, 4);
+		addFallBloc(12, 4);
 		addPlainBloc(13, -2);
 		addPlainBloc(13, 0);
 		addSpikeBloc(13, -1, ShopImage.SPIKEL, TypeTrap.SPIKEL);
 		addSpikeBloc(13, 1, ShopImage.SPIKET, TypeTrap.SPIKET);
-		addFallBloc(13, 4);
+		addPlainBloc(13, 4);
 		addCheckPoint(14, 4);
 		addPlainBloc(15, 3);
 		addSpikeBloc(16, 2, ShopImage.SPIKEL, TypeTrap.SPIKEL);
@@ -324,28 +324,38 @@ public class Map extends JPanel {
 		addSpikeBloc(27, -1, ShopImage.SPIKEG, TypeTrap.SPIKEG);
 		addPlainBloc(28, -1);
 		addSpikeBloc(29, -2, ShopImage.SPIKEL, TypeTrap.SPIKEL);
-		addCheckPoint(30, -4);
-		addSpikeBloc(31, -5, ShopImage.SPIKER, TypeTrap.SPIKER);
+		addCheckPoint(30, -3);
+		addSpikeBloc(31, -4, ShopImage.SPIKER, TypeTrap.SPIKER);
 		addSpikeBloc(32, 1, ShopImage.SPIKET, TypeTrap.SPIKET);
 		addFallBloc(33, 1);
-		addPlainBloc(33, -7);
-		addSpikeBloc(33, -6, ShopImage.SPIKEL, TypeTrap.SPIKEL);
-		addPlainBloc(33, -5);
+		addSpikeBloc(33, -6, ShopImage.SPIKET, TypeTrap.SPIKET);
+		addSpikeBloc(33, -5, ShopImage.SPIKEL, TypeTrap.SPIKEL);
+		addPlainBloc(33, -4);
 		addPlainBloc(34, 1);
-		
-		
-		
-		
+		addPlainBloc(35, 0);
+		addFallBloc(36, -1);
+		addSpikeBloc(37, -2, ShopImage.SPIKET, TypeTrap.SPIKET);
+		addSpikeBloc(38, -3, ShopImage.SPIKER, TypeTrap.SPIKER);
+		addPlainBloc(37, 1);
+		addPlainBloc(38, 1);
+		addPlainBloc(39, 0);
+		addFallBloc(40, -1);
+		addSpikeBloc(41, -2, ShopImage.SPIKER, TypeTrap.SPIKER);
+		addPlainBloc(42, -3);
+		addSpikeBloc(43, -2, ShopImage.SPIKET, TypeTrap.SPIKET);
+		addFallBloc(44, -1);
+
+		// last cp
+		lastCP = new CheckPointBloc(-BLOC_WH / 4 + BLOC_WH * 45, groundH, BLOC_WH, BLOC_WH, true, ShopImage.SANDBLOCK);
+		listBloc.add(lastCP);
+		listCPBloc.add(lastCP);
+		lastCPset = true;
+
 		// decoration
 //					if (i % alea == 1) {// cloud between 151 & 221 on y parameter
 //						listCloud.add(new Cloud(CLOUD_WH * i, groundH / 4 + alea * 7 - CLOUD_WH / 3 + 6, CLOUD_WH, CLOUD_WH,
 //								true, ShopImage.CLOUD));
-//		// last cp
-//		lastCP = new CheckPointBloc(-BLOC_WH / 4 + BLOC_WH * (Main.WIDTH / 50 + player.x / 50+4), groundH, BLOC_WH,
-//				BLOC_WH, true, ShopImage.SANDBLOCK);
-//		listBloc.add(lastCP);
-//		listCPBloc.add(lastCP);
-//		lastCPset = true;
+
 		player.respawn();
 
 	}
