@@ -4,7 +4,7 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
-
+import java.awt.Image;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.io.IOException;
@@ -138,7 +138,6 @@ public class Map extends JPanel {
 				player.respawn();
 			}
 
-
 			updateLastCP();
 
 			// test the victory
@@ -186,7 +185,7 @@ public class Map extends JPanel {
 
 				}
 			}
-		
+
 		} else {
 			LeaderBoard.getInstance().setTextLabel("win");
 			setActivePageLeaderBoard();
@@ -249,94 +248,61 @@ public class Map extends JPanel {
 
 	}
 
+	// tools to set up the bloc
+	private void addPlainBlock(int coefX, int coefY) {
+		listBloc.add(new Bloc(-BLOC_WH / 4 + BLOC_WH * coefX, groundH + BLOC_WH * coefY, BLOC_WH, BLOC_WH, true,
+				ShopImage.STONEPATHBLOCK));
+	}
+
+	private void addSpikeBloc(int coefX, int coefY, Image img, TypeTrap type) {
+		SpikeBloc tBloc = new SpikeBloc(-BLOC_WH / 4 + BLOC_WH * coefX, coefY * BLOC_WH + groundH, BLOC_WH, BLOC_WH,
+				false, img, type);
+		listBloc.add(tBloc);
+		listTrap.add(tBloc);
+
+	}
+
+	private void addFallBloc(int coefX, int coefY) {
+		FallBloc tBloc = new FallBloc(-BLOC_WH / 4 + BLOC_WH * coefX, groundH + BLOC_WH * coefY, BLOC_WH, BLOC_WH, true,
+				ShopImage.LEAVESBLOCK, TypeTrap.FALL);
+		listBloc.add(tBloc);
+		listTrap.add(tBloc);
+
+	}
+
+	private void addCheckPoint(int coefX, int coefY) {
+		CheckPointBloc b2 = new CheckPointBloc(-BLOC_WH / 4 + BLOC_WH * coefX, BLOC_WH * coefY + groundH, BLOC_WH,
+				BLOC_WH, true, ShopImage.ICEBLOCKTOP);// CheckPoint
+		listBloc.add(b2);
+		listCPBloc.add(b2);
+
+	}
+
 	// creating the map
 	private void setBlocList() {
 
-		firstCP = new CheckPointBloc(-BLOC_WH / 4 + BLOC_WH * (player.x / 50 - 1), groundH, BLOC_WH, BLOC_WH, true,
-				ShopImage.ICEDIRTBLOCK);
+		// first checkpoint
+		firstCP = new CheckPointBloc(-BLOC_WH / 4, groundH, BLOC_WH, BLOC_WH, true, ShopImage.ICEDIRTBLOCK);
 		listBloc.add(firstCP);
 		listCPBloc.add(firstCP);
 		firstCP.setCheck(true);
-		for (int i = 0; i < Main.WIDTH / 50; i++) {
 
-			int alea = 5 + (int) (Math.random() * ((15 - 5) + 1));
-			if (i % 20 != 0) {
-				// Bloc
+		addPlainBlock(1, 0);
+		addFallBloc(2, 0);
+		addFallBloc(3, 0);
+		addSpikeBloc(4, -1, ShopImage.SPIKEL, TypeTrap.SPIKEL);
+		addCheckPoint(6, 2);
 
-				// path = 1st Layer
-
-				listBloc.add(new Bloc(-BLOC_WH / 4 + BLOC_WH * (i + player.x / 50 - 1), groundH, BLOC_WH, BLOC_WH, true,
-						ShopImage.PATHBLOCK));// classic
-				// bloc
-
-//				// block in the sky
-//				if (i % 20 == 4) {
-//					listBloc.add(new Bloc(-BLOC_WH / 4 + BLOC_WH * (i + 2 + player.x / 50 - 1),
-//							-2.5 * BLOC_WH + groundH, BLOC_WH, BLOC_WH, true, ShopImage.FORESTBLOCK));
-//				}
-
-				// checkpoint
-				if (i % 20 == 13) {
-					CheckPointBloc b2 = new CheckPointBloc(-BLOC_WH / 4 + BLOC_WH * (i + player.x / 50 - 1), groundH,
-							BLOC_WH, BLOC_WH, true, ShopImage.ICEBLOCKTOP);// CheckPoint
-					listBloc.add(b2);
-					listCPBloc.add(b2);
-				}
-
-			}
-
-			// decoration
-			if (i % alea == 1) {// cloud between 151 & 221 on y parameter
-				listCloud.add(new Cloud(CLOUD_WH * i, groundH / 4 + alea * 7 - CLOUD_WH / 3 + 6, CLOUD_WH, CLOUD_WH,
-						true, ShopImage.CLOUD));
-			}
-
-			// trap
-//			// spike from ground
-			if (i % 15 == 7) {
-
-				SpikeBloc tBloc = new SpikeBloc(-BLOC_WH / 4 + BLOC_WH * (i + player.x / 50 - 1), groundH, BLOC_WH,
-						BLOC_WH, false, ShopImage.SPIKEG, TypeTrap.SPIKEG);
-				listBloc.add(tBloc);
-				listTrap.add(tBloc);
-			}
-			// spike from top
-			if (i % 11 == 21) {
-				SpikeBloc tBloc = new SpikeBloc(-BLOC_WH / 4 + BLOC_WH * (i + player.x / 50 + 3),
-						-3 * BLOC_WH + groundH, BLOC_WH, BLOC_WH, false, ShopImage.SPIKET, TypeTrap.SPIKET);
-
-				listBloc.add(tBloc);
-				listTrap.add(tBloc);
-			}
-
-			// from left
-			if (i % 15 == 1) {
-
-				SpikeBloc tBloc = new SpikeBloc(-BLOC_WH / 4 + BLOC_WH * (i + player.x / 50 + 2), -BLOC_WH + groundH,
-						BLOC_WH, BLOC_WH, false, ShopImage.SPIKEL, TypeTrap.SPIKEL);
-
-				listBloc.add(tBloc);
-				listTrap.add(tBloc);
-			}
-
-		}
-		// trap before end
-		FallBloc tBloc = new FallBloc(-BLOC_WH / 4 + BLOC_WH * (Main.WIDTH / 50 + player.x / 50 - 1), groundH, BLOC_WH,
-				BLOC_WH, true, ShopImage.LEAVESBLOCK, TypeTrap.FALL);
-
-		listBloc.add(tBloc);
-		listTrap.add(tBloc);
-		FallBloc t2Bloc = new FallBloc(-BLOC_WH / 4 + BLOC_WH * (Main.WIDTH / 50 + player.x / 50 +1), groundH, BLOC_WH,
-				BLOC_WH, true, ShopImage.LEAVESBLOCK, TypeTrap.FALL);
-
-		listBloc.add(t2Bloc);
-		listTrap.add(t2Bloc);
-		// last cp
-		lastCP = new CheckPointBloc(-BLOC_WH / 4 + BLOC_WH * (Main.WIDTH / 50 + player.x / 50+4), groundH, BLOC_WH,
-				BLOC_WH, true, ShopImage.SANDBLOCK);
-		listBloc.add(lastCP);
-		listCPBloc.add(lastCP);
-		lastCPset = true;
+//		// decoration
+//					if (i % alea == 1) {// cloud between 151 & 221 on y parameter
+//						listCloud.add(new Cloud(CLOUD_WH * i, groundH / 4 + alea * 7 - CLOUD_WH / 3 + 6, CLOUD_WH, CLOUD_WH,
+//								true, ShopImage.CLOUD));
+//		// last cp
+//		lastCP = new CheckPointBloc(-BLOC_WH / 4 + BLOC_WH * (Main.WIDTH / 50 + player.x / 50+4), groundH, BLOC_WH,
+//				BLOC_WH, true, ShopImage.SANDBLOCK);
+//		listBloc.add(lastCP);
+//		listCPBloc.add(lastCP);
+//		lastCPset = true;
 		player.respawn();
 
 	}
