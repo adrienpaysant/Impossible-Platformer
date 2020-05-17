@@ -249,7 +249,7 @@ public class Map extends JPanel {
 	}
 
 	// tools to set up the bloc
-	private void addPlainBlock(int coefX, int coefY) {
+	private void addPlainBloc(int coefX, int coefY) {
 		listBloc.add(new Bloc(-BLOC_WH / 4 + BLOC_WH * coefX, groundH + BLOC_WH * coefY, BLOC_WH, BLOC_WH, true,
 				ShopImage.STONEPATHBLOCK));
 	}
@@ -287,13 +287,56 @@ public class Map extends JPanel {
 		listCPBloc.add(firstCP);
 		firstCP.setCheck(true);
 
-		addPlainBlock(1, 0);
+		addPlainBloc(1, 0);
 		addFallBloc(2, 0);
 		addFallBloc(3, 0);
 		addSpikeBloc(4, -1, ShopImage.SPIKEL, TypeTrap.SPIKEL);
 		addCheckPoint(6, 2);
-
-//		// decoration
+		addFallBloc(7, 2);
+		addPlainBloc(8, 2);
+		addSpikeBloc(9, 1, ShopImage.SPIKEL, TypeTrap.SPIKEL);
+		addPlainBloc(10, 1);
+		addPlainBloc(11, 0);
+		addSpikeBloc(11, 4, ShopImage.SPIKER, TypeTrap.SPIKER);
+		addPlainBloc(12, 4);
+		addPlainBloc(13, -2);
+		addPlainBloc(13, 0);
+		addSpikeBloc(13, -1, ShopImage.SPIKEL, TypeTrap.SPIKEL);
+		addSpikeBloc(13, 1, ShopImage.SPIKET, TypeTrap.SPIKET);
+		addFallBloc(13, 4);
+		addCheckPoint(14, 4);
+		addPlainBloc(15, 3);
+		addSpikeBloc(16, 2, ShopImage.SPIKEL, TypeTrap.SPIKEL);
+		addFallBloc(17, 1);
+		addFallBloc(17, 3);
+		addSpikeBloc(18, 0, ShopImage.SPIKEL, TypeTrap.SPIKEL);
+		addSpikeBloc(18, -1, ShopImage.SPIKEL, TypeTrap.SPIKEL);
+		addSpikeBloc(18, -2, ShopImage.SPIKEL, TypeTrap.SPIKEL);
+		addPlainBloc(18, 3);
+		addCheckPoint(19, 3);
+		addPlainBloc(20, 2);
+		addFallBloc(21, 1);
+		addSpikeBloc(22, 0, ShopImage.SPIKEL, TypeTrap.SPIKEL);
+		addPlainBloc(23, -1);
+		addSpikeBloc(24, -1, ShopImage.SPIKEG, TypeTrap.SPIKEG);
+		addFallBloc(25, -1);
+		addFallBloc(26, -1);
+		addSpikeBloc(27, -1, ShopImage.SPIKEG, TypeTrap.SPIKEG);
+		addPlainBloc(28, -1);
+		addSpikeBloc(29, -2, ShopImage.SPIKEL, TypeTrap.SPIKEL);
+		addCheckPoint(30, -4);
+		addSpikeBloc(31, -5, ShopImage.SPIKER, TypeTrap.SPIKER);
+		addSpikeBloc(32, 1, ShopImage.SPIKET, TypeTrap.SPIKET);
+		addFallBloc(33, 1);
+		addPlainBloc(33, -7);
+		addSpikeBloc(33, -6, ShopImage.SPIKEL, TypeTrap.SPIKEL);
+		addPlainBloc(33, -5);
+		addPlainBloc(34, 1);
+		
+		
+		
+		
+		// decoration
 //					if (i % alea == 1) {// cloud between 151 & 221 on y parameter
 //						listCloud.add(new Cloud(CLOUD_WH * i, groundH / 4 + alea * 7 - CLOUD_WH / 3 + 6, CLOUD_WH, CLOUD_WH,
 //								true, ShopImage.CLOUD));
