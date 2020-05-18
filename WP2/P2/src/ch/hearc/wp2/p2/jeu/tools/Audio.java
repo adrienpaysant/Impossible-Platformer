@@ -56,11 +56,12 @@ public class Audio {
 			s = new Audio(path);
 			s.getClip().loop(Clip.LOOP_CONTINUOUSLY);
 			s.play();
-
+			
 		} catch (UnsupportedAudioFileException | IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
+		
 
 }

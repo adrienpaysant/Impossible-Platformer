@@ -16,6 +16,7 @@ import ch.hearc.wp2.p2.jeu.Map;
 import ch.hearc.wp2.p2.jeu.tools.Audio;
 import ch.hearc.wp2.p2.jeu.tools.Keyboard;
 import ch.hearc.wp2.p2.jeu.tools.KeyboardMenuPause;
+import ch.hearc.wp2.p2.jeu.tools.VolumeSlider;
 import ch.hearc.wp2.p2.jeu.tools.KeyboardMenuPause;
 import ch.hearc.wp2.p2.jeu.tools.position.JCenter;
 import ch.hearc.wp2.p2.jeu.tools.position.JCenterH;
@@ -37,7 +38,7 @@ public class PauseMenu extends JPanel {
 		}
 		return pauseMenu;
 	}
-	
+
 	private PauseMenu() {
 
 		this.game = Game.getInstance();
@@ -52,6 +53,8 @@ public class PauseMenu extends JPanel {
 		exit = new JButtonMenu("Exit To Leaderboard");
 		boxV.add(new JCenterH(resume));
 		boxV.add(Box.createVerticalStrut(20));
+		boxV.add(VolumeSlider.getInstance());
+		boxV.add(Box.createVerticalStrut(20));
 		boxV.add(new JCenterH(exit));
 		add(new JCenter(boxV));
 
@@ -59,7 +62,7 @@ public class PauseMenu extends JPanel {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				Audio.playSound("/audio/respawn.wav");
-				Game.getInstance().setCurrent("map"); 
+				Game.getInstance().setCurrent("map");
 				game.setSize(game.getWidth() + 1, game.getHeight() + 1);
 				game.setContentPane(Map.getInstance());
 				// for the focus in map
@@ -71,7 +74,7 @@ public class PauseMenu extends JPanel {
 				game.setSize(game.getWidth() - 1, game.getHeight() - 1);
 			}
 		});
-		
+
 		exit.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -82,7 +85,7 @@ public class PauseMenu extends JPanel {
 				game.setContentPane(LeaderBoard.getInstance());
 				Map.getInstance().init();
 				game.setSize(game.getWidth() - 1, game.getHeight() - 1);
-				
+
 			}
 		});
 	}
