@@ -26,6 +26,7 @@ import ch.hearc.wp2.p2.jeu.Game;
 import ch.hearc.wp2.p2.jeu.Main;
 import ch.hearc.wp2.p2.jeu.Map;
 import ch.hearc.wp2.p2.jeu.tools.Audio;
+import ch.hearc.wp2.p2.jeu.tools.Design;
 import ch.hearc.wp2.p2.jeu.tools.ExitButton;
 import ch.hearc.wp2.p2.jeu.tools.position.JCenter;
 import ch.hearc.wp2.p2.jeu.tools.position.JCenterH;
@@ -129,41 +130,21 @@ public class LeaderBoard extends JPanel {
 
 		g2d.setFont(new Font("Monospaced", Font.BOLD, 50));
 		g2d.setColor(Color.white);
-		printSimpleString("LeaderBoard", Main.WIDTH / 3, Main.WIDTH / 3, Main.WIDTH / 17, g2d);
+		Design.printSimpleString("LeaderBoard", Main.WIDTH / 3, Main.WIDTH / 3, Main.WIDTH / 17, g2d);
 		g2d.drawLine(0, Main.HEIGHT / 7, getWidth(), Main.HEIGHT / 7);
 		g2d.setFont(new Font("Monospaced", Font.ITALIC, 25));
 		if (Map.getInstance().isHasPlay())
 			if (label.getText() == "win") {
 				Audio.playSound("/audio/win.wav");
-				printSimpleString("You win after " + (nbDeath) + " death(s).", Main.WIDTH / 3, Main.WIDTH / 3,
+				Design.printSimpleString("You win after " + (nbDeath) + " death(s).", Main.WIDTH / 3, Main.WIDTH / 3,
 						Main.WIDTH / 13, g2d);
 			} else if (label.getText() == "fail") {
 				Audio.playSound("/audio/fail.wav");
 				System.out.println("fail nbd " + nbDeath);
-				printSimpleString("You play, and died " + (nbDeath) + " time(s)...You should train a bit",
+				Design.printSimpleString("You play, and died " + (nbDeath) + " time(s)...You should train a bit",
 						Main.WIDTH / 3, Main.WIDTH / 3, Main.WIDTH / 13, g2d);
 			}
 		g2d.drawLine(Main.WIDTH / 3, Main.HEIGHT / 9, 2 * Main.WIDTH / 3, Main.HEIGHT / 9);
-	}
-
-	/**
-	 * Methode to draw a centered text in a 2D graphic context
-	 * 
-	 * Methode from Kyle Amburn found on :
-	 * https://coderanch.com/t/336616/java/Center-Align-text-drawString
-	 * 
-	 * NOTE : adding Graphics2D parameter to the original methode from K.Amburn.
-	 * 
-	 * @param s
-	 * @param width
-	 * @param XPos
-	 * @param YPos
-	 * @param g2d
-	 */
-	private void printSimpleString(String s, int width, int XPos, int YPos, Graphics2D g2d) {
-		int stringLen = (int) g2d.getFontMetrics().getStringBounds(s, g2d).getWidth();
-		int start = width / 2 - stringLen / 2;
-		g2d.drawString(s, start + XPos, YPos);
 	}
 
 	// getters & setters
