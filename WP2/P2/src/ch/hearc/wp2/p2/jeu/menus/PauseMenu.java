@@ -26,7 +26,6 @@ public class PauseMenu extends JPanel {
 	private Image bgImage;
 	private JButtonMenu exit;
 	private JButtonMenu resume;
-	private JButtonMenu options;
 	private Game game;
 	// singleton
 	private static PauseMenu pauseMenu = null;
@@ -38,7 +37,7 @@ public class PauseMenu extends JPanel {
 		}
 		return pauseMenu;
 	}
-
+	
 	private PauseMenu() {
 
 		this.game = Game.getInstance();
@@ -51,10 +50,7 @@ public class PauseMenu extends JPanel {
 		Box boxV = Box.createVerticalBox();
 		resume = new JButtonMenu("Resume");
 		exit = new JButtonMenu("Exit To Leaderboard");
-		options = new JButtonMenu("Options");
 		boxV.add(new JCenterH(resume));
-		boxV.add(Box.createVerticalStrut(20));
-		boxV.add(new JCenterH(options));
 		boxV.add(Box.createVerticalStrut(20));
 		boxV.add(new JCenterH(exit));
 		add(new JCenter(boxV));
@@ -63,7 +59,7 @@ public class PauseMenu extends JPanel {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				Audio.playSound("/audio/respawn.wav");
-				Game.getInstance().setCurrent("map");
+				Game.getInstance().setCurrent("map"); 
 				game.setSize(game.getWidth() + 1, game.getHeight() + 1);
 				game.setContentPane(Map.getInstance());
 				// for the focus in map
@@ -75,17 +71,8 @@ public class PauseMenu extends JPanel {
 				game.setSize(game.getWidth() - 1, game.getHeight() - 1);
 			}
 		});
-		options.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				Game.getInstance().setCurrent("options");
-				game.setSize(game.getWidth() + 1, game.getHeight() + 1);
-				game.setContentPane(Options.getInstance());
-				game.setSize(game.getWidth() - 1, game.getHeight() - 1);
-			}
-		});
+		
 		exit.addActionListener(new ActionListener() {
-
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				Game.getInstance().setCurrent("leaderboard");

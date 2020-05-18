@@ -89,6 +89,9 @@ public class MainMenu extends JPanel {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				Game.getInstance().setCurrent("options");
+				game.setSize(game.getWidth() + 1, game.getHeight() + 1);
+				game.setContentPane(Options.getInstance());
+				game.setSize(game.getWidth() - 1, game.getHeight() - 1);
 			}
 		});
 		leaderBoard.addActionListener(new ActionListener() {

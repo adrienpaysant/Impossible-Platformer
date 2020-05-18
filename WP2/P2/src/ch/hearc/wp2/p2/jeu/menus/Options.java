@@ -31,7 +31,6 @@ public class Options extends Box {
 
 	private ExitButton exitButton;
 	private Image bgImage;
-	private String whereIcomeFrom;
 
 	private Options() {
 		super(BoxLayout.Y_AXIS);
@@ -41,10 +40,9 @@ public class Options extends Box {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		this.setWhereIcomeFrom("");
-		this.exitButton = new ExitButton("Back to Menu", "MainMenu");
+		this.exitButton = new ExitButton("Back to Main Menu", "MainMenu");
+		add(new JCenterH(exitButton));
 	}
-
 	@Override
 	protected void paintComponent(Graphics g) {
 		super.paintComponent(g);
@@ -53,7 +51,6 @@ public class Options extends Box {
 	}
 
 	private void draw(Graphics2D g2d) {
-		add(new JCenterH(exitButton));
 		g2d.drawImage(bgImage, 0, 0, getWidth(), getHeight(), 0, 0, bgImage.getWidth(null), bgImage.getHeight(null),
 				null);
 
@@ -66,11 +63,4 @@ public class Options extends Box {
 		g2d.drawLine(Main.WIDTH / 3, Main.HEIGHT / 9, 2 * Main.WIDTH / 3, Main.HEIGHT / 9);
 	}
 
-	public String getWhereIcomeFrom() {
-		return whereIcomeFrom;
-	}
-
-	public void setWhereIcomeFrom(String whereIcomeFrom) {
-		this.whereIcomeFrom = whereIcomeFrom;
-	}
 }
