@@ -245,7 +245,7 @@ public class Map extends JPanel {
 			trap.revertAction();
 		}
 		player.respawn();
-
+		LeaderBoard.getInstance().setHasPlayedSound(false);
 	}
 
 	// tools to set up the bloc

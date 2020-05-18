@@ -42,6 +42,7 @@ public class LeaderBoard extends JPanel {
 	private JLabel label;
 	private int nbDeath;
 	private ArrayList<String> listData = new ArrayList<String>();
+	private boolean hasPlayedSound;
 
 	// singleton
 	public static LeaderBoard getInstance() {
@@ -62,7 +63,7 @@ public class LeaderBoard extends JPanel {
 		}
 
 		add(new JCenterH(exitButton));
-
+		hasPlayedSound = false;
 //		try {
 //			String tab[] = read();
 //			System.out.println(tab);
@@ -134,12 +135,14 @@ public class LeaderBoard extends JPanel {
 		g2d.drawLine(0, Main.HEIGHT / 7, getWidth(), Main.HEIGHT / 7);
 		g2d.setFont(new Font("Monospaced", Font.ITALIC, 25));
 		if (Map.getInstance().isHasPlay())
-			if (label.getText() == "win") {
+			if (label.getText() == "win" && !hasPlayedSound && nbDeath >= 1) {
+				hasPlayedSound = true;
 				Audio.playSound("/audio/win.wav");
 				Design.printSimpleString("You win after " + (nbDeath) + " death(s).", Main.WIDTH / 3, Main.WIDTH / 3,
 						Main.WIDTH / 13, g2d);
-			} else if (label.getText() == "fail") {
+			} else if (label.getText() == "fail" && !hasPlayedSound && nbDeath >= 1) {
 				Audio.playSound("/audio/fail.wav");
+				hasPlayedSound = true;
 				System.out.println("fail nbd " + nbDeath);
 				Design.printSimpleString("You play, and died " + (nbDeath) + " time(s)...You should train a bit",
 						Main.WIDTH / 3, Main.WIDTH / 3, Main.WIDTH / 13, g2d);
@@ -150,6 +153,14 @@ public class LeaderBoard extends JPanel {
 	// getters & setters
 	public void setTextLabel(String txt) {
 		this.label.setText(txt);
+	}
+
+	public JLabel getTextLabel() {
+		return this.label;
+	}
+
+	public void setHasPlayedSound(boolean b) {
+		this.hasPlayedSound = b;
 	}
 
 	public void setDeathCount(int nbDeath) {
