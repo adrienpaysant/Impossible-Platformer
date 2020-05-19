@@ -1,6 +1,8 @@
 
 package ch.hearc.wp2.p2.jeu.items.Charactere;
 
+import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.geom.Point2D;
 import java.io.IOException;
@@ -12,6 +14,7 @@ import ch.hearc.wp2.p2.jeu.items.blocs.Bloc;
 import ch.hearc.wp2.p2.jeu.items.blocs.actions.CheckPointBloc;
 import ch.hearc.wp2.p2.jeu.items.blocs.traps.TrapBloc;
 import ch.hearc.wp2.p2.jeu.items.blocs.traps.TypeTrap;
+import ch.hearc.wp2.p2.jeu.tools.image.Sprite;
 
 @SuppressWarnings("serial")
 public class Player extends Item {
@@ -23,7 +26,7 @@ public class Player extends Item {
 	private boolean isRunning = false;
 	private Thread animator;
 	private int spriteCmpt = 0;
-	private Image sprite;
+	private Sprite sprite;
 	private int sleepFreq = 300;
 
 	public Player(Item it) {
@@ -36,6 +39,7 @@ public class Player extends Item {
 		this.setHeart(heart);
 		this.setAlive(true);
 		this.setJumping(false);
+		this.sprite = new Sprite();
 
 		animator = new Thread(new Runnable() {
 			@Override
@@ -86,44 +90,32 @@ public class Player extends Item {
 	public void setRun(boolean run) {
 		this.isRunning = run;
 	}
-	
+
 	public Image getImage() {
-		System.out.println("height: " + this.getHeight());
-		System.out.println("width: " + this.getWidth());
-		return this.sprite;
+		Image test = sprite.getSprite();
+		return test;
 	}
 
 	// methodes
 
 	public void setImage() {
 		if (!(isWalking && isRunning)) {
-			try {
-				sprite = ImageIO.read(getClass().getResource("/sprites/idle/adventurer-idle-0" + spriteCmpt % 3 + ".png"));
-				spriteCmpt++;
-				sleepFreq = 800;
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-		}
-		if (isWalking) {
-			try {
-				sprite = ImageIO.read(getClass().getResource("/sprites/run/adventurer-run-0" + spriteCmpt % 6 + ".png"));
-				spriteCmpt++;
-				sleepFreq = 500;
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-		}
-		if(isRunning) {
-			try {
-				sprite = ImageIO.read(getClass().getResource("/sprites/run/adventurer-run-0"+ spriteCmpt % 6 + ".png"));
-				spriteCmpt++;
-				sleepFreq = 300;
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
+			sprite.setSprite("/sprites/idle/adventurer-idle-0" + spriteCmpt % 3 + ".png");
+			sleepFreq = 800;
 		}
 		
+		if (isWalking) {
+			sprite.setSprite("/sprites/run/adventurer-run-0" + spriteCmpt % 6 + ".png");
+			sleepFreq = 500;
+		}
+		
+		if (isRunning) {
+			sprite.setSprite("/sprites/run/adventurer-run-0" + spriteCmpt % 6 + ".png");
+			sleepFreq = 300;
+		}
+		
+		spriteCmpt++;
+
 	}
 
 	public boolean contactRight(Item it) {
@@ -163,7 +155,7 @@ public class Player extends Item {
 			return false;
 		}
 	}
-
+	
 	public void contact(Bloc it) {
 		// horizontal hit
 		if (contactRight(it) || contactLeft(it)) {
