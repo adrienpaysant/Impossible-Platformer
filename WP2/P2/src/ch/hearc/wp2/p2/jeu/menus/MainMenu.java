@@ -14,6 +14,7 @@ import javax.swing.SwingUtilities;
 import ch.hearc.wp2.p2.jeu.Game;
 import ch.hearc.wp2.p2.jeu.Map;
 import ch.hearc.wp2.p2.jeu.tools.Audio;
+import ch.hearc.wp2.p2.jeu.tools.VolumeControl;
 import ch.hearc.wp2.p2.jeu.tools.VolumeSlider;
 import ch.hearc.wp2.p2.jeu.tools.position.JCenter;
 import ch.hearc.wp2.p2.jeu.tools.position.JCenterH;
@@ -56,7 +57,7 @@ public class MainMenu extends JPanel {
 		boxV.add(Box.createVerticalStrut(20));
 		boxV.add(new JCenterH(leaderBoard));
 		boxV.add(Box.createVerticalStrut(20));
-		boxV.add(new JCenterH(VolumeSlider.getInstance()));
+		boxV.add(new JCenterH(VolumeControl.getInstance()));
 		boxV.add(Box.createVerticalStrut(20));
 		boxV.add(new JCenterH(about));
 		boxV.add(Box.createVerticalStrut(20));

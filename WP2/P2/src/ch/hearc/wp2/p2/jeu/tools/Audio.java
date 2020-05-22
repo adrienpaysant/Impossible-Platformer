@@ -71,6 +71,7 @@ public class Audio {
 
 	}
 
+//source : Project: Lyst-Master  File: VolumeControl.Java-https://www.javatips.net/api/javax.sound.sampled.floatcontrol
 	public static void setVolume(float volume) {
 		javax.sound.sampled.Mixer.Info[] mixers = AudioSystem.getMixerInfo();
 		for (int i = 0; i < mixers.length; i++) {

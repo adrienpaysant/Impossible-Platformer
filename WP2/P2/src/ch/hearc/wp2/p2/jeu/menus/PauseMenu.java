@@ -16,6 +16,7 @@ import ch.hearc.wp2.p2.jeu.Map;
 import ch.hearc.wp2.p2.jeu.tools.Audio;
 import ch.hearc.wp2.p2.jeu.tools.Keyboard;
 import ch.hearc.wp2.p2.jeu.tools.KeyboardMenuPause;
+import ch.hearc.wp2.p2.jeu.tools.VolumeControl;
 import ch.hearc.wp2.p2.jeu.tools.VolumeSlider;
 import ch.hearc.wp2.p2.jeu.tools.KeyboardMenuPause;
 import ch.hearc.wp2.p2.jeu.tools.position.JCenter;
@@ -53,7 +54,7 @@ public class PauseMenu extends JPanel {
 		exit = new JButtonMenu("Exit To Leaderboard");
 		boxV.add(new JCenterH(resume));
 		boxV.add(Box.createVerticalStrut(20));
-		boxV.add(VolumeSlider.getInstance());
+		boxV.add(VolumeControl.getInstance());
 		boxV.add(Box.createVerticalStrut(20));
 		boxV.add(new JCenterH(exit));
 		add(new JCenter(boxV));
