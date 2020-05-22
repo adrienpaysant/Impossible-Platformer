@@ -92,8 +92,7 @@ public class Player extends Item {
 	}
 
 	public Image getImage() {
-		Image test = sprite.getSprite();
-		return test;
+		return this.sprite.getSprite();
 	}
 
 	// methodes
@@ -101,7 +100,7 @@ public class Player extends Item {
 	public void setImage() {
 		if (!(isWalking && isRunning)) {
 			sprite.setSprite("/sprites/idle/adventurer-idle-0" + spriteCmpt % 3 + ".png");
-			sleepFreq = 800;
+			sleepFreq = 700;
 		}
 		
 		if (isWalking) {
