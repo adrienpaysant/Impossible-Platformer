@@ -7,6 +7,7 @@ import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
+import java.awt.geom.Rectangle2D;
 import java.io.IOException;
 import java.util.ArrayList;
 
@@ -119,12 +120,9 @@ public class Map extends JPanel {
 
 		if (!win) {
 			add(exitButton);
-//				// background
-//				g2d.setColor(new Color(51, 204, 250));
-//				g2d.fill(new Rectangle2D.Double(0, 0, getWidth(), getHeight()));
-//			
-			g2d.drawImage(ShopImage.BACKGROUND, 0, 0, getWidth(), getHeight(), 0, 0,
-					ShopImage.BACKGROUND.getWidth(null), ShopImage.BACKGROUND.getHeight(null), null);
+			// background
+			g2d.setColor(new Color(51, 204, 250));
+			g2d.fill(new Rectangle2D.Double(0, 0, getWidth(), getHeight()));
 
 			// test & collisions
 			for (Bloc bloc : listBloc) {
@@ -185,6 +183,9 @@ public class Map extends JPanel {
 
 				}
 			}
+			// sun
+			g2d.drawImage(ShopImage.SUN, game.getWidth() - SUN_WH, 0, game.getWidth(), SUN_WH, 0, 0,
+					ShopImage.SUN.getWidth(null), ShopImage.SUN.getHeight(null), null);
 
 		} else {
 			LeaderBoard.getInstance().setTextLabel("win");
