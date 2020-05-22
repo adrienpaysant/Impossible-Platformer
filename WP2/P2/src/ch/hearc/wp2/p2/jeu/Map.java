@@ -265,7 +265,7 @@ public class Map extends JPanel {
 
 	private void addFallBloc(int coefX, int coefY) {
 		FallBloc tBloc = new FallBloc(-BLOC_WH / 4 + BLOC_WH * coefX, groundH + BLOC_WH * coefY, BLOC_WH, BLOC_WH, true,
-				ShopImage.LEAVESBLOCK, TypeTrap.FALL);
+				ShopImage.STONEPATHBLOCK, TypeTrap.FALL);
 		listBloc.add(tBloc);
 		listTrap.add(tBloc);
 
