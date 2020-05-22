@@ -28,6 +28,8 @@ public class MainMenu extends JPanel {
 	private JButtonMenu about;
 	private JButtonMenu leaderBoard;
 	private Game game;
+	private VolumeControl vC;
+
 	private static MainMenu mainMenu = null;
 
 	// singleton
@@ -38,7 +40,7 @@ public class MainMenu extends JPanel {
 	}
 
 	private MainMenu() {
-
+		this.vC= new VolumeControl();
 		this.game = Game.getInstance();
 
 		try {
@@ -55,7 +57,7 @@ public class MainMenu extends JPanel {
 		boxV.add(Box.createVerticalStrut(20));
 		boxV.add(new JCenterH(leaderBoard));
 		boxV.add(Box.createVerticalStrut(20));
-		boxV.add(VolumeControl.getInstance());
+		boxV.add(vC);
 		boxV.add(Box.createVerticalStrut(20));
 		boxV.add(new JCenterH(about));
 		boxV.add(Box.createVerticalStrut(20));
@@ -83,6 +85,7 @@ public class MainMenu extends JPanel {
 					}
 				});
 				game.setSize(game.getWidth() - 1, game.getHeight() - 1);
+				PauseMenu.getInstance().getvC().getvS().setValue(vC.getvS().getValue());
 			}
 		});
 		leaderBoard.addActionListener(new ActionListener() {
@@ -111,5 +114,13 @@ public class MainMenu extends JPanel {
 		// allow resizeEvent by deforming Image to the good width and height
 		g.drawImage(bgImage, 0, 0, getWidth(), getHeight(), 0, 0, bgImage.getWidth(null), bgImage.getHeight(null),
 				null);
+	}
+
+	public VolumeControl getvC() {
+		return vC;
+	}
+
+	public void setvC(VolumeControl vC) {
+		this.vC = vC;
 	}
 }

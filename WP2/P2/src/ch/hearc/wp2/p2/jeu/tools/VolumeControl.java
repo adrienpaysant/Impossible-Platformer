@@ -14,21 +14,15 @@ import ch.hearc.wp2.p2.jeu.tools.position.JCenter;
 
 public class VolumeControl extends Box {
 
-	private static VolumeControl volumeControl = null;
-
-	public static VolumeControl getInstance() {
-		if (volumeControl == null) {
-			volumeControl = new VolumeControl();
-		}
-		return volumeControl;
-	}
+	private VolumeSlider vS;
 
 	public VolumeControl() {
 		super(BoxLayout.Y_AXIS);
+		vS=new VolumeSlider(0, 10);
 		add(new JCenter(new JLabel("MASTER VOLUME")));
 		Box bH=Box.createHorizontalBox();
 		bH.add(new JLabel("Min"));
-		bH.add(new JCenter(new VolumeSlider(0, 10)));
+		bH.add(new JCenter(vS));
 		bH.add(new JLabel("Max"));
 		add(bH);
 		JComponents.setHeight(this, 50);
@@ -47,4 +41,13 @@ public class VolumeControl extends Box {
 		g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_OFF);
 		super.paintComponent(g);
 	}
+
+	public VolumeSlider getvS() {
+		return vS;
+	}
+
+	public void setvS(VolumeSlider vS) {
+		this.vS = vS;
+	}
+
 }

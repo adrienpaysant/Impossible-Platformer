@@ -29,6 +29,8 @@ public class PauseMenu extends JPanel {
 	private JButtonMenu exit;
 	private JButtonMenu resume;
 	private Game game;
+	private VolumeControl vC;
+
 	// singleton
 	private static PauseMenu pauseMenu = null;
 
@@ -41,7 +43,7 @@ public class PauseMenu extends JPanel {
 	}
 
 	private PauseMenu() {
-
+		this.vC = new VolumeControl();
 		this.game = Game.getInstance();
 
 		try {
@@ -54,7 +56,7 @@ public class PauseMenu extends JPanel {
 		exit = new JButtonMenu("Exit To Leaderboard");
 		boxV.add(new JCenterH(resume));
 		boxV.add(Box.createVerticalStrut(20));
-		boxV.add(VolumeControl.getInstance());
+		boxV.add(vC);
 		boxV.add(Box.createVerticalStrut(20));
 		boxV.add(new JCenterH(exit));
 		add(new JCenter(boxV));
@@ -97,5 +99,13 @@ public class PauseMenu extends JPanel {
 		// allow resizeEvent by deforming Image to the good width and height
 		g.drawImage(bgImage, 0, 0, getWidth(), getHeight(), 0, 0, bgImage.getWidth(null), bgImage.getHeight(null),
 				null);
+	}
+
+	public VolumeControl getvC() {
+		return vC;
+	}
+
+	public void setvC(VolumeControl vC) {
+		this.vC = vC;
 	}
 }

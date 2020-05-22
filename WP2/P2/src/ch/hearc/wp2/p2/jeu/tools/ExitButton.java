@@ -31,6 +31,7 @@ public class ExitButton extends JButton {
 				switch (target) {
 				case "MainMenu":
 					Game.getInstance().setContentPane(MainMenu.getInstance());
+					MainMenu.getInstance().getvC().getvS().setValue(PauseMenu.getInstance().getvC().getvS().getValue());
 					break;
 				case "PauseMenu":
 					Game.getInstance().setContentPane(PauseMenu.getInstance());
