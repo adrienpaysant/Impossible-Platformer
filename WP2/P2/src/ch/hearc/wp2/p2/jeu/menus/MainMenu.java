@@ -55,7 +55,7 @@ public class MainMenu extends JPanel {
 		boxV.add(Box.createVerticalStrut(20));
 		boxV.add(new JCenterH(leaderBoard));
 		boxV.add(Box.createVerticalStrut(20));
-		boxV.add(new JCenterH(VolumeControl.getInstance()));
+		boxV.add(VolumeControl.getInstance());
 		boxV.add(Box.createVerticalStrut(20));
 		boxV.add(new JCenterH(about));
 		boxV.add(Box.createVerticalStrut(20));
