@@ -15,7 +15,6 @@ public class Main {
 		Game game = Game.getInstance();
 		game.setContentPane(MainMenu.getInstance());
 		game.setVisible(true);
-
 		Audio.playSoundLoop("/audio/zipette.wav");
 	}
 
