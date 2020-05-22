@@ -28,11 +28,15 @@ public class VolumeSlider extends JSlider {
 
 			@Override
 			public void stateChanged(ChangeEvent e) {
-				
+				//Audio.adjustMasterVolume((float) getValue() / getMaximum());
 			}
 		});
 		JComponents.setHeight(this, 25);
 		JComponents.setWidth(this, 200);
+	}
+
+	public VolumeSlider getVolumeSlider() {
+		return this;
 	}
 
 	protected void paintComponent(Graphics g) {
