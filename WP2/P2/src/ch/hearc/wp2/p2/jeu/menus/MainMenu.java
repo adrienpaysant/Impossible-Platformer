@@ -26,7 +26,6 @@ public class MainMenu extends JPanel {
 	private JButtonMenu quit;
 	private JButtonMenu play;
 	private JButtonMenu about;
-	// private JButtonMenu options;
 	private JButtonMenu leaderBoard;
 	private Game game;
 	private static MainMenu mainMenu = null;
@@ -51,7 +50,6 @@ public class MainMenu extends JPanel {
 		play = new JButtonMenu("Play");
 		quit = new JButtonMenu("Quit");
 		about = new JButtonMenu("About");
-		// options = new JButtonMenu("Options");
 		leaderBoard = new JButtonMenu("LeaderBoard");
 		boxV.add(new JCenterH(play));
 		boxV.add(Box.createVerticalStrut(20));
@@ -87,15 +85,6 @@ public class MainMenu extends JPanel {
 				game.setSize(game.getWidth() - 1, game.getHeight() - 1);
 			}
 		});
-//		options.addActionListener(new ActionListener() {
-//			@Override
-//			public void actionPerformed(ActionEvent e) {
-//				Game.getInstance().setCurrent("options");
-//				game.setSize(game.getWidth() + 1, game.getHeight() + 1);
-//				game.setContentPane(Options.getInstance());
-//				game.setSize(game.getWidth() - 1, game.getHeight() - 1);
-//			}
-//		});
 		leaderBoard.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
