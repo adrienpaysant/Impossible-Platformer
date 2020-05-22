@@ -122,6 +122,7 @@ public class Map extends JPanel {
 			add(exitButton);
 			// background
 			g2d.setColor(new Color(51, 204, 250));
+
 			g2d.fill(new Rectangle2D.Double(0, 0, getWidth(), getHeight()));
 
 			// test & collisions
@@ -144,6 +145,7 @@ public class Map extends JPanel {
 					win = true;
 				}
 			// number of death
+			g2d.setColor(Color.black);
 			g2d.drawImage(ShopImage.DEATH, 0, 0, DEATH_WH, DEATH_WH, 0, 0, ShopImage.DEATH.getWidth(null),
 					ShopImage.DEATH.getHeight(null), null);
 			g2d.setFont(new Font("Monospaced", Font.BOLD, 45));
