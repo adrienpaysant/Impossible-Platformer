@@ -155,6 +155,7 @@ public class Player extends Item {
 	}
 
 	public void respawn() {
+		isJumping = false;
 		Map.getInstance().setNbDeath(Map.getInstance().getNbDeath() + 1);
 		CheckPointBloc last = Map.getInstance().checkLastCP();
 		for (Bloc bloc : Map.getInstance().getListBloc()) {
