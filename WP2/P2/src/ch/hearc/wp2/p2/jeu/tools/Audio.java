@@ -71,17 +71,23 @@ public class Audio {
 
 	}
 
-	public static void setVolume(float f) {
-		javax.sound.sampled.Port.Info source = Port.Info.SPEAKER;
-		if (AudioSystem.isLineSupported(source)) {
-			try {
-				Port outline = (Port) AudioSystem.getLine(source);
-				outline.open();
-				FloatControl volumeControl = (FloatControl) outline.getControl(FloatControl.Type.VOLUME);
-				volumeControl.setValue(f);
-				outline.close();
-			} catch (LineUnavailableException ex) {
-				ex.printStackTrace();
+	public static void setVolume(float volume) {
+		javax.sound.sampled.Mixer.Info[] mixers = AudioSystem.getMixerInfo();
+		for (int i = 0; i < mixers.length; i++) {
+			Mixer.Info mixerInfo = mixers[i];
+			Mixer mixer = AudioSystem.getMixer(mixerInfo);
+			Line.Info[] lineinfos = mixer.getTargetLineInfo();
+			for (Line.Info lineinfo : lineinfos) {
+				try {
+					Line line = mixer.getLine(lineinfo);
+					line.open();
+					if (line.isControlSupported(FloatControl.Type.VOLUME)) {
+						FloatControl control = (FloatControl) line.getControl(FloatControl.Type.VOLUME);
+						// Sets everything here.
+						control.setValue((float) volume);
+					}
+				} catch (LineUnavailableException e) {
+				}
 			}
 		}
 	}
