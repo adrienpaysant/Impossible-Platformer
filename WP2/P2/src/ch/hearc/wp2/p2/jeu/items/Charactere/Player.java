@@ -39,7 +39,7 @@ public class Player extends Item {
 		this.setHeart(heart);
 		this.setAlive(true);
 		this.setJumping(false);
-		this.sprite = new Sprite();
+		this.sprite = new Sprite("/sprites/idle/adventurer-idle-00.png");
 
 		animator = new Thread(new Runnable() {
 			@Override
@@ -55,7 +55,8 @@ public class Player extends Item {
 			}
 		});
 		animator.start();
-
+		//for debug (cause sometimes it seems like the player is repoping
+		System.out.println("Player instanciated");
 	}
 
 	// getters & setters
@@ -100,7 +101,7 @@ public class Player extends Item {
 	public void setImage() {
 		if (!(isWalking && isRunning)) {
 			sprite.setSprite("/sprites/idle/adventurer-idle-0" + spriteCmpt % 3 + ".png");
-			sleepFreq = 700;
+			sleepFreq = 500;
 		}
 		
 		if (isWalking) {

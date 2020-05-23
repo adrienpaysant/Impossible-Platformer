@@ -8,9 +8,9 @@ import javax.imageio.ImageIO;
 public class Sprite {
 	private Image sprite;
 	
-	public Sprite() {
+	public Sprite(String src) {
 		try {
-			this.sprite = ImageIO.read(getClass().getResource("/sprites/idle/adventurer-idle-00.png"));
+			this.sprite = ImageIO.read(getClass().getResource(src));
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
