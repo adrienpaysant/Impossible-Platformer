@@ -23,6 +23,7 @@ import ch.hearc.wp2.p2.jeu.tools.position.JCenterH;
 public class MainMenu extends JPanel {
 
 	private Image bgImage;
+	private Image logo;
 	private JButtonMenu quit;
 	private JButtonMenu play;
 	private JButtonMenu about;
@@ -45,6 +46,7 @@ public class MainMenu extends JPanel {
 
 		try {
 			bgImage = ImageIO.read(getClass().getResource("/images/menubg2.jpg"));
+			logo = ImageIO.read(getClass().getResource("/images/logo.png"));
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -112,7 +114,7 @@ public class MainMenu extends JPanel {
 	protected void paintComponent(Graphics g) {
 		super.paintComponent(g);
 		// allow resizeEvent by deforming Image to the good width and height
-		g.drawImage(bgImage, 0, 0, getWidth(), getHeight(), 0, 0, bgImage.getWidth(null), bgImage.getHeight(null),
+		g.drawImage(logo, 0, 0, getWidth(), getHeight(), 0, 0, logo.getWidth(null), logo.getHeight(null),
 				null);
 	}
 
