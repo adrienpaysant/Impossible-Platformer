@@ -1,5 +1,7 @@
 package ch.hearc.wp2.p2.jeu.menus;
 
+import java.awt.Color;
+import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
@@ -10,6 +12,7 @@ import javax.imageio.ImageIO;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JLabel;
+import javax.swing.SwingConstants;
 
 import ch.hearc.wp2.p2.jeu.Game;
 import ch.hearc.wp2.p2.jeu.tools.position.JCenter;
@@ -38,8 +41,14 @@ public class About extends Box {
 		buttonExit = new JButtonMenu("Back to Menu");
 		add(new JCenterH(buttonExit));
 		add(Box.createVerticalGlue());
-		add(new JCenter(new JLabel("I am the About page-P2 HEARC 2020")));
-		
+		JLabel label = new JLabel("<html>This Project has been created by Adrien Paysant, Joris Monnet and Ugo Crucy<br><br>"
+				+ "The purpose is to manage your way through trapped plateforms to reach the end.<br>"
+				+ "Your number of death will determine your place on the leader board.<br>"
+				+ "Challenge yourself and your friends to be the best player !!<br><br>"
+				+ "This Project has been made for a School Project in Java in the HE-arc in Switzerland, in 2020</html>",SwingConstants.CENTER);
+		label.setFont(new Font("Serif", Font.BOLD, 20));
+		label.setForeground(Color.WHITE);
+		add(new JCenter(label));
 		
 		buttonExit.addActionListener(new ActionListener() {
 			@Override
