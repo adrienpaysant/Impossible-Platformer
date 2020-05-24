@@ -24,8 +24,10 @@ public class Keyboard implements KeyListener {
 			else
 				Map.getInstance().setdX(-1);
 		} else if (right && whoIsLast == "right") {
-			if (shift)
+			if (shift) {
 				Map.getInstance().setdX(1.5);
+			}
+				
 			else
 				Map.getInstance().setdX(1);
 		} else {
@@ -56,6 +58,7 @@ public class Keyboard implements KeyListener {
 			
 		} else if (e.getKeyCode() == KeyEvent.VK_SHIFT) {
 			shift = true;
+			Map.getInstance().getPlayer().setRun(true);
 		} else if (e.getKeyCode() == KeyEvent.VK_ESCAPE || e.getKeyCode() == KeyEvent.VK_P) {
 			Game.getInstance().setSize(Game.getInstance().getWidth() + 1, Game.getInstance().getHeight() + 1);
 			Game.getInstance().setContentPane(PauseMenu.getInstance());
@@ -89,6 +92,7 @@ public class Keyboard implements KeyListener {
 				whoIsLast = "left";
 		} else if (e.getKeyCode() == KeyEvent.VK_SHIFT) {
 			shift = false;
+			Map.getInstance().getPlayer().setRun(false);
 		}
 		test();
 	}

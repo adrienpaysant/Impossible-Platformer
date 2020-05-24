@@ -9,7 +9,13 @@ public class Chrono implements Runnable {
 	@Override
 	public void run() {
 		while (true) {
-
+			if(Map.getInstance().getdX()==0) {
+				Map.getInstance().getPlayer().setRun(false);
+				Map.getInstance().getPlayer().setWalk(false);
+			}
+			else {
+				Map.getInstance().getPlayer().setWalk(true);
+			}
 			Map.getInstance().repaint();
 			try {
 				Thread.sleep(DELAY);
