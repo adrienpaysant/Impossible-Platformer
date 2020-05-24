@@ -34,20 +34,6 @@ public class Player extends Item {
 		super(x, y, w, h, v);
 		this.setJumping(false);
 		this.texture = texture;
-//		new Thread(new Runnable() {
-//			@Override
-//			public void run() {
-//				while (true) {
-//					try {
-//						setImage();
-//						Thread.sleep(sleepFreq);
-//					} catch (InterruptedException e) {
-//						e.printStackTrace();
-//					}
-//				}
-//			}
-//		}).start();
-
 	}
 
 	// methodes
