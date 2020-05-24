@@ -1,9 +1,12 @@
 
 package ch.hearc.wp2.p2.jeu.items.Charactere;
 
+import java.awt.Image;
 import java.awt.geom.Point2D;
+import java.io.IOException;
 
-import ch.hearc.wp2.p2.jeu.Game;
+import javax.imageio.ImageIO;
+
 import ch.hearc.wp2.p2.jeu.Map;
 import ch.hearc.wp2.p2.jeu.items.Item;
 import ch.hearc.wp2.p2.jeu.items.blocs.Bloc;
@@ -15,19 +18,73 @@ import ch.hearc.wp2.p2.jeu.tools.Audio;
 public class Player extends Item {
 
 	private boolean isJumping;
+	private boolean isRunning;
+	private boolean isWalking;
+	private int spriteCmpt = 0;
+	private int sleepFreq = 300;
+	private Image texture;
 
-	public Player(Item it) {
+	public Player(Item it, Image texture) {
 		super(it);
-
+		this.setJumping(false);
+		this.texture = texture;
 	}
 
-	public Player(double x, double y, double w, double h, boolean v) {
+	public Player(double x, double y, double w, double h, boolean v, Image texture) {
 		super(x, y, w, h, v);
 		this.setJumping(false);
+		this.texture = texture;
+//		new Thread(new Runnable() {
+//			@Override
+//			public void run() {
+//				while (true) {
+//					try {
+//						setImage();
+//						Thread.sleep(sleepFreq);
+//					} catch (InterruptedException e) {
+//						e.printStackTrace();
+//					}
+//				}
+//			}
+//		}).start();
 
 	}
 
 	// methodes
+	public void setImage() {
+		if (!(isWalking && isRunning)) {
+			try {
+				setTexture(ImageIO
+						.read(getClass().getResource("/sprites/idle/adventurer-idle-0" + spriteCmpt % 3 + ".png")));
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			setSleepFreq(800);
+		}
+
+		if (isWalking) {
+			try {
+				setTexture(ImageIO
+						.read(getClass().getResource("/sprites/run/adventurer-run-0" + spriteCmpt % 6 + ".png")));
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			setSleepFreq(500);
+		}
+
+		if (isRunning) {
+			try {
+				setTexture(ImageIO
+						.read(getClass().getResource("/sprites/run/adventurer-run-0" + spriteCmpt % 6 + ".png")));
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			setSleepFreq(300);
+		}
+
+		spriteCmpt++;
+
+	}
 
 	public boolean contactRight(Item it) {
 		if (intersectsLine(it.x - 5, it.y + 5, it.x - 5, it.getMaxY())) {
@@ -183,4 +240,35 @@ public class Player extends Item {
 		this.isJumping = isJumping;
 	}
 
+	public boolean isWalking() {
+		return this.isWalking;
+	}
+
+	public boolean isRunning() {
+		return this.isRunning();
+	}
+
+	public void setWalk(boolean walk) {
+		this.isWalking = walk;
+	}
+
+	public void setRun(boolean run) {
+		this.isRunning = run;
+	}
+
+	public Image getTexture() {
+		return texture;
+	}
+
+	public void setTexture(Image img) {
+		this.texture = img;
+	}
+
+	public int getSleepFreq() {
+		return sleepFreq;
+	}
+
+	public void setSleepFreq(int sleepFreq) {
+		this.sleepFreq = sleepFreq;
+	}
 }

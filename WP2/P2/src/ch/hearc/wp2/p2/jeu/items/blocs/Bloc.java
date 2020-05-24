@@ -24,7 +24,7 @@ public class Bloc extends Item {
 		this(it.x, it.y, it.width, it.height, it.isVisible(), it.texture);
 	}
 
-	// getter
+	// getter &setter
 	public Image getTexture() {
 		return texture;
 	}

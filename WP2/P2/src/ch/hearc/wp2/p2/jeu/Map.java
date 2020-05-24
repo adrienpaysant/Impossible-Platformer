@@ -27,6 +27,7 @@ import ch.hearc.wp2.p2.jeu.menus.LeaderBoard;
 import ch.hearc.wp2.p2.jeu.tools.Audio;
 import ch.hearc.wp2.p2.jeu.tools.Chrono;
 import ch.hearc.wp2.p2.jeu.tools.ChronoMovingBloc;
+import ch.hearc.wp2.p2.jeu.tools.ChronoPlayer;
 import ch.hearc.wp2.p2.jeu.tools.ChronoTrap;
 import ch.hearc.wp2.p2.jeu.tools.ExitButton;
 import ch.hearc.wp2.p2.jeu.tools.Keyboard;
@@ -40,7 +41,7 @@ public class Map extends JPanel {
 	private static final int CLOUD_WH = 75;
 	private static final int SPEED = 3;
 	private static final int PLAYER_H = 55;
-	private static final int PLAYER_W = 25;
+	private static final int PLAYER_W = 30;
 	public static final int GRAVITY = 4;
 	private static final int DEATH_WH = 75;
 	private static final boolean DEBUG = false;
@@ -81,7 +82,8 @@ public class Map extends JPanel {
 
 		this.game = Game.getInstance();
 		this.exitButton = new ExitButton("Pause", "PauseMenu");
-		this.player = new Player(getGame().getWidth() / 2, getGame().getHeight() / 3, PLAYER_W, PLAYER_H, true);
+		this.player = new Player(getGame().getWidth() / 2, getGame().getHeight() / 3, PLAYER_W, PLAYER_H, true,
+				ShopImage.BASEPLAYER);
 		this.dX = 0;
 		this.nbDeath = 0;
 		this.groundH = 2 * getGame().getHeight() / 3;
@@ -105,7 +107,9 @@ public class Map extends JPanel {
 
 		new Thread(new Chrono()).start();
 		new Thread(new ChronoTrap()).start();
-		new Thread(new ChronoMovingBloc()).start();
+		new Thread(new ChronoPlayer()).start();
+		//new Thread(new ChronoMovingBloc()).start();
+		
 	}
 
 	// painting
@@ -153,9 +157,12 @@ public class Map extends JPanel {
 
 			player.moveByY(GRAVITY);
 			g2d.setColor(Color.black);
-			if (player.isVisible())
-				g2d.fill(player);
-
+			if (player.isVisible()) {
+				g2d.drawImage(player.getTexture(), (int) player.x, (int) player.y, (int) (player.width + player.x),
+						(int) (player.height + player.y), 0, 0, player.getTexture().getWidth(null),
+						player.getTexture().getHeight(null), null);
+				//g2d.fill(player);
+			}
 			// blocs
 			g2d.setColor(Color.green);
 			for (Bloc bloc : listBloc) {
