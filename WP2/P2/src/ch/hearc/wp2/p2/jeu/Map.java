@@ -153,7 +153,7 @@ public class Map extends JPanel {
 				//g2d.setColor(Color.black);
 				if (player.isVisible()) {
 					//g2d.fill(player);
-					g2d.drawImage(player.getImage(), (int)player.height/2, (int)player.width/2, (int)player.x*2, (int)player.y*2, null);
+					g2d.drawImage(player.getImage(), (int)player.height, (int)player.width, (int)player.x, (int)player.y, null);
 //					g2d.drawImage(player.getImage(), (int)player.height/2, (int)player.width/2, (int)player.x*2, (int)player.y*2, 1, 1,
 //							player.getImage().getHeight(null), player.getImage().getWidth(null), null);
 					g2d.draw(player);
