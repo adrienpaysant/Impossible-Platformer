@@ -19,6 +19,7 @@ public class Player extends Item {
 	private boolean isJumping;
 	private boolean isRunning;
 	private boolean isWalking;
+	private boolean isFalling;
 	private int spriteCmpt = 0;
 	private int sleepFreq = 300;
 	private Image texture;
@@ -76,6 +77,15 @@ public class Player extends Item {
 			}
 			setSleepFreq(300);
 		}
+		if(isFalling) {
+			try {
+				setTexture(ImageIO
+						.read(getClass().getResource("/sprites/jump/adventurer-jump-0" +spriteCmpt %4 +".png")));
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			setSleepFreq(300);
+		}
 
 		spriteCmpt++;
 
@@ -102,6 +112,7 @@ public class Player extends Item {
 	public boolean contactBottom(Item it) {
 
 		if (intersectsLine(it.x - 3, it.y - 4, it.getMaxX() + 3, it.y - 4)) {
+			isFalling=false;
 			return true;
 
 		} else {
@@ -191,6 +202,7 @@ public class Player extends Item {
 		double yT = y;
 		if (!isJumping) {
 			setJumping(true);
+			setImage();
 			//Audio.playSound("/audio/jump.wav");
 			boolean test = true;
 			while (y >= yT-2.5*Map.BLOC_WH && test==true) {
@@ -204,6 +216,8 @@ public class Player extends Item {
 				if (test)
 					this.moveByY(-.01);
 			}
+			isFalling=true;
+			setImage();
 		}
 
 	}
