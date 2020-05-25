@@ -179,11 +179,13 @@ public class Player extends Item {
 	}
 
 	public void jump() {
+		double yT = y;
 		if (!isJumping) {
 			setJumping(true);
 			Audio.playSound("/audio/jump.wav");
-			for (int i = 0; i < 3 * Map.BLOC_WH; i++) {
-				boolean test = true;
+			boolean test = true;
+			while (y >= yT-2.5*Map.BLOC_WH && test==true) {
+				
 				for (Bloc b : Map.getInstance().getListBloc()) {
 					if (contactTop(b)) {
 						trapThePlayer(b);
@@ -191,7 +193,7 @@ public class Player extends Item {
 					}
 				}
 				if (test)
-					this.moveByY(-1);
+					this.moveByY(-.01);
 			}
 		}
 
