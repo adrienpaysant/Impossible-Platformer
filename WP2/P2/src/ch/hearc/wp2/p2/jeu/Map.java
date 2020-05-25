@@ -14,7 +14,6 @@ import javax.swing.JPanel;
 
 import ch.hearc.wp2.p2.jeu.items.Charactere.Player;
 import ch.hearc.wp2.p2.jeu.items.blocs.Bloc;
-import ch.hearc.wp2.p2.jeu.items.blocs.MovingBloc;
 import ch.hearc.wp2.p2.jeu.items.blocs.actions.CheckPointBloc;
 import ch.hearc.wp2.p2.jeu.items.blocs.traps.FallBloc;
 import ch.hearc.wp2.p2.jeu.items.blocs.traps.SpikeBloc;
@@ -50,7 +49,6 @@ public class Map extends JPanel {
 	private ArrayList<CheckPointBloc> listCPBloc = new ArrayList<CheckPointBloc>();
 	private ArrayList<Cloud> listCloud = new ArrayList<Cloud>();
 	private ArrayList<TrapBloc> listTrap = new ArrayList<TrapBloc>();
-	private ArrayList<MovingBloc> listMovingBloc = new ArrayList<MovingBloc>();
 
 	private CheckPointBloc lastCP;
 	private CheckPointBloc firstCP;
@@ -76,17 +74,6 @@ public class Map extends JPanel {
 
 	// constructor
 	private Map() {
-
-		this.game = Game.getInstance();
-		this.exitButton = new ExitButton("Pause", "PauseMenu");
-		this.player = new Player(getGame().getWidth() / 2, getGame().getHeight() / 3, PLAYER_W, PLAYER_H, true,
-				ShopImage.BASEPLAYER);
-		this.dX = 0;
-		this.nbDeath = 0;
-		this.groundH = 2 * getGame().getHeight() / 3;
-		this.win = false;
-		this.lastCPset = false;
-		this.hasPlay = false;
 		this.addComponentListener(new ComponentAdapter() {
 
 			@Override
@@ -101,11 +88,21 @@ public class Map extends JPanel {
 			}
 
 		});
+		this.game = Game.getInstance();
+		this.exitButton = new ExitButton("Pause", "PauseMenu");
+		this.player = new Player(getGame().getWidth() / 2, getGame().getHeight() / 3, PLAYER_W, PLAYER_H, true,
+				ShopImage.BASEPLAYER);
+		this.dX = 0;
+		this.nbDeath = 0;
+		this.groundH = 2 * getGame().getHeight() / 3;
+		this.win = false;
+		this.lastCPset = false;
+		this.hasPlay = false;
+		
 
 		new Thread(new Chrono()).start();
 		new Thread(new ChronoTrap()).start();
 		new Thread(new ChronoPlayer()).start();
-		//new Thread(new ChronoMovingBloc()).start();
 		
 	}
 
@@ -408,10 +405,6 @@ public class Map extends JPanel {
 	public ArrayList<TrapBloc> getListTrap() {
 
 		return listTrap;
-	}
-
-	public ArrayList<MovingBloc> getListMovingBloc() {
-		return listMovingBloc;
 	}
 
 	public int getNbDeath() {

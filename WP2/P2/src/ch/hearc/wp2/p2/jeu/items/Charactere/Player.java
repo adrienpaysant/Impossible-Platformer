@@ -224,6 +224,9 @@ public class Player extends Item {
 	}
 
 	public void respawn() {
+		if(!Map.getInstance().getListCPBloc().isEmpty()) {
+			
+		
 		isJumping = false;
 		Map.getInstance().setNbDeath(Map.getInstance().getNbDeath() + 1);
 		CheckPointBloc last = Map.getInstance().checkLastCP();
@@ -241,6 +244,7 @@ public class Player extends Item {
 
 		}
 		moveTo(new Point2D.Double(x, last.y - height - Map.BLOC_WH / 2));
+		}
 	}
 
 	// getter & setter
