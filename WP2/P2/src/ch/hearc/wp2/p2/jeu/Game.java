@@ -6,7 +6,6 @@ import java.awt.Dimension;
 import javax.swing.JFrame;
 import javax.swing.WindowConstants;
 
-import ch.hearc.wp2.p2.jeu.tools.Audio;
 
 @SuppressWarnings("serial")
 public class Game extends JFrame {

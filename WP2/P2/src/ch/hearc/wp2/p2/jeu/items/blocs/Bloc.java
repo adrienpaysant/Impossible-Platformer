@@ -2,7 +2,6 @@
 package ch.hearc.wp2.p2.jeu.items.blocs;
 
 import java.awt.Image;
-import java.awt.geom.Rectangle2D;
 
 import ch.hearc.wp2.p2.jeu.items.Item;
 

@@ -2,7 +2,6 @@
 package ch.hearc.wp2.p2.jeu.tools;
 
 import ch.hearc.wp2.p2.jeu.Map;
-import ch.hearc.wp2.p2.jeu.items.blocs.traps.FallBloc;
 import ch.hearc.wp2.p2.jeu.items.blocs.traps.SpikeBloc;
 import ch.hearc.wp2.p2.jeu.items.blocs.traps.TrapBloc;
 

@@ -28,7 +28,6 @@ import ch.hearc.wp2.p2.jeu.Map;
 import ch.hearc.wp2.p2.jeu.tools.Audio;
 import ch.hearc.wp2.p2.jeu.tools.Design;
 import ch.hearc.wp2.p2.jeu.tools.ExitButton;
-import ch.hearc.wp2.p2.jeu.tools.position.JCenter;
 import ch.hearc.wp2.p2.jeu.tools.position.JCenterH;
 
 @SuppressWarnings("serial")

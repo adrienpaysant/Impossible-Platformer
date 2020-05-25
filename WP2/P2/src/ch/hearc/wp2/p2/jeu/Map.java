@@ -8,10 +8,8 @@ import java.awt.Image;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.awt.geom.Rectangle2D;
-import java.io.IOException;
 import java.util.ArrayList;
 
-import javax.sound.sampled.UnsupportedAudioFileException;
 import javax.swing.JPanel;
 
 import ch.hearc.wp2.p2.jeu.items.Charactere.Player;
@@ -26,7 +24,6 @@ import ch.hearc.wp2.p2.jeu.items.decoration.Cloud;
 import ch.hearc.wp2.p2.jeu.menus.LeaderBoard;
 import ch.hearc.wp2.p2.jeu.tools.Audio;
 import ch.hearc.wp2.p2.jeu.tools.Chrono;
-import ch.hearc.wp2.p2.jeu.tools.ChronoMovingBloc;
 import ch.hearc.wp2.p2.jeu.tools.ChronoPlayer;
 import ch.hearc.wp2.p2.jeu.tools.ChronoTrap;
 import ch.hearc.wp2.p2.jeu.tools.ExitButton;

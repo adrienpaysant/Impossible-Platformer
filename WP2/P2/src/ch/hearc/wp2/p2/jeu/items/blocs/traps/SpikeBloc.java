@@ -2,11 +2,7 @@
 package ch.hearc.wp2.p2.jeu.items.blocs.traps;
 
 import java.awt.Image;
-import java.awt.geom.AffineTransform;
 import java.awt.geom.Point2D;
-import java.awt.geom.Rectangle2D.Double;
-import java.awt.image.AffineTransformOp;
-import java.awt.image.BufferedImage;
 
 import ch.hearc.wp2.p2.jeu.Map;
 import ch.hearc.wp2.p2.jeu.items.blocs.Bloc;

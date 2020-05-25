@@ -13,6 +13,7 @@ import ch.hearc.wp2.p2.jeu.items.blocs.Bloc;
 import ch.hearc.wp2.p2.jeu.items.blocs.actions.CheckPointBloc;
 import ch.hearc.wp2.p2.jeu.items.blocs.traps.TrapBloc;
 import ch.hearc.wp2.p2.jeu.items.blocs.traps.TypeTrap;
+import ch.hearc.wp2.p2.jeu.tools.Audio;
 
 public class Player extends Item {
 
@@ -203,7 +204,7 @@ public class Player extends Item {
 		if (!isJumping) {
 			setJumping(true);
 			setImage();
-			//Audio.playSound("/audio/jump.wav");
+			Audio.playSound("/audio/jump.wav");
 			boolean test = true;
 			while (y >= yT-2.5*Map.BLOC_WH && test==true) {
 				

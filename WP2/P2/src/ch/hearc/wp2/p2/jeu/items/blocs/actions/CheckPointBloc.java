@@ -2,9 +2,6 @@
 package ch.hearc.wp2.p2.jeu.items.blocs.actions;
 
 import java.awt.Image;
-import java.awt.geom.Rectangle2D.Double;
-
-import ch.hearc.wp2.p2.jeu.Map;
 import ch.hearc.wp2.p2.jeu.items.blocs.Bloc;
 
 public class CheckPointBloc extends Bloc {
