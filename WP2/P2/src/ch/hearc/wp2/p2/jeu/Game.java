@@ -6,6 +6,8 @@ import java.awt.Dimension;
 import javax.swing.JFrame;
 import javax.swing.WindowConstants;
 
+import ch.hearc.wp2.p2.jeu.tools.Audio;
+
 @SuppressWarnings("serial")
 public class Game extends JFrame {
 	//singleton
@@ -26,6 +28,7 @@ public class Game extends JFrame {
 		setLocationRelativeTo(null);
 		setResizable(false);
 		setFocusable(true);
+		Audio.setVolume((float)0.5);
 	}
 	public String getCurrent() {
 		return current;
