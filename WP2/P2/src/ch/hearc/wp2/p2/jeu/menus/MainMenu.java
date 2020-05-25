@@ -40,9 +40,9 @@ public class MainMenu extends JPanel {
 	}
 
 	private MainMenu() {
-		this.vC= new VolumeControl();
+		this.vC = new VolumeControl();
 		this.game = Game.getInstance();
-
+		Audio.setVolume((float) 0.5);
 		try {
 			bgImage = ImageIO.read(getClass().getResource("/images/menubg2.jpg"));
 			logo = ImageIO.read(getClass().getResource("/images/logo.png"));
@@ -113,8 +113,7 @@ public class MainMenu extends JPanel {
 	protected void paintComponent(Graphics g) {
 		super.paintComponent(g);
 		// allow resizeEvent by deforming Image to the good width and height
-		g.drawImage(logo, 0, 0, getWidth(), getHeight(), 0, 0, logo.getWidth(null), logo.getHeight(null),
-				null);
+		g.drawImage(logo, 0, 0, getWidth(), getHeight(), 0, 0, logo.getWidth(null), logo.getHeight(null), null);
 	}
 
 	public VolumeControl getvC() {
