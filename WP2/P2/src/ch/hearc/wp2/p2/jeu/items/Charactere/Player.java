@@ -13,7 +13,6 @@ import ch.hearc.wp2.p2.jeu.items.blocs.Bloc;
 import ch.hearc.wp2.p2.jeu.items.blocs.actions.CheckPointBloc;
 import ch.hearc.wp2.p2.jeu.items.blocs.traps.TrapBloc;
 import ch.hearc.wp2.p2.jeu.items.blocs.traps.TypeTrap;
-import ch.hearc.wp2.p2.jeu.tools.Audio;
 
 public class Player extends Item {
 
@@ -62,6 +61,16 @@ public class Player extends Item {
 			try {
 				setTexture(ImageIO
 						.read(getClass().getResource("/sprites/run/adventurer-run-0" + spriteCmpt % 6 + ".png")));
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			setSleepFreq(300);
+		}
+		
+		if (isJumping) {
+			try {
+				setTexture(ImageIO
+						.read(getClass().getResource("/sprites/jump/adventurer-jump-0" +spriteCmpt %4 +".png")));
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
@@ -182,7 +191,7 @@ public class Player extends Item {
 		double yT = y;
 		if (!isJumping) {
 			setJumping(true);
-			Audio.playSound("/audio/jump.wav");
+			//Audio.playSound("/audio/jump.wav");
 			boolean test = true;
 			while (y >= yT-2.5*Map.BLOC_WH && test==true) {
 				
