@@ -21,7 +21,6 @@ import ch.hearc.wp2.p2.jeu.tools.position.JCenterH;
 @SuppressWarnings("serial")
 public class MainMenu extends JPanel {
 
-	private Image bgImage;
 	private Image logo;
 	private JButtonMenu quit;
 	private JButtonMenu play;
@@ -44,7 +43,6 @@ public class MainMenu extends JPanel {
 		this.game = Game.getInstance();
 		Audio.setVolume((float) 0.5);
 		try {
-			bgImage = ImageIO.read(getClass().getResource("/images/menubg2.jpg"));
 			logo = ImageIO.read(getClass().getResource("/images/logo.png"));
 		} catch (IOException e) {
 			e.printStackTrace();

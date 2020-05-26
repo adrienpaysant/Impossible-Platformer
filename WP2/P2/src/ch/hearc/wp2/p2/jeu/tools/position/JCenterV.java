@@ -4,6 +4,7 @@ import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JComponent;
 
+@SuppressWarnings("serial")
 public class JCenterV extends Box
 	{
 

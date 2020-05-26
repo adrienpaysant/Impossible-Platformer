@@ -355,11 +355,6 @@ public class Map extends JPanel {
 		listCPBloc.add(lastCP);
 		lastCPset = true;
 
-		// decoration
-//					if (i % alea == 1) {// cloud between 151 & 221 on y parameter
-//						listCloud.add(new Cloud(CLOUD_WH * i, groundH / 4 + alea * 7 - CLOUD_WH / 3 + 6, CLOUD_WH, CLOUD_WH,
-//								true, ShopImage.CLOUD));
-
 		player.respawn();
 		for (int i = 0; i < 3 * getGame().getWidth() / 50; i++) {
 			int alea = 5 + (int) (Math.random() * ((15 - 5) + 1));

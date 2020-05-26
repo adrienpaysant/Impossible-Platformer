@@ -6,6 +6,7 @@ import javax.swing.JSlider;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
+@SuppressWarnings("serial")
 public class VolumeSlider extends JSlider {
 
 	public VolumeSlider(int min, int max) {

@@ -5,6 +5,7 @@ import java.awt.Image;
 import ch.hearc.wp2.p2.jeu.items.blocs.Bloc;
 import ch.hearc.wp2.p2.jeu.tools.image.ShopImage;
 
+@SuppressWarnings("serial")
 public class Cloud extends Bloc {
 
 	public Cloud(Bloc it) {

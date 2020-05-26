@@ -34,7 +34,6 @@ public class KeyboardMenuPause implements KeyListener {
 
 	@Override
 	public void keyReleased(KeyEvent e) {
-		// left
 	}
 
 }

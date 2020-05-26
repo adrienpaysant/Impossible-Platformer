@@ -17,6 +17,11 @@ import ch.hearc.wp2.p2.jeu.tools.Audio;
 
 public class Player extends Item {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	
 	private boolean isJumping;
 	private boolean isRunning;
 	private boolean isWalking;
@@ -29,12 +34,14 @@ public class Player extends Item {
 		super(it);
 		this.setJumping(false);
 		this.texture = texture;
+		this.isFalling=true;
 	}
 
 	public Player(double x, double y, double w, double h, boolean v, Image texture) {
 		super(x, y, w, h, v);
 		this.setJumping(false);
 		this.texture = texture;
+		this.isFalling=true;
 	}
 
 	// methodes
@@ -81,7 +88,7 @@ public class Player extends Item {
 		if(isFalling) {
 			try {
 				setTexture(ImageIO
-						.read(getClass().getResource("/sprites/jump/adventurer-jump-0" +spriteCmpt %4 +".png")));
+						.read(getClass().getResource("/sprites/fall/adventurer-fall-0" +spriteCmpt %2 +".png")));
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
@@ -146,7 +153,6 @@ public class Player extends Item {
 		}
 		// bottom hit
 		if (contactBottom(it) && isJumping) {
-
 			this.moveByY(-Map.GRAVITY);
 			setJumping(false);
 			trapThePlayer(it);
@@ -178,8 +184,7 @@ public class Player extends Item {
 					respawn();
 				}
 				break;
-			case SPIKEG:
-
+			case SPIKEG://need to try contact with just the top of trap
 				if (contactBottom(
 						new Bloc(it.x, it.y - 5, it.width, it.height, it.isVisible(), ((TrapBloc) it).getTexture()))) {
 					((TrapBloc) it).trapAction();
@@ -207,7 +212,6 @@ public class Player extends Item {
 			Audio.playSound("/audio/jump.wav");
 			boolean test = true;
 			while (y >= yT-2.5*Map.BLOC_WH && test==true) {
-				
 				for (Bloc b : Map.getInstance().getListBloc()) {
 					if (contactTop(b)) {
 						trapThePlayer(b);
@@ -220,7 +224,7 @@ public class Player extends Item {
 			isFalling=true;
 			setImage();
 		}
-
+		isFalling=true;
 	}
 
 	public void respawn() {

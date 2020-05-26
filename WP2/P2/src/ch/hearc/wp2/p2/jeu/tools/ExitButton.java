@@ -15,6 +15,7 @@ import ch.hearc.wp2.p2.jeu.Game;
 import ch.hearc.wp2.p2.jeu.menus.MainMenu;
 import ch.hearc.wp2.p2.jeu.menus.PauseMenu;
 
+@SuppressWarnings("serial")
 public class ExitButton extends JButton {
 
 	public ExitButton(String title, String target) {

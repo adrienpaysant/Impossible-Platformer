@@ -6,6 +6,7 @@ import java.awt.BorderLayout;
 import javax.swing.JComponent;
 import javax.swing.JPanel;
 
+@SuppressWarnings("serial")
 public class JMarge extends JPanel
 	{
 

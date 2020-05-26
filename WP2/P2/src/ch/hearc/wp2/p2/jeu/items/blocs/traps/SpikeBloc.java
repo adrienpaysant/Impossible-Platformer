@@ -9,6 +9,7 @@ import ch.hearc.wp2.p2.jeu.items.blocs.Bloc;
 import ch.hearc.wp2.p2.jeu.tools.Audio;
 import ch.hearc.wp2.p2.jeu.tools.image.ShopImage;
 
+@SuppressWarnings("serial")
 public class SpikeBloc extends TrapBloc {
 
 	private Bloc bSource;
@@ -52,22 +53,22 @@ public class SpikeBloc extends TrapBloc {
 		if (!isOut) {
 
 			switch (type) {
-			case SPIKER://spike expanding by right
+			case SPIKER:// spike expanding by right
 				moveByX(Map.BLOC_WH - 5);
 				setTexture(ShopImage.SPIKER);
 				isOut = true;
 				break;
-			case SPIKEL://spike expanding by left
+			case SPIKEL:// spike expanding by left
 				setTexture(ShopImage.SPIKEL);
 				moveByX(-Map.BLOC_WH + 5);
 				isOut = true;
 				break;
-			case SPIKET: //spike expanding down
+			case SPIKET: // spike expanding down
 				moveByY(Map.BLOC_WH - 5);
 				setTexture(ShopImage.SPIKET);
 				isOut = true;
 				break;
-			case SPIKEG://spike expanding up
+			case SPIKEG:// spike expanding up
 				moveByY(-Map.BLOC_WH + 5);
 				setTexture(ShopImage.SPIKEG);
 				isOut = true;
@@ -83,8 +84,6 @@ public class SpikeBloc extends TrapBloc {
 	@Override
 	public void revertAction() {
 		this.setVisible(false);
-//		
-
 		switch (type) {
 		case SPIKER:
 			moveTo(new Point2D.Double(bSource.x + 5, bSource.y));
@@ -102,7 +101,6 @@ public class SpikeBloc extends TrapBloc {
 			break;
 		}
 		isOut = false;
-
 	}
 
 }

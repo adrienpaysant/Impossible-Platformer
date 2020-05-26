@@ -36,7 +36,6 @@ public class LeaderBoard extends JPanel {
 	private static LeaderBoard leaderBoard = null;
 	private Image bgImage;
 
-	private Game game;
 	private ExitButton exitButton;
 	private JLabel label;
 	private int nbDeath;
@@ -51,7 +50,6 @@ public class LeaderBoard extends JPanel {
 	}
 
 	private LeaderBoard() {
-		this.game = Game.getInstance();
 		nbDeath = 0;
 		this.exitButton = new ExitButton("Back to Menu", "MainMenu");
 		this.label = new JLabel();
@@ -117,6 +115,7 @@ public class LeaderBoard extends JPanel {
 
 	}
 
+//drawing
 	@Override
 	protected void paintComponent(Graphics g) {
 		super.paintComponent(g);

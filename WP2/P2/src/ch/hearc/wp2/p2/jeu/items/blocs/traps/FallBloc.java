@@ -7,6 +7,7 @@ import java.awt.geom.Point2D;
 import ch.hearc.wp2.p2.jeu.Main;
 import ch.hearc.wp2.p2.jeu.Map;
 
+@SuppressWarnings("serial")
 public class FallBloc extends TrapBloc {
 
 	private boolean status;

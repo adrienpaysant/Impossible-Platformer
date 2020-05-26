@@ -5,12 +5,9 @@ import java.awt.Image;
 
 import ch.hearc.wp2.p2.jeu.items.Item;
 
+@SuppressWarnings("serial")
 public class Bloc extends Item {
 
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
 	private Image texture;
 
 	public Bloc(double x, double y, double w, double h, boolean v, Image texture) {
