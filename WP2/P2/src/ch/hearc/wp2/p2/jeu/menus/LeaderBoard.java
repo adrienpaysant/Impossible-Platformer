@@ -5,24 +5,16 @@ import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Image;
-import java.io.BufferedInputStream;
-import java.io.BufferedOutputStream;
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
-import java.io.EOFException;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.List;
 
 import javax.imageio.ImageIO;
-
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-import ch.hearc.wp2.p2.jeu.Game;
 import ch.hearc.wp2.p2.jeu.Main;
 import ch.hearc.wp2.p2.jeu.Map;
 import ch.hearc.wp2.p2.jeu.tools.Audio;
@@ -35,11 +27,12 @@ public class LeaderBoard extends JPanel {
 
 	private static LeaderBoard leaderBoard = null;
 	private Image bgImage;
+	private static int TOP = 10;
 
 	private ExitButton exitButton;
 	private JLabel label;
+	private JLabel leadersLabel;
 	private int nbDeath;
-	private ArrayList<String> listData = new ArrayList<String>();
 	private boolean hasPlayedSound;
 
 	// singleton
@@ -53,66 +46,50 @@ public class LeaderBoard extends JPanel {
 		nbDeath = 0;
 		this.exitButton = new ExitButton("Back to Menu", "MainMenu");
 		this.label = new JLabel();
+		this.leadersLabel = new JLabel();
 		try {
 			bgImage = ImageIO.read(getClass().getResource("/images/menubg2.jpg"));
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-
 		add(new JCenterH(exitButton));
+		// add(new JCenter(leadersLabel));
 		hasPlayedSound = false;
-//		try {
-//			String tab[] = read();
-//			System.out.println(tab);
-//		} catch (IOException e) {
-//			e.printStackTrace();
-//		}
-
-	}
-
-	public String[] read() throws IOException {
-
-		FileInputStream fis = new FileInputStream(getClass().getResource("data.csv").getFile());
-		BufferedInputStream bis = new BufferedInputStream(fis);
-		DataInputStream dis = new DataInputStream(bis);
-
-		List<String> listData = new LinkedList<String>();
-
 		try {
-			while (true) {
-				String value = dis.readLine();
-				listData.add(value);
+			String readData = new String();
+			for (String[] read : read()) {
+				readData += read[0] + " : " + read[1] + ";";
 			}
-		} catch (EOFException e) {
-			// rien
+			leadersLabel.setText(readData);
+			leadersLabel.setFont(new Font("Serif", Font.BOLD, 40));
+			leadersLabel.setForeground(Color.WHITE);
+		} catch (IOException e) {
+			e.printStackTrace();
 		}
 
-		String[] tabData = new String[listData.size()];
-		listData.toArray(tabData); // vide la liste dans le tableau, tableau qui a du etre creer avant
-
-		fis.close();
-		bis.close();
-		dis.close();
-
-		return tabData;
 	}
 
-	public static void write(String[] tab) throws IOException {
-		FileOutputStream fos = new FileOutputStream("../ressources/data.csv");
-		BufferedOutputStream bos = new BufferedOutputStream(fos);
-		DataOutputStream dos = new DataOutputStream(bos);
-
-		for (String value : tab) {
-			dos.writeChars(value);
+	public String[][] read() throws IOException {
+		File leaderBoard = new File(getClass().getResource("/data.csv").getFile());
+		if (!leaderBoard.isFile()) {
+			throw new IOException();
 		}
-
-		dos.close();
-		bos.close();
-		fos.close();
+		BufferedReader reader = new BufferedReader(new FileReader(leaderBoard));
+		String[][] result = new String[TOP][];
+		for (int i = 0; i < TOP; i++) {
+			result[i] = reader.readLine().split(",");
+		}
+		reader.close();
+		return result;
 	}
 
-	public void updateFile() {
-
+	public void write(String[][] tab) throws IOException {
+		FileWriter writer = new FileWriter(getClass().getResource("/data.csv").getFile());
+		for (int i = 0; i < TOP; i++) {
+			writer.append(String.join(",", tab[i]) + "\n");
+		}
+		writer.flush();
+		writer.close();
 	}
 
 //drawing
@@ -146,6 +123,9 @@ public class LeaderBoard extends JPanel {
 						Main.WIDTH / 3, Main.WIDTH / 3, Main.WIDTH / 13, g2d);
 			}
 		g2d.drawLine(Main.WIDTH / 3, Main.HEIGHT / 9, 2 * Main.WIDTH / 3, Main.HEIGHT / 9);
+		String[] results = leadersLabel.getText().split(";");
+		for (int i = 0; i < results.length; i++)
+			g2d.drawString(results[i], Main.WIDTH / 3, Main.HEIGHT / 3 + Main.HEIGHT / 20 * i);
 	}
 
 	// getters & setters
@@ -164,4 +144,5 @@ public class LeaderBoard extends JPanel {
 	public void setDeathCount(int nbDeath) {
 		this.nbDeath = nbDeath;
 	}
+
 }
