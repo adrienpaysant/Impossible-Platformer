@@ -2,7 +2,9 @@
 package ch.hearc.wp2.p2.jeu.items.Charactere;
 
 import java.awt.Image;
+import java.awt.geom.AffineTransform;
 import java.awt.geom.Point2D;
+import java.awt.image.AffineTransformOp;
 import java.io.IOException;
 
 import javax.imageio.ImageIO;
@@ -14,12 +16,14 @@ import ch.hearc.wp2.p2.jeu.items.blocs.actions.CheckPointBloc;
 import ch.hearc.wp2.p2.jeu.items.blocs.traps.TrapBloc;
 import ch.hearc.wp2.p2.jeu.items.blocs.traps.TypeTrap;
 
+@SuppressWarnings("serial")
 public class Player extends Item {
 
 	private boolean isJumping;
 	private boolean isRunning;
 	private boolean isWalking;
 	private boolean isFalling;
+	private boolean goRight;
 	private int spriteCmpt = 0;
 	private int sleepFreq = 300;
 	private Image texture;
@@ -40,8 +44,14 @@ public class Player extends Item {
 	public void setImage() {
 		if (!(isWalking && isRunning)) {
 			try {
-				setTexture(ImageIO
-						.read(getClass().getResource("/sprites/idle/adventurer-idle-0" + spriteCmpt % 3 + ".png")));
+				String str = "";
+				if (goRight) {
+					str = "right";
+				} else {
+					str = "left";
+				}
+				setTexture(ImageIO.read(getClass()
+						.getResource("/sprites/" + str + "/idle/adventurer-idle-0" + spriteCmpt % 3 + ".png")));
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
@@ -50,8 +60,14 @@ public class Player extends Item {
 
 		if (isWalking) {
 			try {
-				setTexture(ImageIO
-						.read(getClass().getResource("/sprites/run/adventurer-run-0" + spriteCmpt % 6 + ".png")));
+				String str = "";
+				if (goRight) {
+					str = "right";
+				} else {
+					str = "left";
+				}
+				setTexture(ImageIO.read(
+						getClass().getResource("/sprites/" + str + "/run/adventurer-run-0" + spriteCmpt % 6 + ".png")));
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
@@ -60,27 +76,46 @@ public class Player extends Item {
 
 		if (isRunning) {
 			try {
-				setTexture(ImageIO
-						.read(getClass().getResource("/sprites/run/adventurer-run-0" + spriteCmpt % 6 + ".png")));
+				String str = "";
+				if (goRight) {
+					str = "right";
+				} else {
+					str = "left";
+				}
+				setTexture(ImageIO.read(
+						getClass().getResource("/sprites/" + str + "/run/adventurer-run-0" + spriteCmpt % 6 + ".png")));
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
 			setSleepFreq(300);
 		}
-		
+
 		if (isJumping) {
 			try {
-				setTexture(ImageIO
-						.read(getClass().getResource("/sprites/jump/adventurer-jump-0" +spriteCmpt %4 +".png")));
+				String str = "";
+				if (goRight) {
+					str = "right";
+				} else {
+					str = "left";
+				}
+				setTexture(ImageIO.read(getClass()
+						.getResource("/sprites/" + str + "/jump/adventurer-jump-0" + spriteCmpt % 2 + ".png")));
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
 			setSleepFreq(300);
 		}
-		if(isFalling) {
+
+		if (isFalling) {
 			try {
-				setTexture(ImageIO
-						.read(getClass().getResource("/sprites/jump/adventurer-jump-0" +spriteCmpt %4 +".png")));
+				String str = "";
+				if (goRight) {
+					str = "right";
+				} else {
+					str = "left";
+				}
+				setTexture(ImageIO.read(getClass()
+						.getResource("/sprites/" + str + "/fall/adventurer-fall-0" + spriteCmpt % 2 + ".png")));
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
@@ -112,7 +147,7 @@ public class Player extends Item {
 	public boolean contactBottom(Item it) {
 
 		if (intersectsLine(it.x - 3, it.y - 4, it.getMaxX() + 3, it.y - 4)) {
-			isFalling=false;
+			isFalling = false;
 			return true;
 
 		} else {
@@ -203,10 +238,10 @@ public class Player extends Item {
 		if (!isJumping) {
 			setJumping(true);
 			setImage();
-			//Audio.playSound("/audio/jump.wav");
+			// Audio.playSound("/audio/jump.wav");
 			boolean test = true;
-			while (y >= yT-2.5*Map.BLOC_WH && test==true) {
-				
+			while (y >= yT - 2.5 * Map.BLOC_WH && test == true) {
+
 				for (Bloc b : Map.getInstance().getListBloc()) {
 					if (contactTop(b)) {
 						trapThePlayer(b);
@@ -216,7 +251,7 @@ public class Player extends Item {
 				if (test)
 					this.moveByY(-.01);
 			}
-			isFalling=true;
+			isFalling = true;
 			setImage();
 		}
 
@@ -259,6 +294,14 @@ public class Player extends Item {
 		return this.isRunning();
 	}
 
+	public boolean isFalling() {
+		return this.isFalling;
+	}
+
+	public void fall(boolean fall) {
+		this.isFalling = fall;
+	}
+
 	public void setWalk(boolean walk) {
 		this.isWalking = walk;
 	}
@@ -281,5 +324,13 @@ public class Player extends Item {
 
 	public void setSleepFreq(int sleepFreq) {
 		this.sleepFreq = sleepFreq;
+	}
+
+	public boolean isRight() {
+		return goRight;
+	}
+
+	public void setDirection(boolean right) {
+		this.goRight = right;
 	}
 }
