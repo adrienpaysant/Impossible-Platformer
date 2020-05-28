@@ -47,11 +47,13 @@ public class Keyboard implements KeyListener {
 			this.left = true;
 			this.whoIsLast = "left";
 			Map.getInstance().setHasPlay(true);
+			Map.getInstance().getPlayer().setDirection(false);
 		} // right
 		else if (e.getKeyCode() == KeyEvent.VK_RIGHT) {
 			Map.getInstance().setHasPlay(true);
 			this.right = true;
 			this.whoIsLast = "right";
+			Map.getInstance().getPlayer().setDirection(true);
 		} else if (e.getKeyCode() == KeyEvent.VK_SPACE || e.getKeyCode() == KeyEvent.VK_UP) {
 			Map.getInstance().setHasPlay(true);
 			Map.getInstance().getPlayer().jump();
