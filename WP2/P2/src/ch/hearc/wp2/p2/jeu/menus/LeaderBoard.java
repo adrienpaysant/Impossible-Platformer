@@ -125,7 +125,7 @@ public class LeaderBoard extends JPanel {
 		g2d.drawLine(Main.WIDTH / 3, Main.HEIGHT / 9, 2 * Main.WIDTH / 3, Main.HEIGHT / 9);
 		String[] results = leadersLabel.getText().split(";");
 		for (int i = 0; i < results.length; i++)
-			g2d.drawString(results[i], Main.WIDTH / 3, Main.HEIGHT / 3 + Main.HEIGHT / 20 * i);
+			Design.printSimpleString(results[i], Main.WIDTH/3, Main.WIDTH/3, Main.HEIGHT / 3 + Main.HEIGHT / 20 * i, g2d);
 	}
 
 	// getters & setters
