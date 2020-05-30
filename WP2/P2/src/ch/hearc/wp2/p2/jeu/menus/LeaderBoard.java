@@ -17,6 +17,7 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 
 import ch.hearc.wp2.p2.jeu.Main;
+import ch.hearc.wp2.p2.jeu.Map;
 import ch.hearc.wp2.p2.jeu.tools.Audio;
 import ch.hearc.wp2.p2.jeu.tools.Design;
 import ch.hearc.wp2.p2.jeu.tools.ExitButton;
@@ -35,8 +36,9 @@ public class LeaderBoard extends JPanel {
 	private JLabel label;
 	private JLabel leadersLabel;
 	private int nbDeath;
+	private String [][]leaderTab;
 	private boolean hasPlayedSound;
-
+	private int worstTop;
 	// singleton
 	public static LeaderBoard getInstance() {
 		if (leaderBoard == null)
@@ -67,9 +69,11 @@ public class LeaderBoard extends JPanel {
 			for (int i = 0; i < TOP; i++)
 				tabNotSorted[i] = Integer.parseInt(readRawData[i][1]);
 			int[] tabSorted = QuickSort.useSort(tabNotSorted);
+			worstTop = tabSorted[TOP-1];
 			for (int i = 0; i < TOP; i++) {
 				for (int j = 0; j < TOP; j++) {
 					if (Integer.parseInt(readRawData[j][1]) == tabSorted[i] && readRawData[j][1] != "-1") {
+						this.leaderTab[i]=readRawData[j];
 						readData += readRawData[j][0] + " : " + readRawData[j][1] + ";";
 						readRawData[j][1] = "-1";
 					}
@@ -97,10 +101,10 @@ public class LeaderBoard extends JPanel {
 		return result;
 	}
 
-	public void write(String[][] tab) throws IOException {
+	public void write() throws IOException {
 		FileWriter writer = new FileWriter(getClass().getResource("/data.csv").getFile());
 		for (int i = 0; i < TOP; i++) {
-			writer.append(String.join(",", tab[i]) + "\n");
+			writer.append(String.join(",", leaderTab[i]) + "\n");
 		}
 		writer.flush();
 		writer.close();
@@ -124,23 +128,29 @@ public class LeaderBoard extends JPanel {
 		Design.printSimpleString("LeaderBoard", Main.WIDTH / 3, Main.WIDTH / 3, Main.WIDTH / 17, g2d);
 		g2d.drawLine(0, Main.HEIGHT / 7, getWidth(), Main.HEIGHT / 7);
 		g2d.setFont(new Font("Monospaced", Font.ITALIC, 25));
-		/*
-		 * if (Map.getInstance().isHasPlay()) if (label.getText() == "win" &&
-		 * !hasPlayedSound && nbDeath >= 1) { hasPlayedSound = true;
-		 * Audio.playSound("/audio/win.wav"); Design.printSimpleString("You win after "
-		 * + (nbDeath) + " death(s).", Main.WIDTH / 3, Main.WIDTH / 3, Main.WIDTH / 13,
-		 * g2d);
-		 */
-		if (true) {
-			//add(new JCenter(new JTextField()));
+		if (Map.getInstance().isHasPlay())
+			if (label.getText() == "win" && !hasPlayedSound && nbDeath >= 1) {
+				Audio.playSound("/audio/win.wav");
+				Design.printSimpleString("You win after " + (nbDeath) + " death(s).", Main.WIDTH / 3, Main.WIDTH / 3,
+						Main.WIDTH / 13, g2d);
+				if(nbDeath<worstTop) {
+					//create textField ang get as result the pseudo of player
+					//leaderTab[TOP][0]=name;
+					leaderTab[TOP][1]=Integer.toString(nbDeath);
+					try {
+						write();
+					} catch (IOException e) {
+						e.printStackTrace();
+					}
+				}
 
-		} else if (label.getText() == "fail" && !hasPlayedSound && nbDeath >= 1) {
-			Audio.playSound("/audio/fail.wav");
-			hasPlayedSound = true;
-			System.out.println("fail nbd " + nbDeath);
-			Design.printSimpleString("You play, and died " + (nbDeath) + " time(s)...You should train a bit",
-					Main.WIDTH / 3, Main.WIDTH / 3, Main.WIDTH / 13, g2d);
-		}
+			} else if (label.getText() == "fail" && !hasPlayedSound && nbDeath >= 1){
+				Audio.playSound("/audio/fail.wav");
+				hasPlayedSound = true;
+				System.out.println("fail nbd " + nbDeath);
+				Design.printSimpleString("You play, and died " + (nbDeath) + " time(s)...You should train a bit",
+						Main.WIDTH / 3, Main.WIDTH / 3, Main.WIDTH / 13, g2d);
+			}
 		g2d.drawLine(Main.WIDTH / 3, Main.HEIGHT / 9, 2 * Main.WIDTH / 3, Main.HEIGHT / 9);
 		String[] results = leadersLabel.getText().split(";");
 		for (int i = 0; i < results.length; i++)
