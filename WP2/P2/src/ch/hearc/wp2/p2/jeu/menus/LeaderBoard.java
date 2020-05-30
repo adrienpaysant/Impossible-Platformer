@@ -20,6 +20,7 @@ import ch.hearc.wp2.p2.jeu.Map;
 import ch.hearc.wp2.p2.jeu.tools.Audio;
 import ch.hearc.wp2.p2.jeu.tools.Design;
 import ch.hearc.wp2.p2.jeu.tools.ExitButton;
+import ch.hearc.wp2.p2.jeu.tools.QuickSort;
 import ch.hearc.wp2.p2.jeu.tools.position.JCenterH;
 
 @SuppressWarnings("serial")
@@ -53,12 +54,21 @@ public class LeaderBoard extends JPanel {
 			e.printStackTrace();
 		}
 		add(new JCenterH(exitButton));
-		// add(new JCenter(leadersLabel));
 		hasPlayedSound = false;
 		try {
 			String readData = new String();
-			for (String[] read : read()) {
-				readData += read[0] + " : " + read[1] + ";";
+			String[][] readRawData = read();
+			int[] tabNotSorted = new int[10];
+			for (int i = 0; i < TOP; i++)
+				tabNotSorted[i] = Integer.parseInt(readRawData[i][1]);
+			int[] tabSorted = QuickSort.useSort(tabNotSorted);
+			for (int i = 0; i < TOP; i++) {
+				for (int j = 0; j < TOP; j++) {
+					if (Integer.parseInt(readRawData[j][1]) == tabSorted[i] && readRawData[j][1] != "-1") {
+						readData += readRawData[j][0] + " : " + readRawData[j][1] + ";";
+						readRawData[j][1] = "-1";
+					}
+				}
 			}
 			leadersLabel.setText(readData);
 			leadersLabel.setFont(new Font("Serif", Font.BOLD, 40));
@@ -125,7 +135,8 @@ public class LeaderBoard extends JPanel {
 		g2d.drawLine(Main.WIDTH / 3, Main.HEIGHT / 9, 2 * Main.WIDTH / 3, Main.HEIGHT / 9);
 		String[] results = leadersLabel.getText().split(";");
 		for (int i = 0; i < results.length; i++)
-			Design.printSimpleString(results[i], Main.WIDTH/3, Main.WIDTH/3, Main.HEIGHT / 3 + Main.HEIGHT / 20 * i, g2d);
+			Design.printSimpleString(results[i], Main.WIDTH / 3, Main.WIDTH / 3, Main.HEIGHT / 3 + Main.HEIGHT / 20 * i,
+					g2d);
 	}
 
 	// getters & setters
