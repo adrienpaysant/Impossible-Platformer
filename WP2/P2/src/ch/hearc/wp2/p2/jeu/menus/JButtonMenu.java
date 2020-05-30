@@ -13,7 +13,7 @@ import javax.swing.SwingConstants;
 @SuppressWarnings("serial")
 public class JButtonMenu extends JButton{
 	
-	JButtonMenu(String name){
+	protected JButtonMenu(String name){
 		super(name);
 		setHorizontalAlignment(SwingConstants.CENTER);
         setHorizontalTextPosition(SwingConstants.CENTER);

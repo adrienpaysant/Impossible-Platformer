@@ -5,6 +5,8 @@ import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Image;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
@@ -12,8 +14,9 @@ import java.io.FileWriter;
 import java.io.IOException;
 
 import javax.imageio.ImageIO;
+import javax.swing.Box;
+import javax.swing.BoxLayout;
 import javax.swing.JLabel;
-import javax.swing.JPanel;
 import javax.swing.JTextField;
 
 import ch.hearc.wp2.p2.jeu.Main;
@@ -21,24 +24,28 @@ import ch.hearc.wp2.p2.jeu.Map;
 import ch.hearc.wp2.p2.jeu.tools.Audio;
 import ch.hearc.wp2.p2.jeu.tools.Design;
 import ch.hearc.wp2.p2.jeu.tools.ExitButton;
+import ch.hearc.wp2.p2.jeu.tools.JComponents;
 import ch.hearc.wp2.p2.jeu.tools.QuickSort;
-import ch.hearc.wp2.p2.jeu.tools.position.JCenter;
 import ch.hearc.wp2.p2.jeu.tools.position.JCenterH;
 
 @SuppressWarnings("serial")
-public class LeaderBoard extends JPanel {
+public class LeaderBoard extends Box {
 
 	private static LeaderBoard leaderBoard = null;
 	private Image bgImage;
 	private static int TOP = 10;
 
+	private JTextField entry;
+	private JButtonMenu buttonEntry;
 	private ExitButton exitButton;
 	private JLabel label;
 	private JLabel leadersLabel;
 	private int nbDeath;
-	private String [][]leaderTab;
+	private String[][] leaderTab;
 	private boolean hasPlayedSound;
 	private int worstTop;
+	private String name = "";
+
 	// singleton
 	public static LeaderBoard getInstance() {
 		if (leaderBoard == null)
@@ -47,18 +54,53 @@ public class LeaderBoard extends JPanel {
 	}
 
 	private LeaderBoard() {
+		super(BoxLayout.Y_AXIS);
 		nbDeath = 0;
+		this.buttonEntry = new JButtonMenu("Valider");
+		this.entry = new JTextField();
+		this.leaderTab = new String[TOP][2];
 		this.exitButton = new ExitButton("Back to Menu", "MainMenu");
 		this.label = new JLabel();
 		this.leadersLabel = new JLabel();
+		buttonEntry.setVisible(false);
+		entry.setVisible(false);
 		try {
 			bgImage = ImageIO.read(getClass().getResource("/images/menubg2.jpg"));
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+
+		JComponents.setWidth(entry, 300);
+		JComponents.setHeight(entry, 25);
 		add(new JCenterH(exitButton));
+		add(Box.createVerticalGlue());
+		add(new JCenterH(entry));
+		add(new JCenterH(buttonEntry));
+		add(Box.createVerticalStrut(15));
 		hasPlayedSound = false;
 		showRead();
+
+		buttonEntry.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				name = entry.getText().toString();
+				if (nbDeath < worstTop) {
+					if (!name.isBlank() && !name.isEmpty()) {
+						leaderTab[TOP - 1][0] = name;
+						leaderTab[TOP - 1][1] = Integer.toString(nbDeath);
+						try {
+							write();
+						} catch (IOException e1) {
+							e1.printStackTrace();
+						}
+						buttonEntry.setEnabled(false);
+						entry.setEnabled(false);
+					}
+
+				}
+			}
+		});
 	}
 
 	public void showRead() {
@@ -69,11 +111,11 @@ public class LeaderBoard extends JPanel {
 			for (int i = 0; i < TOP; i++)
 				tabNotSorted[i] = Integer.parseInt(readRawData[i][1]);
 			int[] tabSorted = QuickSort.useSort(tabNotSorted);
-			worstTop = tabSorted[TOP-1];
+			worstTop = tabSorted[TOP - 1];
 			for (int i = 0; i < TOP; i++) {
 				for (int j = 0; j < TOP; j++) {
 					if (Integer.parseInt(readRawData[j][1]) == tabSorted[i] && readRawData[j][1] != "-1") {
-						this.leaderTab[i]=readRawData[j];
+						this.leaderTab[i] = readRawData[j];
 						readData += readRawData[j][0] + " : " + readRawData[j][1] + ";";
 						readRawData[j][1] = "-1";
 					}
@@ -104,6 +146,7 @@ public class LeaderBoard extends JPanel {
 	public void write() throws IOException {
 		FileWriter writer = new FileWriter(getClass().getResource("/data.csv").getFile());
 		for (int i = 0; i < TOP; i++) {
+			System.out.println(String.join(",", leaderTab[i]) + "\n");
 			writer.append(String.join(",", leaderTab[i]) + "\n");
 		}
 		writer.flush();
@@ -129,22 +172,16 @@ public class LeaderBoard extends JPanel {
 		g2d.drawLine(0, Main.HEIGHT / 7, getWidth(), Main.HEIGHT / 7);
 		g2d.setFont(new Font("Monospaced", Font.ITALIC, 25));
 		if (Map.getInstance().isHasPlay())
-			if (label.getText() == "win" && !hasPlayedSound && nbDeath >= 1) {
+			if (label.getText() == "win" && !hasPlayedSound && nbDeath >= 0) {
+				buttonEntry.setVisible(true);
+				entry.setVisible(true);
 				Audio.playSound("/audio/win.wav");
+				this.hasPlayedSound = true;
 				Design.printSimpleString("You win after " + (nbDeath) + " death(s).", Main.WIDTH / 3, Main.WIDTH / 3,
 						Main.WIDTH / 13, g2d);
-				if(nbDeath<worstTop) {
-					//create textField ang get as result the pseudo of player
-					//leaderTab[TOP][0]=name;
-					leaderTab[TOP][1]=Integer.toString(nbDeath);
-					try {
-						write();
-					} catch (IOException e) {
-						e.printStackTrace();
-					}
-				}
-
-			} else if (label.getText() == "fail" && !hasPlayedSound && nbDeath >= 1){
+			} else if (label.getText() == "fail" && !hasPlayedSound && nbDeath >= 1) {
+				buttonEntry.setVisible(false);
+				entry.setVisible(false);
 				Audio.playSound("/audio/fail.wav");
 				hasPlayedSound = true;
 				System.out.println("fail nbd " + nbDeath);
@@ -175,4 +212,7 @@ public class LeaderBoard extends JPanel {
 		this.nbDeath = nbDeath;
 	}
 
+	public JTextField getEntry() {
+		return entry;
+	}
 }
