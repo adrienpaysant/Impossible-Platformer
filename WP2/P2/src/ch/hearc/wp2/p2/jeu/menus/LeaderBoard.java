@@ -89,6 +89,7 @@ public class LeaderBoard extends Box {
 					if (!name.isBlank() && !name.isEmpty()) {
 						leaderTab[TOP - 1][0] = name;
 						leaderTab[TOP - 1][1] = Integer.toString(nbDeath);
+						System.out.println(leaderTab[TOP - 1][0] + " , " + leaderTab[TOP - 1][0]);
 						try {
 							write();
 						} catch (IOException e1) {
@@ -108,8 +109,9 @@ public class LeaderBoard extends Box {
 			String readData = new String();
 			String[][] readRawData = read();
 			int[] tabNotSorted = new int[10];
-			for (int i = 0; i < TOP; i++)
+			for (int i = 0; i < TOP; i++) {
 				tabNotSorted[i] = Integer.parseInt(readRawData[i][1]);
+			}
 			int[] tabSorted = QuickSort.useSort(tabNotSorted);
 			worstTop = tabSorted[TOP - 1];
 			for (int i = 0; i < TOP; i++) {

@@ -350,7 +350,7 @@ public class Map extends JPanel {
 		addFallBloc(44, -1);
 
 		// last cp
-		lastCP = new CheckPointBloc(-BLOC_WH / 4 + BLOC_WH * 45, groundH, BLOC_WH, BLOC_WH, true, ShopImage.SANDBLOCK);
+		lastCP = new CheckPointBloc(-BLOC_WH / 4 + BLOC_WH * 5/*45 en vrai*/, groundH, BLOC_WH, BLOC_WH, true, ShopImage.SANDBLOCK);
 		listBloc.add(lastCP);
 		listCPBloc.add(lastCP);
 		lastCPset = true;
