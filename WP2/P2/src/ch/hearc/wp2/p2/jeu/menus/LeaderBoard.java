@@ -14,13 +14,14 @@ import java.io.IOException;
 import javax.imageio.ImageIO;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JTextField;
 
 import ch.hearc.wp2.p2.jeu.Main;
-import ch.hearc.wp2.p2.jeu.Map;
 import ch.hearc.wp2.p2.jeu.tools.Audio;
 import ch.hearc.wp2.p2.jeu.tools.Design;
 import ch.hearc.wp2.p2.jeu.tools.ExitButton;
 import ch.hearc.wp2.p2.jeu.tools.QuickSort;
+import ch.hearc.wp2.p2.jeu.tools.position.JCenter;
 import ch.hearc.wp2.p2.jeu.tools.position.JCenterH;
 
 @SuppressWarnings("serial")
@@ -55,6 +56,10 @@ public class LeaderBoard extends JPanel {
 		}
 		add(new JCenterH(exitButton));
 		hasPlayedSound = false;
+		showRead();
+	}
+
+	public void showRead() {
 		try {
 			String readData = new String();
 			String[][] readRawData = read();
@@ -76,7 +81,6 @@ public class LeaderBoard extends JPanel {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-
 	}
 
 	public String[][] read() throws IOException {
@@ -100,6 +104,7 @@ public class LeaderBoard extends JPanel {
 		}
 		writer.flush();
 		writer.close();
+		showRead();
 	}
 
 //drawing
@@ -119,19 +124,23 @@ public class LeaderBoard extends JPanel {
 		Design.printSimpleString("LeaderBoard", Main.WIDTH / 3, Main.WIDTH / 3, Main.WIDTH / 17, g2d);
 		g2d.drawLine(0, Main.HEIGHT / 7, getWidth(), Main.HEIGHT / 7);
 		g2d.setFont(new Font("Monospaced", Font.ITALIC, 25));
-		if (Map.getInstance().isHasPlay())
-			if (label.getText() == "win" && !hasPlayedSound && nbDeath >= 1) {
-				hasPlayedSound = true;
-				Audio.playSound("/audio/win.wav");
-				Design.printSimpleString("You win after " + (nbDeath) + " death(s).", Main.WIDTH / 3, Main.WIDTH / 3,
-						Main.WIDTH / 13, g2d);
-			} else if (label.getText() == "fail" && !hasPlayedSound && nbDeath >= 1) {
-				Audio.playSound("/audio/fail.wav");
-				hasPlayedSound = true;
-				System.out.println("fail nbd " + nbDeath);
-				Design.printSimpleString("You play, and died " + (nbDeath) + " time(s)...You should train a bit",
-						Main.WIDTH / 3, Main.WIDTH / 3, Main.WIDTH / 13, g2d);
-			}
+		/*
+		 * if (Map.getInstance().isHasPlay()) if (label.getText() == "win" &&
+		 * !hasPlayedSound && nbDeath >= 1) { hasPlayedSound = true;
+		 * Audio.playSound("/audio/win.wav"); Design.printSimpleString("You win after "
+		 * + (nbDeath) + " death(s).", Main.WIDTH / 3, Main.WIDTH / 3, Main.WIDTH / 13,
+		 * g2d);
+		 */
+		if (true) {
+			//add(new JCenter(new JTextField()));
+
+		} else if (label.getText() == "fail" && !hasPlayedSound && nbDeath >= 1) {
+			Audio.playSound("/audio/fail.wav");
+			hasPlayedSound = true;
+			System.out.println("fail nbd " + nbDeath);
+			Design.printSimpleString("You play, and died " + (nbDeath) + " time(s)...You should train a bit",
+					Main.WIDTH / 3, Main.WIDTH / 3, Main.WIDTH / 13, g2d);
+		}
 		g2d.drawLine(Main.WIDTH / 3, Main.HEIGHT / 9, 2 * Main.WIDTH / 3, Main.HEIGHT / 9);
 		String[] results = leadersLabel.getText().split(";");
 		for (int i = 0; i < results.length; i++)
