@@ -8,10 +8,7 @@ import java.awt.Image;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.awt.geom.Rectangle2D;
-import java.io.IOException;
 import java.util.ArrayList;
-
-import javax.sound.sampled.UnsupportedAudioFileException;
 import javax.swing.JPanel;
 
 import ch.hearc.wp2.p2.jeu.items.Charactere.Player;
@@ -26,7 +23,6 @@ import ch.hearc.wp2.p2.jeu.items.decoration.Cloud;
 import ch.hearc.wp2.p2.jeu.menus.LeaderBoard;
 import ch.hearc.wp2.p2.jeu.tools.Audio;
 import ch.hearc.wp2.p2.jeu.tools.Chrono;
-import ch.hearc.wp2.p2.jeu.tools.ChronoMovingBloc;
 import ch.hearc.wp2.p2.jeu.tools.ChronoPlayer;
 import ch.hearc.wp2.p2.jeu.tools.ChronoTrap;
 import ch.hearc.wp2.p2.jeu.tools.ExitButton;
@@ -67,6 +63,7 @@ public class Map extends JPanel {
 	private boolean win;
 	private boolean lastCPset;
 	private boolean hasPlay;
+	private boolean lastDir;
 
 	public static Map getInstance() {
 		if (map == null) {
@@ -90,6 +87,7 @@ public class Map extends JPanel {
 		this.win = false;
 		this.lastCPset = false;
 		this.hasPlay = false;
+		this.setLastDir(true);
 		this.addComponentListener(new ComponentAdapter() {
 
 			@Override
@@ -108,8 +106,8 @@ public class Map extends JPanel {
 		new Thread(new Chrono()).start();
 		new Thread(new ChronoTrap()).start();
 		new Thread(new ChronoPlayer()).start();
-		//new Thread(new ChronoMovingBloc()).start();
-		
+		// new Thread(new ChronoMovingBloc()).start();
+
 	}
 
 	// painting
@@ -158,10 +156,13 @@ public class Map extends JPanel {
 			player.moveByY(GRAVITY);
 			g2d.setColor(Color.black);
 			if (player.isVisible()) {
-				g2d.drawImage(player.getTexture()/*.getScaledInstance((int)player.width, (int)player.height, Image.SCALE_DEFAULT)*/,(int) player.x + 10, (int) player.y, (int) (player.width + player.x),
-						(int) (player.height + player.y), 0, 0, player.getTexture().getWidth(null)*2,
-						player.getTexture().getHeight(null), null);
-				//g2d.fill(player);
+				g2d.drawImage(player.getTexture()/*
+													 * .getScaledInstance((int)player.width, (int)player.height,
+													 * Image.SCALE_DEFAULT)
+													 */, (int) player.x + 10, (int) player.y,
+						(int) (player.width + player.x), (int) (player.height + player.y), 0, 0,
+						player.getTexture().getWidth(null) * 2, player.getTexture().getHeight(null), null);
+				// g2d.fill(player);
 			}
 			// blocs
 			g2d.setColor(Color.green);
@@ -431,6 +432,14 @@ public class Map extends JPanel {
 
 	public void setHasPlay(boolean hasPlay) {
 		this.hasPlay = hasPlay;
+	}
+
+	public boolean isLastDir() {
+		return lastDir;
+	}
+
+	public void setLastDir(boolean lastDir) {
+		this.lastDir = lastDir;
 	}
 
 }

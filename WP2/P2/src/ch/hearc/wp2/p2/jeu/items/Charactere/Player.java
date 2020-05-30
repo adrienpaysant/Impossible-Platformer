@@ -2,9 +2,7 @@
 package ch.hearc.wp2.p2.jeu.items.Charactere;
 
 import java.awt.Image;
-import java.awt.geom.AffineTransform;
 import java.awt.geom.Point2D;
-import java.awt.image.AffineTransformOp;
 import java.io.IOException;
 
 import javax.imageio.ImageIO;
@@ -23,9 +21,8 @@ public class Player extends Item {
 	private boolean isRunning;
 	private boolean isWalking;
 	private boolean isFalling;
-	private boolean goRight;
 	private int spriteCmpt = 0;
-	private int sleepFreq = 300;
+	private int sleepFreq = 200;
 	private Image texture;
 
 	public Player(Item it, Image texture) {
@@ -42,10 +39,10 @@ public class Player extends Item {
 
 	// methodes
 	public void setImage() {
-		if (!(isWalking && isRunning)) {
+		if (!(isWalking && isRunning &&isFalling)) {
 			try {
 				String str = "";
-				if (goRight) {
+				if (Map.getInstance().isLastDir()) {
 					str = "right";
 				} else {
 					str = "left";
@@ -55,13 +52,13 @@ public class Player extends Item {
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
-			setSleepFreq(800);
+			//setSleepFreq(500);
 		}
 
 		if (isWalking) {
 			try {
 				String str = "";
-				if (goRight) {
+				if (Map.getInstance().getdX()>0) {
 					str = "right";
 				} else {
 					str = "left";
@@ -71,13 +68,13 @@ public class Player extends Item {
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
-			setSleepFreq(500);
+			//setSleepFreq(450);
 		}
 
 		if (isRunning) {
 			try {
 				String str = "";
-				if (goRight) {
+				if (Map.getInstance().getdX()>0) {
 					str = "right";
 				} else {
 					str = "left";
@@ -87,13 +84,13 @@ public class Player extends Item {
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
-			setSleepFreq(300);
+		//setSleepFreq(300);
 		}
 
 		if (isJumping) {
 			try {
 				String str = "";
-				if (goRight) {
+				if (Map.getInstance().getdX()>0) {
 					str = "right";
 				} else {
 					str = "left";
@@ -103,13 +100,13 @@ public class Player extends Item {
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
-			setSleepFreq(300);
+			//setSleepFreq(300);
 		}
 
 		if (isFalling) {
 			try {
 				String str = "";
-				if (goRight) {
+				if (Map.getInstance().getdX()<0) {
 					str = "right";
 				} else {
 					str = "left";
@@ -119,7 +116,7 @@ public class Player extends Item {
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
-			setSleepFreq(300);
+			//setSleepFreq(300);
 		}
 
 		spriteCmpt++;
@@ -145,11 +142,10 @@ public class Player extends Item {
 	}
 
 	public boolean contactBottom(Item it) {
-
+		
 		if (intersectsLine(it.x - 3, it.y - 4, it.getMaxX() + 3, it.y - 4)) {
 			isFalling = false;
 			return true;
-
 		} else {
 			return false;
 		}
@@ -326,11 +322,7 @@ public class Player extends Item {
 		this.sleepFreq = sleepFreq;
 	}
 
-	public boolean isRight() {
-		return goRight;
-	}
-
-	public void setDirection(boolean right) {
-		this.goRight = right;
+	public void setFalling(boolean isFalling) {
+		this.isFalling = isFalling;
 	}
 }

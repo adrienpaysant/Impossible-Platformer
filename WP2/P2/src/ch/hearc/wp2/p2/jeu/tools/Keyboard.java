@@ -24,10 +24,8 @@ public class Keyboard implements KeyListener {
 			else
 				Map.getInstance().setdX(-1);
 		} else if (right && whoIsLast == "right") {
-			if (shift) {
+			if (shift)
 				Map.getInstance().setdX(1.5);
-			}
-				
 			else
 				Map.getInstance().setdX(1);
 		} else {
@@ -46,18 +44,18 @@ public class Keyboard implements KeyListener {
 		if (e.getKeyCode() == KeyEvent.VK_LEFT) {
 			this.left = true;
 			this.whoIsLast = "left";
+			Map.getInstance().setLastDir(false);
 			Map.getInstance().setHasPlay(true);
-			Map.getInstance().getPlayer().setDirection(false);
 		} // right
 		else if (e.getKeyCode() == KeyEvent.VK_RIGHT) {
 			Map.getInstance().setHasPlay(true);
 			this.right = true;
 			this.whoIsLast = "right";
-			Map.getInstance().getPlayer().setDirection(true);
+			Map.getInstance().setLastDir(true);
 		} else if (e.getKeyCode() == KeyEvent.VK_SPACE || e.getKeyCode() == KeyEvent.VK_UP) {
 			Map.getInstance().setHasPlay(true);
 			Map.getInstance().getPlayer().jump();
-			
+
 		} else if (e.getKeyCode() == KeyEvent.VK_SHIFT) {
 			shift = true;
 			Map.getInstance().getPlayer().setRun(true);
