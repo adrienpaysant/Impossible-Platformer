@@ -38,7 +38,7 @@ public class Map extends JPanel {
 	private static final int SPEED = 3;
 	private static final int PLAYER_H = 55;
 	private static final int PLAYER_W = 30;
-	public static final int GRAVITY = 4;
+	public static final int GRAVITY = 3;
 	private static final int DEATH_WH = 75;
 	private static final boolean DEBUG = false;
 
