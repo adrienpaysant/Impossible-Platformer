@@ -18,7 +18,6 @@ import ch.hearc.wp2.p2.jeu.items.blocs.traps.FallBloc;
 import ch.hearc.wp2.p2.jeu.items.blocs.traps.SpikeBloc;
 import ch.hearc.wp2.p2.jeu.items.blocs.traps.TrapBloc;
 import ch.hearc.wp2.p2.jeu.items.blocs.traps.TypeTrap;
-import ch.hearc.wp2.p2.jeu.items.decoration.Cloud;
 import ch.hearc.wp2.p2.jeu.menus.LeaderBoard;
 import ch.hearc.wp2.p2.jeu.tools.Audio;
 import ch.hearc.wp2.p2.jeu.tools.Chrono;
