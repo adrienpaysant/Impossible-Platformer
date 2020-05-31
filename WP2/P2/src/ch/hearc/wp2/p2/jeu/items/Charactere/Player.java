@@ -20,7 +20,6 @@ public class Player extends Item {
 	private boolean isJumping;
 	private boolean isRunning;
 	private boolean isWalking;
-	private boolean isFalling;
 	private int spriteCmpt = 0;
 	private int sleepFreq = 200;
 	private Image texture;
@@ -39,7 +38,7 @@ public class Player extends Item {
 
 	// methodes
 	public void setImage() {
-		if (!(isWalking && isRunning &&isFalling)) {
+		if (!(isWalking && isRunning)) {
 			try {
 				String str = "";
 				if (Map.getInstance().isLastDir()) {
@@ -48,75 +47,60 @@ public class Player extends Item {
 					str = "left";
 				}
 				setTexture(ImageIO.read(getClass()
-						.getResource("/sprites/" + str + "/idle/adventurer-idle-0" + spriteCmpt % 3 + ".png")));
+						.getResource("/sprites/" + str + "/idle/" + spriteCmpt % 9 + ".png")));
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
-			//setSleepFreq(500);
+			// setSleepFreq(500);
 		}
 
 		if (isWalking) {
 			try {
 				String str = "";
-				if (Map.getInstance().getdX()>0) {
+				if (Map.getInstance().getdX() > 0) {
 					str = "right";
 				} else {
 					str = "left";
 				}
 				setTexture(ImageIO.read(
-						getClass().getResource("/sprites/" + str + "/run/adventurer-run-0" + spriteCmpt % 6 + ".png")));
+						getClass().getResource("/sprites/" + str + "/run/" + spriteCmpt % 9 + ".png")));
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
-			//setSleepFreq(450);
+			// setSleepFreq(450);
 		}
 
 		if (isRunning) {
 			try {
 				String str = "";
-				if (Map.getInstance().getdX()>0) {
+				if (Map.getInstance().getdX() > 0) {
 					str = "right";
 				} else {
 					str = "left";
 				}
 				setTexture(ImageIO.read(
-						getClass().getResource("/sprites/" + str + "/run/adventurer-run-0" + spriteCmpt % 6 + ".png")));
+						getClass().getResource("/sprites/" + str + "/run/" + spriteCmpt % 9 + ".png")));
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
-		//setSleepFreq(300);
+			// setSleepFreq(300);
 		}
 
 		if (isJumping) {
 			try {
 				String str = "";
-				if (Map.getInstance().getdX()>0) {
+				if (Map.getInstance().getdX() > 0) {
 					str = "right";
 				} else {
 					str = "left";
 				}
 				setTexture(ImageIO.read(getClass()
-						.getResource("/sprites/" + str + "/jump/adventurer-jump-0" + spriteCmpt % 2 + ".png")));
+						.getResource("/sprites/" + str + "/jump/" + spriteCmpt % 9 + ".png")));
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
-			//setSleepFreq(300);
-		}
+			// setSleepFreq(300);
 
-		if (isFalling) {
-			try {
-				String str = "";
-				if (Map.getInstance().getdX()<0) {
-					str = "right";
-				} else {
-					str = "left";
-				}
-				setTexture(ImageIO.read(getClass()
-						.getResource("/sprites/" + str + "/fall/adventurer-fall-0" + spriteCmpt % 2 + ".png")));
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-			//setSleepFreq(300);
 		}
 
 		spriteCmpt++;
@@ -142,9 +126,8 @@ public class Player extends Item {
 	}
 
 	public boolean contactBottom(Item it) {
-		
+
 		if (intersectsLine(it.x - 3, it.y - 4, it.getMaxX() + 3, it.y - 4)) {
-			isFalling = false;
 			return true;
 		} else {
 			return false;
@@ -247,7 +230,6 @@ public class Player extends Item {
 				if (test)
 					this.moveByY(-.01);
 			}
-			isFalling = true;
 			setImage();
 		}
 
@@ -290,14 +272,6 @@ public class Player extends Item {
 		return this.isRunning();
 	}
 
-	public boolean isFalling() {
-		return this.isFalling;
-	}
-
-	public void fall(boolean fall) {
-		this.isFalling = fall;
-	}
-
 	public void setWalk(boolean walk) {
 		this.isWalking = walk;
 	}
@@ -322,7 +296,4 @@ public class Player extends Item {
 		this.sleepFreq = sleepFreq;
 	}
 
-	public void setFalling(boolean isFalling) {
-		this.isFalling = isFalling;
-	}
 }

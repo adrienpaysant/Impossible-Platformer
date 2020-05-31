@@ -64,6 +64,6 @@ public class ShopImage extends Object {
 	public static final Image BACKGROUND = function("/images/bg.png");
 	public static final Image PAUSE = function("/images/pause.png");
 	public static final Image SUN = function("/Blocks/sun.png");
-	public static final Image BASEPLAYER = function("/sprites/right/idle/adventurer-idle-00.png");
+	public static final Image BASEPLAYER = function("/sprites/right/idle/0.png");
 
 }

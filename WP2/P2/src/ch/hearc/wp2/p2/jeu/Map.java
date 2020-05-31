@@ -32,12 +32,12 @@ import ch.hearc.wp2.p2.jeu.tools.image.ShopImage;
 @SuppressWarnings("serial")
 public class Map extends JPanel {
 
-	public static final int BLOC_WH = 50;
+	public static final int BLOC_WH = 60;
 	private static final int SUN_WH = 150;
 	private static final int CLOUD_WH = 75;
 	private static final int SPEED = 3;
-	private static final int PLAYER_H = 55;
-	private static final int PLAYER_W = 30;
+	private static final double PLAYER_H = 55;
+	private static final double PLAYER_W = 35;
 	public static final int GRAVITY = 4;
 	private static final int DEATH_WH = 75;
 	private static final boolean DEBUG = false;
@@ -156,13 +156,14 @@ public class Map extends JPanel {
 			player.moveByY(GRAVITY);
 			g2d.setColor(Color.black);
 			if (player.isVisible()) {
+//				g2d.fill(player);
 				g2d.drawImage(player.getTexture()/*
 													 * .getScaledInstance((int)player.width, (int)player.height,
 													 * Image.SCALE_DEFAULT)
 													 */, (int) player.x + 10, (int) player.y,
 						(int) (player.width + player.x), (int) (player.height + player.y), 0, 0,
 						player.getTexture().getWidth(null) * 2, player.getTexture().getHeight(null), null);
-				// g2d.fill(player);
+
 			}
 			// blocs
 			g2d.setColor(Color.green);
