@@ -375,9 +375,7 @@ public class Map extends JPanel {
 	}
 
 	public int getGroundH() {
-
 		return (int) this.groundH;
-
 	}
 
 	public double getdX() {
