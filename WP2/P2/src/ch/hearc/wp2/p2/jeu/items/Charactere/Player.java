@@ -89,7 +89,7 @@ public class Player extends Item {
 		if (isJumping) {
 			try {
 				String str = "";
-				if (Map.getInstance().getdX() > 0) {
+				if (Map.getInstance().getdX() >0) {
 					str = "right";
 				} else {
 					str = "left";
