@@ -34,11 +34,11 @@ public class Map extends JPanel {
 	private static final int SUN_WH = 150;
 	private static final int CLOUD_WH = 75;
 	private static final int SPEED = 3;
-	private static final double PLAYER_H = 55;
+	private static final double PLAYER_H = 50;
 	private static final double PLAYER_W = 35;
 	public static final int GRAVITY = 4;
 	private static final int DEATH_WH = 75;
-	private static final boolean DEBUG = false;
+	private static final boolean DEBUG = true;
 
 	private Game game;
 	private ExitButton exitButton;
@@ -152,6 +152,7 @@ public class Map extends JPanel {
 			g2d.setColor(Color.black);
 			if (player.isVisible()) {
 //				g2d.fill(player);
+				g2d.draw(player);
 				g2d.drawImage(player.getTexture()/*
 													 * .getScaledInstance((int)player.width, (int)player.height,
 													 * Image.SCALE_DEFAULT)
@@ -353,7 +354,7 @@ public class Map extends JPanel {
 		addFallBloc(44, -1);
 
 		// last cp
-		lastCP = new CheckPointBloc(-BLOC_WH / 4 + BLOC_WH * 5/*45 en vrai*/, groundH, BLOC_WH, BLOC_WH, true, ShopImage.SANDBLOCK);
+		lastCP = new CheckPointBloc(-BLOC_WH / 4 + BLOC_WH * 45/*45 en vrai*/, groundH, BLOC_WH, BLOC_WH, true, ShopImage.SANDBLOCK);
 		listBloc.add(lastCP);
 		listCPBloc.add(lastCP);
 		lastCPset = true;
