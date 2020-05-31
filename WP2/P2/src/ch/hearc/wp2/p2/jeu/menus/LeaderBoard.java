@@ -7,11 +7,14 @@ import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.InputStream;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.imageio.ImageIO;
 import javax.swing.Box;
@@ -132,21 +135,25 @@ public class LeaderBoard extends Box {
 	}
 
 	public String[][] read() throws IOException {
-		File leaderBoard = new File(getClass().getResource("/data.csv").getFile());
-		if (!leaderBoard.isFile()) {
-			throw new IOException();
+		try {
+			String [][]result = new String[TOP][2];
+			int i=0;
+			List<String> list = new ArrayList<String>();
+			Path source = Paths.get("ressources/data.txt");
+			list = Files.readAllLines(source);
+			for(String line : list) {
+				result[i++]=line.split(",");
+			}
+			return result;
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
-		BufferedReader reader = new BufferedReader(new FileReader(leaderBoard));
-		String[][] result = new String[TOP][];
-		for (int i = 0; i < TOP; i++) {
-			result[i] = reader.readLine().split(",");
-		}
-		reader.close();
-		return result;
+		return null;
+
 	}
 
 	public void write() throws IOException {
-		FileWriter writer = new FileWriter(getClass().getResource("/data.csv").getFile());
+		FileWriter writer = new FileWriter(getClass().getResource("/data.txt").getFile());
 		for (int i = 0; i < TOP; i++) {
 			System.out.println(String.join(",", leaderTab[i]) + "\n");
 			writer.append(String.join(",", leaderTab[i]) + "\n");
