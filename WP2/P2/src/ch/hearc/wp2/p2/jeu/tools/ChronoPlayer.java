@@ -10,7 +10,7 @@ public class ChronoPlayer implements Runnable {
 
 			Map.getInstance().getPlayer().setImage();
 			try {
-				Thread.sleep(Map.getInstance().getPlayer().getSleepFreq());
+				Thread.sleep(200);
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}

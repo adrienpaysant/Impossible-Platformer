@@ -18,11 +18,6 @@ import ch.hearc.wp2.p2.jeu.tools.Audio;
 @SuppressWarnings("serial")
 public class Player extends Item {
 
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
-	
 	private boolean isJumping;
 	private boolean isRunning;
 	private boolean isWalking;
@@ -33,14 +28,12 @@ public class Player extends Item {
 		super(it);
 		this.setJumping(false);
 		this.texture = texture;
-		this.isFalling=true;
 	}
 
 	public Player(double x, double y, double w, double h, boolean v, Image texture) {
 		super(x, y, w, h, v);
 		this.setJumping(false);
 		this.texture = texture;
-		this.isFalling=true;
 	}
 
 	// methodes
@@ -53,12 +46,11 @@ public class Player extends Item {
 				} else {
 					str = "left";
 				}
-				setTexture(ImageIO.read(getClass()
-						.getResource("/sprites/" + str + "/idle/" + spriteCmpt % 9 + ".png")));
+				setTexture(
+						ImageIO.read(getClass().getResource("/sprites/" + str + "/idle/" + spriteCmpt % 9 + ".png")));
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
-			// setSleepFreq(500);
 		}
 
 		if (isWalking) {
@@ -69,12 +61,10 @@ public class Player extends Item {
 				} else {
 					str = "left";
 				}
-				setTexture(ImageIO.read(
-						getClass().getResource("/sprites/" + str + "/run/" + spriteCmpt % 9 + ".png")));
+				setTexture(ImageIO.read(getClass().getResource("/sprites/" + str + "/run/" + spriteCmpt % 9 + ".png")));
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
-			// setSleepFreq(450);
 		}
 
 		if (isRunning) {
@@ -85,29 +75,25 @@ public class Player extends Item {
 				} else {
 					str = "left";
 				}
-				setTexture(ImageIO.read(
-						getClass().getResource("/sprites/" + str + "/run/" + spriteCmpt % 9 + ".png")));
+				setTexture(ImageIO.read(getClass().getResource("/sprites/" + str + "/run/" + spriteCmpt % 9 + ".png")));
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
-			// setSleepFreq(300);
 		}
 
 		if (isJumping) {
 			try {
 				String str = "";
-				if (Map.getInstance().getdX() >0) {
+				if (Map.getInstance().getdX() > 0) {
 					str = "right";
 				} else {
 					str = "left";
 				}
-				setTexture(ImageIO.read(getClass()
-						.getResource("/sprites/" + str + "/jump/" + spriteCmpt % 9 + ".png")));
+				setTexture(
+						ImageIO.read(getClass().getResource("/sprites/" + str + "/jump/" + spriteCmpt % 9 + ".png")));
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
-			// setSleepFreq(300);
-
 		}
 
 		spriteCmpt++;
@@ -197,7 +183,7 @@ public class Player extends Item {
 					respawn();
 				}
 				break;
-			case SPIKEG://need to try contact with just the top of trap
+			case SPIKEG:// need to try contact with just the top of trap
 				if (contactBottom(
 						new Bloc(it.x, it.y - 5, it.width, it.height, it.isVisible(), ((TrapBloc) it).getTexture()))) {
 					((TrapBloc) it).trapAction();
@@ -224,7 +210,7 @@ public class Player extends Item {
 			setImage();
 			Audio.playSound("/audio/jump.wav");
 			boolean test = true;
-			while (y >= yT-2.5*Map.BLOC_WH && test==true) {
+			while (y >= yT - 2.5 * Map.BLOC_WH && test == true) {
 				for (Bloc b : Map.getInstance().getListBloc()) {
 					if (contactTop(b)) {
 						trapThePlayer(b);
@@ -236,30 +222,28 @@ public class Player extends Item {
 			}
 			setImage();
 		}
-		isFalling=true;
 	}
 
 	public void respawn() {
-		if(!Map.getInstance().getListCPBloc().isEmpty()) {
-			
-		
-		isJumping = false;
-		Map.getInstance().setNbDeath(Map.getInstance().getNbDeath() + 1);
-		CheckPointBloc last = Map.getInstance().checkLastCP();
-		for (Bloc bloc : Map.getInstance().getListBloc()) {
-			if (bloc instanceof TrapBloc) {
-				if (((TrapBloc) bloc).getType() == TypeTrap.FALL) {
-					((TrapBloc) bloc).revertAction();
-				}
-			}
-			if (last.x >= x) {
-				bloc.moveByX(-Math.abs(last.getCenterX() - getCenterX()));
-			} else {
-				bloc.moveByX(Math.abs(last.getCenterX() - getCenterX()));
-			}
+		if (!Map.getInstance().getListCPBloc().isEmpty()) {
 
-		}
-		moveTo(new Point2D.Double(x, last.y - height - Map.BLOC_WH / 2));
+			isJumping = false;
+			Map.getInstance().setNbDeath(Map.getInstance().getNbDeath() + 1);
+			CheckPointBloc last = Map.getInstance().checkLastCP();
+			for (Bloc bloc : Map.getInstance().getListBloc()) {
+				if (bloc instanceof TrapBloc) {
+					if (((TrapBloc) bloc).getType() == TypeTrap.FALL) {
+						((TrapBloc) bloc).revertAction();
+					}
+				}
+				if (last.x >= x) {
+					bloc.moveByX(-Math.abs(last.getCenterX() - getCenterX()));
+				} else {
+					bloc.moveByX(Math.abs(last.getCenterX() - getCenterX()));
+				}
+
+			}
+			moveTo(new Point2D.Double(x, last.y - height - Map.BLOC_WH / 2));
 		}
 	}
 
@@ -295,13 +279,4 @@ public class Player extends Item {
 	public void setTexture(Image img) {
 		this.texture = img;
 	}
-
-	public int getSleepFreq() {
-		return sleepFreq;
-	}
-
-	public void setSleepFreq(int sleepFreq) {
-		this.sleepFreq = sleepFreq;
-	}
-
 }

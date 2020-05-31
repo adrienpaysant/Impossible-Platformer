@@ -156,7 +156,7 @@ public class Map extends JPanel {
 				g2d.drawImage(player.getTexture()/*
 													 * .getScaledInstance((int)player.width, (int)player.height,
 													 * Image.SCALE_DEFAULT)
-													 */, (int) player.x + 10, (int) player.y,
+													 */, (int) player.x + 12, (int) player.y,
 						(int) (player.width + player.x), (int) (player.height + player.y), 0, 0,
 						player.getTexture().getWidth(null) * 2, player.getTexture().getHeight(null), null);
 
