@@ -46,7 +46,7 @@ public class Map extends JPanel {
 
 	private ArrayList<Bloc> listBloc = new ArrayList<Bloc>();
 	private ArrayList<CheckPointBloc> listCPBloc = new ArrayList<CheckPointBloc>();
-	private ArrayList<Cloud> listCloud = new ArrayList<Cloud>();
+	private ArrayList<Bloc> listCloud = new ArrayList<Bloc>();
 	private ArrayList<TrapBloc> listTrap = new ArrayList<TrapBloc>();
 
 	private CheckPointBloc lastCP;
@@ -180,7 +180,7 @@ public class Map extends JPanel {
 			}
 
 			// cloud
-			for (Cloud cld : listCloud) {
+			for (Bloc cld : listCloud) {
 				// - dX to move with the player
 				cld.moveByX(-dX * SPEED);
 				if (cld.isVisible()) {
@@ -364,7 +364,7 @@ public class Map extends JPanel {
 			int alea = 5 + (int) (Math.random() * ((15 - 5) + 1));
 
 			if (i % alea == 3) {// cloud between 151 & 221 on y parameter
-				listCloud.add(new Cloud(CLOUD_WH * i, groundH / 4 + alea * 7 - CLOUD_WH / 3 + 6, CLOUD_WH, CLOUD_WH,
+				listCloud.add(new Bloc(CLOUD_WH * i, groundH / 4 + alea * 7 - CLOUD_WH / 3 + 6, CLOUD_WH, CLOUD_WH,
 						true, ShopImage.CLOUD));
 			}
 		}
