@@ -38,7 +38,7 @@ public class Map extends JPanel {
 	private static final double PLAYER_W = 35;
 	public static final int GRAVITY = 4;
 	private static final int DEATH_WH = 75;
-	private static final boolean DEBUG = true;
+	private static final boolean DEBUG = false;
 
 	private Game game;
 	private ExitButton exitButton;
@@ -67,7 +67,6 @@ public class Map extends JPanel {
 			map = new Map();
 			map.addKeyListener(new Keyboard());
 		}
-
 		return map;
 	}
 
@@ -102,7 +101,7 @@ public class Map extends JPanel {
 		new Thread(new Chrono()).start();
 		new Thread(new ChronoTrap()).start();
 		new Thread(new ChronoPlayer()).start();
-		
+
 	}
 
 	// painting
@@ -354,7 +353,8 @@ public class Map extends JPanel {
 		addFallBloc(44, -1);
 
 		// last cp
-		lastCP = new CheckPointBloc(-BLOC_WH / 4 + BLOC_WH * 45/*45 en vrai*/, groundH, BLOC_WH, BLOC_WH, true, ShopImage.SANDBLOCK);
+		lastCP = new CheckPointBloc(-BLOC_WH / 4 + BLOC_WH * 5/* 45 en vrai */, groundH, BLOC_WH, BLOC_WH, true,
+				ShopImage.SANDBLOCK);
 		listBloc.add(lastCP);
 		listCPBloc.add(lastCP);
 		lastCPset = true;
