@@ -1,12 +1,9 @@
 package ch.hearc.wp2.p2.jeu.menus;
 
 import java.awt.Graphics;
-import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.IOException;
 
-import javax.imageio.ImageIO;
 import javax.swing.Box;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
@@ -30,6 +27,7 @@ public class PauseMenu extends JPanel {
 
 	// singleton
 	private static PauseMenu pauseMenu = null;
+
 	public static PauseMenu getInstance() {
 		if (pauseMenu == null) {
 			pauseMenu = new PauseMenu();
@@ -40,7 +38,7 @@ public class PauseMenu extends JPanel {
 	private PauseMenu() {
 		this.vC = new VolumeControl();
 		this.game = Game.getInstance();
-		
+
 		Box boxV = Box.createVerticalBox();
 		this.resume = new JButtonMenu("Resume");
 		this.exit = new JButtonMenu("Exit To Leaderboard");
@@ -81,7 +79,7 @@ public class PauseMenu extends JPanel {
 
 			}
 		});
-		
+
 		this.addKeyListener(new KeyboardMenuPause());
 	}
 
@@ -89,8 +87,8 @@ public class PauseMenu extends JPanel {
 	protected void paintComponent(Graphics g) {
 		super.paintComponent(g);
 		// allow resizeEvent by deforming Image to the good width and height
-		g.drawImage(ShopImage.MENUBG, 0, 0, getWidth(), getHeight(), 0, 0, ShopImage.MENUBG.getWidth(null), ShopImage.MENUBG.getHeight(null),
-				null);
+		g.drawImage(ShopImage.MENUBG, 0, 0, getWidth(), getHeight(), 0, 0, ShopImage.MENUBG.getWidth(null),
+				ShopImage.MENUBG.getHeight(null), null);
 	}
 
 	public VolumeControl getvC() {
