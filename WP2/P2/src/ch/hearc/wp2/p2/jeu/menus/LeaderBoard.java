@@ -56,7 +56,7 @@ public class LeaderBoard extends Box {
 	private LeaderBoard() {
 		super(BoxLayout.Y_AXIS);
 		nbDeath = 0;
-		this.buttonEntry = new JButtonMenu("Valider");
+		this.buttonEntry = new JButtonMenu("Validate");
 		this.entry = new JTextField();
 		this.exitButton = new ExitButton("Back to Menu", "MainMenu");
 		this.label = new JLabel();
