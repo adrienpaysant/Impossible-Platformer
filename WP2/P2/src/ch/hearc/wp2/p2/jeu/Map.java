@@ -150,8 +150,9 @@ public class Map extends JPanel {
 			player.moveByY(GRAVITY);
 			g2d.setColor(Color.black);
 			if (player.isVisible()) {
-//				g2d.fill(player);
-//				g2d.draw(player);
+				if (DEBUG) {
+					g2d.draw(player);
+				}
 				g2d.drawImage(player.getTexture()/*
 													 * .getScaledInstance((int)player.width, (int)player.height,
 													 * Image.SCALE_DEFAULT)
