@@ -39,7 +39,7 @@ public class About extends Box {
 		JLabel label = new JLabel(
 				"<html>This Project has been created by Adrien Paysant, Joris Monnet and Ugo Crucy<br><br>"
 						+ "The purpose is to manage your way through trapped plateforms to reach the end.<br>"
-						+ "Your number of death will determine your place on the leader board.<br>"
+						+ "Your number of death will determine your place on the leaderboard.<br>"
 						+ "Challenge yourself and your friends to be the best player !!<br><br>"
 						+ "This Project has been made for a School Project in Java in the HE-arc in Switzerland, in 2020.</html>",
 				SwingConstants.CENTER);
