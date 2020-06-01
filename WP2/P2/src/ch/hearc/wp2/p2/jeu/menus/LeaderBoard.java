@@ -7,6 +7,7 @@ import java.awt.Graphics2D;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
+import java.net.URISyntaxException;
 import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -131,7 +132,7 @@ public class LeaderBoard extends Box {
 			String[][] result = new String[TOP][2];
 			int i = 0;
 			List<String> list = new ArrayList<String>();
-			Path source = Paths.get("ressources/data.csv");
+			Path source = Paths.get(ClassLoader.getSystemResource("data.csv").toURI());
 			list = Files.readAllLines(source);
 			for (String line : list) {
 				if (i < TOP) {
@@ -147,24 +148,28 @@ public class LeaderBoard extends Box {
 	}
 
 	public void write(String newLeader) throws IOException {
-		Path source = Paths.get("ressources/data.csv");
-		Files.deleteIfExists(source);
-		Files.createFile(source);
-		String[] text = this.leadersLabel.getText().split(";");
-		String[] dataToWrite = new String[TOP];
-		String data = new String();
-		for (int i = 0; i < TOP - 1; i++) {
-			text[i] = text[i].replaceAll(" : ", ",");
-			text[i] = text[i].replaceAll(";", "");
-			dataToWrite[i] = text[i] + "\n";
+		try {
+			Path source = Paths.get(ClassLoader.getSystemResource("data.csv").toURI());
+			Files.deleteIfExists(source);
+			Files.createFile(source);
+			String[] text = this.leadersLabel.getText().split(";");
+			String[] dataToWrite = new String[TOP];
+			String data = new String();
+			for (int i = 0; i < TOP - 1; i++) {
+				text[i] = text[i].replaceAll(" : ", ",");
+				text[i] = text[i].replaceAll(";", "");
+				dataToWrite[i] = text[i] + "\n";
+			}
+			dataToWrite[TOP - 1] = newLeader;
+			for (int i = 0; i < TOP; i++) {
+				data += dataToWrite[i];
+			}
+			byte[] b = data.getBytes(Charset.forName("UTF-8"));
+			Files.write(source, b, StandardOpenOption.WRITE);
+			showRead();
+		} catch (URISyntaxException e) {
+			e.printStackTrace();
 		}
-		dataToWrite[TOP - 1] = newLeader;
-		for (int i = 0; i < TOP; i++) {
-			data += dataToWrite[i];
-		}
-		byte[] b = data.getBytes(Charset.forName("UTF-8"));
-		Files.write(source, b, StandardOpenOption.WRITE);
-		showRead();
 	}
 
 	// drawing
