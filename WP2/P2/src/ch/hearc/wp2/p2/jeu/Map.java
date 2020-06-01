@@ -305,7 +305,7 @@ public class Map extends JPanel {
 		addSpikeBloc(9, 1, ShopImage.SPIKEL, TypeTrap.SPIKEL);
 		addPlainBloc(10, 1);
 		addPlainBloc(11, 0);
-		addSpikeBloc(11, 4, ShopImage.SPIKER, TypeTrap.SPIKER);
+		addSpikeBloc(11, 4, ShopImage.SPIKEG, TypeTrap.SPIKEG);
 		addFallBloc(12, 4);
 		addPlainBloc(13, -2);
 		addPlainBloc(13, 0);
