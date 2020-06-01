@@ -7,12 +7,12 @@ import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.FileWriter;
 import java.io.IOException;
-import java.io.InputStream;
+import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.nio.file.StandardOpenOption;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -44,7 +44,6 @@ public class LeaderBoard extends Box {
 	private JLabel label;
 	private JLabel leadersLabel;
 	private int nbDeath;
-	private String[][] leaderTab;
 	private boolean hasPlayedSound;
 	private int worstTop;
 	private String name = "";
@@ -61,7 +60,6 @@ public class LeaderBoard extends Box {
 		nbDeath = 0;
 		this.buttonEntry = new JButtonMenu("Valider");
 		this.entry = new JTextField();
-		this.leaderTab = new String[TOP][2];
 		this.exitButton = new ExitButton("Back to Menu", "MainMenu");
 		this.label = new JLabel();
 		this.leadersLabel = new JLabel();
@@ -87,19 +85,18 @@ public class LeaderBoard extends Box {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				buttonEntry.setVisible(false);
+				entry.setVisible(false);
 				name = entry.getText().toString();
 				if (nbDeath < worstTop) {
 					if (!name.isBlank() && !name.isEmpty()) {
-						leaderTab[TOP - 1][0] = name;
-						leaderTab[TOP - 1][1] = Integer.toString(nbDeath);
-						System.out.println(leaderTab[TOP - 1][0] + " , " + leaderTab[TOP - 1][0]);
+						String newLeader = new String();
+						newLeader = name + "," + Integer.toString(nbDeath);
 						try {
-							write();
-						} catch (IOException e1) {
-							e1.printStackTrace();
+							write(newLeader);
+						} catch (IOException exception) {
+							exception.printStackTrace();
 						}
-						buttonEntry.setEnabled(false);
-						entry.setEnabled(false);
 					}
 
 				}
@@ -109,8 +106,10 @@ public class LeaderBoard extends Box {
 
 	public void showRead() {
 		try {
-			String readData = new String();
 			String[][] readRawData = read();
+			if (readRawData == null)
+				throw new IOException();
+			String readData = new String();
 			int[] tabNotSorted = new int[10];
 			for (int i = 0; i < TOP; i++) {
 				tabNotSorted[i] = Integer.parseInt(readRawData[i][1]);
@@ -120,7 +119,6 @@ public class LeaderBoard extends Box {
 			for (int i = 0; i < TOP; i++) {
 				for (int j = 0; j < TOP; j++) {
 					if (Integer.parseInt(readRawData[j][1]) == tabSorted[i] && readRawData[j][1] != "-1") {
-						this.leaderTab[i] = readRawData[j];
 						readData += readRawData[j][0] + " : " + readRawData[j][1] + ";";
 						readRawData[j][1] = "-1";
 					}
@@ -132,17 +130,20 @@ public class LeaderBoard extends Box {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+		update(getGraphics());
 	}
 
 	public String[][] read() throws IOException {
 		try {
-			String [][]result = new String[TOP][2];
-			int i=0;
+			String[][] result = new String[TOP][2];
+			int i = 0;
 			List<String> list = new ArrayList<String>();
-			Path source = Paths.get("ressources/data.txt");
+			Path source = Paths.get("ressources/data.csv");
 			list = Files.readAllLines(source);
-			for(String line : list) {
-				result[i++]=line.split(",");
+			for (String line : list) {
+				if (i < TOP) {
+					result[i++] = line.split(",");
+				}
 			}
 			return result;
 		} catch (Exception e) {
@@ -152,18 +153,28 @@ public class LeaderBoard extends Box {
 
 	}
 
-	public void write() throws IOException {
-		FileWriter writer = new FileWriter(getClass().getResource("/data.txt").getFile());
-		for (int i = 0; i < TOP; i++) {
-			System.out.println(String.join(",", leaderTab[i]) + "\n");
-			writer.append(String.join(",", leaderTab[i]) + "\n");
+	public void write(String newLeader) throws IOException {
+		Path source = Paths.get("ressources/data.csv");
+		Files.deleteIfExists(source);
+		Files.createFile(source);
+		String []text = this.leadersLabel.getText().split(";");
+		String []dataToWrite = new String[TOP];
+		String data = new String();
+		for(int i=0;i<TOP-1;i++) {
+			text[i] = text[i].replaceAll(" : ", ",");
+			text[i] = text[i].replaceAll(";", "");
+			dataToWrite[i] = text[i]+"\n";
 		}
-		writer.flush();
-		writer.close();
+		dataToWrite[TOP-1] = newLeader;
+		for(int i=0;i<TOP;i++) {
+			data += dataToWrite[i];
+		}
+		byte[] b = data.getBytes(Charset.forName("UTF-8"));
+		Files.write(source, b, StandardOpenOption.WRITE);
 		showRead();
 	}
 
-//drawing
+	//drawing
 	@Override
 	protected void paintComponent(Graphics g) {
 		super.paintComponent(g);
