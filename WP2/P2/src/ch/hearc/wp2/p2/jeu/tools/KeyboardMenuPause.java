@@ -29,7 +29,6 @@ public class KeyboardMenuPause implements KeyListener {
 			});
 			Game.getInstance().setSize(Game.getInstance().getWidth() - 1, Game.getInstance().getHeight() - 1);
 		}
-
 	}
 
 	@Override

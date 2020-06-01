@@ -16,13 +16,13 @@ import ch.hearc.wp2.p2.jeu.Map;
 import ch.hearc.wp2.p2.jeu.tools.Audio;
 import ch.hearc.wp2.p2.jeu.tools.KeyboardMenuPause;
 import ch.hearc.wp2.p2.jeu.tools.VolumeControl;
+import ch.hearc.wp2.p2.jeu.tools.image.ShopImage;
 import ch.hearc.wp2.p2.jeu.tools.position.JCenter;
 import ch.hearc.wp2.p2.jeu.tools.position.JCenterH;
 
 @SuppressWarnings("serial")
 public class PauseMenu extends JPanel {
 
-	private Image bgImage;
 	private JButtonMenu exit;
 	private JButtonMenu resume;
 	private Game game;
@@ -30,11 +30,9 @@ public class PauseMenu extends JPanel {
 
 	// singleton
 	private static PauseMenu pauseMenu = null;
-
 	public static PauseMenu getInstance() {
 		if (pauseMenu == null) {
 			pauseMenu = new PauseMenu();
-			pauseMenu.addKeyListener(new KeyboardMenuPause());
 		}
 		return pauseMenu;
 	}
@@ -42,15 +40,10 @@ public class PauseMenu extends JPanel {
 	private PauseMenu() {
 		this.vC = new VolumeControl();
 		this.game = Game.getInstance();
-
-		try {
-			bgImage = ImageIO.read(getClass().getResource("/images/menubg2.jpg"));
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+		
 		Box boxV = Box.createVerticalBox();
-		resume = new JButtonMenu("Resume");
-		exit = new JButtonMenu("Exit To Leaderboard");
+		this.resume = new JButtonMenu("Resume");
+		this.exit = new JButtonMenu("Exit To Leaderboard");
 		boxV.add(new JCenterH(resume));
 		boxV.add(Box.createVerticalStrut(20));
 		boxV.add(vC);
@@ -88,13 +81,15 @@ public class PauseMenu extends JPanel {
 
 			}
 		});
+		
+		this.addKeyListener(new KeyboardMenuPause());
 	}
 
 	@Override
 	protected void paintComponent(Graphics g) {
 		super.paintComponent(g);
 		// allow resizeEvent by deforming Image to the good width and height
-		g.drawImage(bgImage, 0, 0, getWidth(), getHeight(), 0, 0, bgImage.getWidth(null), bgImage.getHeight(null),
+		g.drawImage(ShopImage.MENUBG, 0, 0, getWidth(), getHeight(), 0, 0, ShopImage.MENUBG.getWidth(null), ShopImage.MENUBG.getHeight(null),
 				null);
 	}
 

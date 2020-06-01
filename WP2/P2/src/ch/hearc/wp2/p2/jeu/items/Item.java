@@ -4,13 +4,9 @@ package ch.hearc.wp2.p2.jeu.items;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 
+@SuppressWarnings("serial")
 public abstract class Item extends Rectangle2D.Double {
 
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
-	// visible
 	private boolean isVisible;
 
 	// constructors
@@ -32,7 +28,6 @@ public abstract class Item extends Rectangle2D.Double {
 		this.isVisible = isVisible;
 	}
 
-	// methode
 	// moving the rectangle to the point pt
 	public void moveTo(Point2D.Double pt) {
 		setRect(pt.x, pt.y, this.width, this.height);
@@ -44,7 +39,7 @@ public abstract class Item extends Rectangle2D.Double {
 	}
 
 	public void moveByY(double y) {
-		moveTo(new Point2D.Double(this.x,this.y + y));
+		moveTo(new Point2D.Double(this.x, this.y + y));
 	}
 
 	@Override

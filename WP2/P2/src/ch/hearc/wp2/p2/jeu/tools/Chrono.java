@@ -9,11 +9,10 @@ public class Chrono implements Runnable {
 	@Override
 	public void run() {
 		while (true) {
-			if(Map.getInstance().getdX()==0) {
+			if (Map.getInstance().getdX() == 0) {
 				Map.getInstance().getPlayer().setRun(false);
 				Map.getInstance().getPlayer().setWalk(false);
-			}
-			else {
+			} else {
 				Map.getInstance().getPlayer().setWalk(true);
 			}
 			Map.getInstance().repaint();
@@ -23,6 +22,5 @@ public class Chrono implements Runnable {
 				e.printStackTrace();
 			}
 		}
-
 	}
 }

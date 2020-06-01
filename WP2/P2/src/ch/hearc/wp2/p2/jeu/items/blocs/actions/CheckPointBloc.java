@@ -2,8 +2,8 @@
 package ch.hearc.wp2.p2.jeu.items.blocs.actions;
 
 import java.awt.Image;
-import ch.hearc.wp2.p2.jeu.items.blocs.Bloc;
 
+import ch.hearc.wp2.p2.jeu.items.blocs.Bloc;
 
 @SuppressWarnings("serial")
 public class CheckPointBloc extends Bloc {
@@ -19,8 +19,6 @@ public class CheckPointBloc extends Bloc {
 		super(x, y, w, h, v, texture);
 		this.isCheck = false;
 	}
-
-	// getters & setters
 
 	public boolean isCheck() {
 		return isCheck;

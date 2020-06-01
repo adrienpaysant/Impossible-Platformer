@@ -22,7 +22,6 @@ public class Audio {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-
 	}
 
 	// getter
@@ -48,7 +47,6 @@ public class Audio {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-
 	}
 
 	public static void playSoundLoop(String path) {
@@ -62,7 +60,6 @@ public class Audio {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-
 	}
 
 //source : Project: Lyst-Master  File: VolumeControl.Java-https://www.javatips.net/api/javax.sound.sampled.floatcontrol

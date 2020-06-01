@@ -13,7 +13,6 @@ public class Bloc extends Item {
 	public Bloc(double x, double y, double w, double h, boolean v, Image texture) {
 		super(x, y, w, h, v);
 		this.texture = texture;
-
 	}
 
 	public Bloc(Bloc it) {
@@ -24,8 +23,9 @@ public class Bloc extends Item {
 	public Image getTexture() {
 		return texture;
 	}
+
 	public void setTexture(Image img) {
-		this.texture=img;
+		this.texture = img;
 	}
 
 }

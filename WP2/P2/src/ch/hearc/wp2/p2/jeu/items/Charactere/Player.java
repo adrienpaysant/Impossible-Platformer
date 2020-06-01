@@ -95,53 +95,29 @@ public class Player extends Item {
 				e.printStackTrace();
 			}
 		}
-
 		spriteCmpt++;
-
 	}
 
 	public boolean contactRight(Item it) {
-		if (intersectsLine(it.x - 5, it.y + 5, it.x - 5, it.getMaxY())) {
-			return true;
-
-		} else {
-			return false;
-		}
+		return intersectsLine(it.x - 5, it.y + 5, it.x - 5, it.getMaxY());
 	}
 
 	public boolean contactLeft(Item it) {
-		if (intersectsLine(it.getMaxX() + 5, it.y + 5, it.getMaxX() + 5, it.getMaxY())) {
-			return true;
-
-		} else {
-			return false;
-		}
+		return intersectsLine(it.getMaxX() + 5, it.y + 5, it.getMaxX() + 5, it.getMaxY());
 	}
 
 	public boolean contactBottom(Item it) {
-
-		if (intersectsLine(it.x - 3, it.y - 4, it.getMaxX() + 3, it.y - 4)) {
-			return true;
-		} else {
-			return false;
-		}
+		return intersectsLine(it.x - 3, it.y - 4, it.getMaxX() + 3, it.y - 4);
 	}
 
 	public boolean contactTop(Item it) {
-
-		if (intersectsLine(it.x, it.getMaxY() + 1, it.getMaxX(), it.getMaxY() + 1)) {
-			return true;
-
-		} else {
-			return false;
-		}
+		return intersectsLine(it.x, it.getMaxY() + 1, it.getMaxX(), it.getMaxY() + 1);
 	}
 
 	public boolean contactTest(Item it) {
-		if (contactBottom(new Bloc(it.x, it.y - 5, it.width, it.height, it.isVisible(), ((TrapBloc) it).getTexture()))
-				|| contactLeft(it) || contactRight(it) || contactTop(it))
-			return true;
-		return false;
+		return (contactBottom(
+				new Bloc(it.x, it.y - 5, it.width, it.height, it.isVisible(), ((TrapBloc) it).getTexture()))
+				|| contactLeft(it) || contactRight(it) || contactTop(it));
 	}
 
 	public void contact(Item it) {
@@ -171,7 +147,6 @@ public class Player extends Item {
 				}
 				break;
 			case SPIKEL:
-
 				if (contactRight(it)) {
 					((TrapBloc) it).trapAction();
 					respawn();
@@ -195,11 +170,7 @@ public class Player extends Item {
 					((TrapBloc) it).trapAction();
 				}
 				break;
-			default:
-
-				break;
 			}
-
 		}
 	}
 
@@ -226,22 +197,15 @@ public class Player extends Item {
 
 	public void respawn() {
 		if (!Map.getInstance().getListCPBloc().isEmpty()) {
-
 			isJumping = false;
 			Map.getInstance().setNbDeath(Map.getInstance().getNbDeath() + 1);
 			CheckPointBloc last = Map.getInstance().checkLastCP();
 			for (Bloc bloc : Map.getInstance().getListBloc()) {
-				if (bloc instanceof TrapBloc) {
-					if (((TrapBloc) bloc).getType() == TypeTrap.FALL) {
-						((TrapBloc) bloc).revertAction();
-					}
+				if (bloc instanceof TrapBloc && ((TrapBloc) bloc).getType() == TypeTrap.FALL) {
+					((TrapBloc) bloc).revertAction();
 				}
-				if (last.x >= x) {
-					bloc.moveByX(-Math.abs(last.getCenterX() - getCenterX()));
-				} else {
-					bloc.moveByX(Math.abs(last.getCenterX() - getCenterX()));
-				}
-
+				int coef = last.x >= x ? -1 : 1;
+				bloc.moveByX(coef * Math.abs(last.getCenterX() - getCenterX()));
 			}
 			moveTo(new Point2D.Double(x, last.y - height - Map.BLOC_WH / 2));
 		}
@@ -273,7 +237,7 @@ public class Player extends Item {
 	}
 
 	public Image getTexture() {
-		return texture;
+		return this.texture;
 	}
 
 	public void setTexture(Image img) {

@@ -11,21 +11,16 @@ public class ChronoTrap implements Runnable {
 	@Override
 	public void run() {
 		while (true) {
-
 			try {
 				Thread.sleep(DELAY);
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
-
 			for (TrapBloc tBloc : Map.getInstance().getListTrap()) {
-				if (tBloc instanceof SpikeBloc) {
-					if (((SpikeBloc) tBloc).isVisible()) {
-						tBloc.revertAction();
-					}
+				if (tBloc instanceof SpikeBloc && ((SpikeBloc) tBloc).isVisible()) {
+					tBloc.revertAction();
 				}
 			}
 		}
-
 	}
 }

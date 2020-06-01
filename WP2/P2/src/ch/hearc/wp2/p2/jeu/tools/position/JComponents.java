@@ -7,10 +7,6 @@ import javax.swing.JComponent;
 
 public class JComponents {
 
-	/*------------------------------------------------------------------*\
-	|*							Methodes Public							*|
-	\*------------------------------------------------------------------*/
-
 	public static void setWidth(JComponent component, int width) {
 		component.setMinimumSize(new Dimension(width, component.getMinimumSize().height));
 		component.setMaximumSize(new Dimension(width, component.getMaximumSize().height));
@@ -22,9 +18,4 @@ public class JComponents {
 		component.setMaximumSize(new Dimension(component.getMaximumSize().width, height));
 		component.setPreferredSize(new Dimension(component.getPreferredSize().width, height));
 	}
-
-	/*------------------------------------------------------------------*\
-	|*							Methodes Private						*|
-	\*------------------------------------------------------------------*/
-
 }

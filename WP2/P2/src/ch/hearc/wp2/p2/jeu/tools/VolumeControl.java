@@ -5,12 +5,11 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
 import java.awt.geom.RoundRectangle2D;
-
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JLabel;
-
 import ch.hearc.wp2.p2.jeu.tools.position.JCenter;
+import ch.hearc.wp2.p2.jeu.tools.position.JComponents;
 
 @SuppressWarnings("serial")
 public class VolumeControl extends Box {
@@ -19,9 +18,9 @@ public class VolumeControl extends Box {
 
 	public VolumeControl() {
 		super(BoxLayout.Y_AXIS);
-		vS=new VolumeSlider(0, 10);
+		vS = new VolumeSlider(0, 10);
 		add(new JCenter(new JLabel("MASTER VOLUME")));
-		Box bH=Box.createHorizontalBox();
+		Box bH = Box.createHorizontalBox();
 		bH.add(new JLabel("Min"));
 		bH.add(new JCenter(vS));
 		bH.add(new JLabel("Max"));
