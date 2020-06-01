@@ -3,18 +3,16 @@ package ch.hearc.wp2.p2.jeu.menus;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
-import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.IOException;
 
-import javax.imageio.ImageIO;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JLabel;
 import javax.swing.SwingConstants;
 
 import ch.hearc.wp2.p2.jeu.Game;
+import ch.hearc.wp2.p2.jeu.tools.image.ShopImage;
 import ch.hearc.wp2.p2.jeu.tools.position.JCenter;
 import ch.hearc.wp2.p2.jeu.tools.position.JCenterH;
 
@@ -23,7 +21,6 @@ public class About extends Box {
 
 	private Game game;
 	private JButtonMenu buttonExit;
-	private Image bgImage;
 	private static About about = null;
 
 	// singleton
@@ -35,11 +32,6 @@ public class About extends Box {
 
 	private About() {
 		super(BoxLayout.Y_AXIS);
-		try {
-			bgImage = ImageIO.read(getClass().getResource("/images/menubg2.jpg"));
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
 		this.game = Game.getInstance();
 		buttonExit = new JButtonMenu("Back to Menu");
 		add(new JCenterH(buttonExit));
@@ -69,7 +61,7 @@ public class About extends Box {
 	protected void paintComponent(Graphics g) {
 		super.paintComponent(g);
 		// allow resizeEvent by deforming Image to the good width and height
-		g.drawImage(bgImage, 0, 0, getWidth(), getHeight(), 0, 0, bgImage.getWidth(null), bgImage.getHeight(null),
-				null);
+		g.drawImage(ShopImage.MENUBG, 0, 0, getWidth(), getHeight(), 0, 0, ShopImage.MENUBG.getWidth(null), 
+				ShopImage.MENUBG.getHeight(null),null);
 	}
 }

@@ -1,12 +1,9 @@
 package ch.hearc.wp2.p2.jeu.menus;
 
 import java.awt.Graphics;
-import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.IOException;
 
-import javax.imageio.ImageIO;
 import javax.swing.Box;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
@@ -15,13 +12,13 @@ import ch.hearc.wp2.p2.jeu.Game;
 import ch.hearc.wp2.p2.jeu.Map;
 import ch.hearc.wp2.p2.jeu.tools.Audio;
 import ch.hearc.wp2.p2.jeu.tools.VolumeControl;
+import ch.hearc.wp2.p2.jeu.tools.image.ShopImage;
 import ch.hearc.wp2.p2.jeu.tools.position.JCenter;
 import ch.hearc.wp2.p2.jeu.tools.position.JCenterH;
 
 @SuppressWarnings("serial")
 public class MainMenu extends JPanel {
 
-	private Image logo;
 	private JButtonMenu quit;
 	private JButtonMenu play;
 	private JButtonMenu about;
@@ -41,11 +38,7 @@ public class MainMenu extends JPanel {
 		this.vC = new VolumeControl();
 		this.game = Game.getInstance();
 		Audio.setVolume((float) 0.5);
-		try {
-			logo = ImageIO.read(getClass().getResource("/images/logo.png"));
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+
 		Box boxV = Box.createVerticalBox();
 		play = new JButtonMenu("Play");
 		quit = new JButtonMenu("Quit");
@@ -112,7 +105,8 @@ public class MainMenu extends JPanel {
 	protected void paintComponent(Graphics g) {
 		super.paintComponent(g);
 		// allow resizeEvent by deforming Image to the good width and height
-		g.drawImage(logo, 0, 0, getWidth(), getHeight(), 0, 0, logo.getWidth(null), logo.getHeight(null), null);
+		g.drawImage(ShopImage.LOGO, 0, 0, getWidth(), getHeight(), 0, 0, ShopImage.LOGO.getWidth(null),
+				ShopImage.LOGO.getHeight(null), null);
 	}
 
 	// getters & setters

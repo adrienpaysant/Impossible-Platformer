@@ -4,7 +4,6 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
-import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
@@ -16,7 +15,6 @@ import java.nio.file.StandardOpenOption;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.imageio.ImageIO;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JLabel;
@@ -28,6 +26,7 @@ import ch.hearc.wp2.p2.jeu.tools.Audio;
 import ch.hearc.wp2.p2.jeu.tools.Design;
 import ch.hearc.wp2.p2.jeu.tools.ExitButton;
 import ch.hearc.wp2.p2.jeu.tools.QuickSort;
+import ch.hearc.wp2.p2.jeu.tools.image.ShopImage;
 import ch.hearc.wp2.p2.jeu.tools.position.JCenterH;
 import ch.hearc.wp2.p2.jeu.tools.position.JComponents;
 
@@ -35,7 +34,6 @@ import ch.hearc.wp2.p2.jeu.tools.position.JComponents;
 public class LeaderBoard extends Box {
 
 	private static LeaderBoard leaderBoard = null;
-	private Image bgImage;
 	private static int TOP = 10;
 
 	private JTextField entry;
@@ -65,11 +63,6 @@ public class LeaderBoard extends Box {
 		this.leadersLabel = new JLabel();
 		buttonEntry.setVisible(false);
 		entry.setVisible(false);
-		try {
-			bgImage = ImageIO.read(getClass().getResource("/images/menubg2.jpg"));
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
 
 		JComponents.setWidth(entry, 300);
 		JComponents.setHeight(entry, 25);
@@ -183,8 +176,8 @@ public class LeaderBoard extends Box {
 	}
 
 	private void draw(Graphics2D g2d) {
-		g2d.drawImage(bgImage, 0, 0, getWidth(), getHeight(), 0, 0, bgImage.getWidth(null), bgImage.getHeight(null),
-				null);
+		g2d.drawImage(ShopImage.MENUBG, 0, 0, getWidth(), getHeight(), 0, 0, ShopImage.MENUBG.getWidth(null),
+				ShopImage.MENUBG.getHeight(null), null);
 
 		g2d.setFont(new Font("Monospaced", Font.BOLD, 50));
 		g2d.setColor(Color.white);
