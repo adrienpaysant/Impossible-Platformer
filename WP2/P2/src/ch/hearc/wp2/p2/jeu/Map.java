@@ -9,7 +9,6 @@ import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
-
 import javax.swing.JPanel;
 
 import ch.hearc.wp2.p2.jeu.items.Charactere.Player;
@@ -19,7 +18,6 @@ import ch.hearc.wp2.p2.jeu.items.blocs.traps.FallBloc;
 import ch.hearc.wp2.p2.jeu.items.blocs.traps.SpikeBloc;
 import ch.hearc.wp2.p2.jeu.items.blocs.traps.TrapBloc;
 import ch.hearc.wp2.p2.jeu.items.blocs.traps.TypeTrap;
-import ch.hearc.wp2.p2.jeu.items.decoration.Cloud;
 import ch.hearc.wp2.p2.jeu.menus.LeaderBoard;
 import ch.hearc.wp2.p2.jeu.tools.Audio;
 import ch.hearc.wp2.p2.jeu.tools.Chrono;
@@ -32,22 +30,22 @@ import ch.hearc.wp2.p2.jeu.tools.image.ShopImage;
 @SuppressWarnings("serial")
 public class Map extends JPanel {
 
-	public static final int BLOC_WH = 50;
+	public static final int BLOC_WH = 60;
 	private static final int SUN_WH = 150;
 	private static final int CLOUD_WH = 75;
 	private static final int SPEED = 3;
-	private static final int PLAYER_H = 55;
-	private static final int PLAYER_W = 30;
-	public static final int GRAVITY = 3;
+	private static final double PLAYER_H = 50;
+	private static final double PLAYER_W = 35;
+	public static final int GRAVITY = 4;
 	private static final int DEATH_WH = 75;
-	private static final boolean DEBUG = false;
+	private static final boolean DEBUG = true;
 
 	private Game game;
 	private ExitButton exitButton;
 
 	private ArrayList<Bloc> listBloc = new ArrayList<Bloc>();
 	private ArrayList<CheckPointBloc> listCPBloc = new ArrayList<CheckPointBloc>();
-	private ArrayList<Cloud> listCloud = new ArrayList<Cloud>();
+	private ArrayList<Bloc> listCloud = new ArrayList<Bloc>();
 	private ArrayList<TrapBloc> listTrap = new ArrayList<TrapBloc>();
 
 	private CheckPointBloc lastCP;
@@ -62,6 +60,7 @@ public class Map extends JPanel {
 	private boolean win;
 	private boolean lastCPset;
 	private boolean hasPlay;
+	private boolean lastDir;
 
 	public static Map getInstance() {
 		if (map == null) {
@@ -98,7 +97,7 @@ public class Map extends JPanel {
 		this.win = false;
 		this.lastCPset = false;
 		this.hasPlay = false;
-		
+		this.setLastDir(true);
 
 		new Thread(new Chrono()).start();
 		new Thread(new ChronoTrap()).start();
@@ -152,10 +151,15 @@ public class Map extends JPanel {
 			player.moveByY(GRAVITY);
 			g2d.setColor(Color.black);
 			if (player.isVisible()) {
-				g2d.drawImage(player.getTexture()/*.getScaledInstance((int)player.width, (int)player.height, Image.SCALE_DEFAULT)*/,(int) player.x + 10, (int) player.y, (int) (player.width + player.x),
-						(int) (player.height + player.y), 0, 0, player.getTexture().getWidth(null)*2,
-						player.getTexture().getHeight(null), null);
-				//g2d.fill(player);
+//				g2d.fill(player);
+				g2d.draw(player);
+				g2d.drawImage(player.getTexture()/*
+													 * .getScaledInstance((int)player.width, (int)player.height,
+													 * Image.SCALE_DEFAULT)
+													 */, (int) player.x + 12, (int) player.y,
+						(int) (player.width + player.x), (int) (player.height + player.y), 0, 0,
+						player.getTexture().getWidth(null) * 2, player.getTexture().getHeight(null), null);
+
 			}
 			// blocs
 			g2d.setColor(Color.green);
@@ -176,7 +180,7 @@ public class Map extends JPanel {
 			}
 
 			// cloud
-			for (Cloud cld : listCloud) {
+			for (Bloc cld : listCloud) {
 				// - dX to move with the player
 				cld.moveByX(-dX * SPEED);
 				if (cld.isVisible()) {
@@ -350,7 +354,7 @@ public class Map extends JPanel {
 		addFallBloc(44, -1);
 
 		// last cp
-		lastCP = new CheckPointBloc(-BLOC_WH / 4 + BLOC_WH * 5/*45 en vrai*/, groundH, BLOC_WH, BLOC_WH, true, ShopImage.SANDBLOCK);
+		lastCP = new CheckPointBloc(-BLOC_WH / 4 + BLOC_WH * 45/*45 en vrai*/, groundH, BLOC_WH, BLOC_WH, true, ShopImage.SANDBLOCK);
 		listBloc.add(lastCP);
 		listCPBloc.add(lastCP);
 		lastCPset = true;
@@ -360,7 +364,7 @@ public class Map extends JPanel {
 			int alea = 5 + (int) (Math.random() * ((15 - 5) + 1));
 
 			if (i % alea == 3) {// cloud between 151 & 221 on y parameter
-				listCloud.add(new Cloud(CLOUD_WH * i, groundH / 4 + alea * 7 - CLOUD_WH / 3 + 6, CLOUD_WH, CLOUD_WH,
+				listCloud.add(new Bloc(CLOUD_WH * i, groundH / 4 + alea * 7 - CLOUD_WH / 3 + 6, CLOUD_WH, CLOUD_WH,
 						true, ShopImage.CLOUD));
 			}
 		}
@@ -372,9 +376,7 @@ public class Map extends JPanel {
 	}
 
 	public int getGroundH() {
-
 		return (int) this.groundH;
-
 	}
 
 	public double getdX() {
@@ -416,6 +418,14 @@ public class Map extends JPanel {
 
 	public void setHasPlay(boolean hasPlay) {
 		this.hasPlay = hasPlay;
+	}
+
+	public boolean isLastDir() {
+		return lastDir;
+	}
+
+	public void setLastDir(boolean lastDir) {
+		this.lastDir = lastDir;
 	}
 
 }
