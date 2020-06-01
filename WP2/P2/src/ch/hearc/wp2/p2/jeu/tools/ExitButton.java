@@ -1,15 +1,7 @@
 package ch.hearc.wp2.p2.jeu.tools;
 
-import java.awt.Color;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.awt.RenderingHints;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.geom.RoundRectangle2D;
-
-import javax.swing.JButton;
-import javax.swing.SwingConstants;
 
 import ch.hearc.wp2.p2.jeu.Game;
 import ch.hearc.wp2.p2.jeu.menus.JButtonMenu;
@@ -21,7 +13,6 @@ public class ExitButton extends JButtonMenu {
 
 	public ExitButton(String title, String target) {
 		super(title);
-		// listeners
 		this.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -35,16 +26,12 @@ public class ExitButton extends JButtonMenu {
 				case "PauseMenu":
 					Game.getInstance().setContentPane(PauseMenu.getInstance());
 					break;
-
 				default:
 					Game.getInstance().setContentPane(PauseMenu.getInstance());
 					break;
 				}
-
 				Game.getInstance().setSize(Game.getInstance().getWidth() - 1, Game.getInstance().getHeight() - 1);
 			}
 		});
-
 	}
-
 }

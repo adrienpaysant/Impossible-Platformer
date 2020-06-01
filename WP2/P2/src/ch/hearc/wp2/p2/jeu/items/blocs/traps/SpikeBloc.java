@@ -51,7 +51,6 @@ public class SpikeBloc extends TrapBloc {
 		Audio.playSound("/audio/die.wav");
 		this.setVisible(true);
 		if (!isOut) {
-
 			switch (type) {
 			case SPIKER:// spike expanding by right
 				moveByX(Map.BLOC_WH - 5);

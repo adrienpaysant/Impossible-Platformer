@@ -27,9 +27,9 @@ import ch.hearc.wp2.p2.jeu.Map;
 import ch.hearc.wp2.p2.jeu.tools.Audio;
 import ch.hearc.wp2.p2.jeu.tools.Design;
 import ch.hearc.wp2.p2.jeu.tools.ExitButton;
-import ch.hearc.wp2.p2.jeu.tools.JComponents;
 import ch.hearc.wp2.p2.jeu.tools.QuickSort;
 import ch.hearc.wp2.p2.jeu.tools.position.JCenterH;
+import ch.hearc.wp2.p2.jeu.tools.position.JComponents;
 
 @SuppressWarnings("serial")
 public class LeaderBoard extends Box {
@@ -157,16 +157,16 @@ public class LeaderBoard extends Box {
 		Path source = Paths.get("ressources/data.csv");
 		Files.deleteIfExists(source);
 		Files.createFile(source);
-		String []text = this.leadersLabel.getText().split(";");
-		String []dataToWrite = new String[TOP];
+		String[] text = this.leadersLabel.getText().split(";");
+		String[] dataToWrite = new String[TOP];
 		String data = new String();
-		for(int i=0;i<TOP-1;i++) {
+		for (int i = 0; i < TOP - 1; i++) {
 			text[i] = text[i].replaceAll(" : ", ",");
 			text[i] = text[i].replaceAll(";", "");
-			dataToWrite[i] = text[i]+"\n";
+			dataToWrite[i] = text[i] + "\n";
 		}
-		dataToWrite[TOP-1] = newLeader;
-		for(int i=0;i<TOP;i++) {
+		dataToWrite[TOP - 1] = newLeader;
+		for (int i = 0; i < TOP; i++) {
 			data += dataToWrite[i];
 		}
 		byte[] b = data.getBytes(Charset.forName("UTF-8"));
@@ -174,7 +174,7 @@ public class LeaderBoard extends Box {
 		showRead();
 	}
 
-	//drawing
+	// drawing
 	@Override
 	protected void paintComponent(Graphics g) {
 		super.paintComponent(g);

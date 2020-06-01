@@ -30,11 +30,9 @@ public class PauseMenu extends JPanel {
 
 	// singleton
 	private static PauseMenu pauseMenu = null;
-
 	public static PauseMenu getInstance() {
 		if (pauseMenu == null) {
 			pauseMenu = new PauseMenu();
-			pauseMenu.addKeyListener(new KeyboardMenuPause());
 		}
 		return pauseMenu;
 	}
@@ -88,6 +86,8 @@ public class PauseMenu extends JPanel {
 
 			}
 		});
+		
+		this.addKeyListener(new KeyboardMenuPause());
 	}
 
 	@Override

@@ -7,7 +7,6 @@ public class ChronoPlayer implements Runnable {
 	@Override
 	public void run() {
 		while (true) {
-
 			Map.getInstance().getPlayer().setImage();
 			try {
 				Thread.sleep(200);

@@ -28,7 +28,6 @@ public class MainMenu extends JPanel {
 	private JButtonMenu leaderBoard;
 	private Game game;
 	private VolumeControl vC;
-
 	private static MainMenu mainMenu = null;
 
 	// singleton
@@ -64,12 +63,12 @@ public class MainMenu extends JPanel {
 		add(new JCenter(boxV));
 
 		quit.addActionListener(new ActionListener() {
-
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				System.exit(0);
 			}
 		});
+
 		play.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -87,6 +86,7 @@ public class MainMenu extends JPanel {
 				PauseMenu.getInstance().getvC().getvS().setValue(vC.getvS().getValue());
 			}
 		});
+
 		leaderBoard.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -96,6 +96,7 @@ public class MainMenu extends JPanel {
 				game.setSize(game.getWidth() - 1, game.getHeight() - 1);
 			}
 		});
+
 		about.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -114,6 +115,7 @@ public class MainMenu extends JPanel {
 		g.drawImage(logo, 0, 0, getWidth(), getHeight(), 0, 0, logo.getWidth(null), logo.getHeight(null), null);
 	}
 
+	// getters & setters
 	public VolumeControl getvC() {
 		return vC;
 	}
