@@ -60,14 +60,15 @@ public class LeaderBoard extends Box {
 
 	private LeaderBoard() {
 		super(BoxLayout.Y_AXIS);
-		nbDeath = 0;
+		this.nbDeath = 0;
 		this.buttonEntry = new JButtonMenu("Validate");
 		this.entry = new JTextField();
 		this.exitButton = new ExitButton("Back to Menu", "MainMenu");
 		this.label = new JLabel();
 		this.leadersLabel = new JLabel();
-		buttonEntry.setVisible(false);
-		entry.setVisible(false);
+		this.buttonEntry.setVisible(false);
+		this.entry.setVisible(false);
+		this.hasPlayedSound = false;
 
 		JComponents.setWidth(entry, 300);
 		JComponents.setHeight(entry, 25);
@@ -76,39 +77,33 @@ public class LeaderBoard extends Box {
 		add(new JCenterH(entry));
 		add(new JCenterH(buttonEntry));
 		add(Box.createVerticalStrut(15));
-		hasPlayedSound = false;
-		URI uri;
+
 		try {
-			uri = getClass().getResource("/data.csv").toURI();
+			URI uri = getClass().getResource("/data.csv").toURI();
 			initFileSystem(uri);
 			source = Paths.get(uri);
 		} catch (URISyntaxException | IOException e1) {
 			e1.printStackTrace();
 		}
 
-		showRead();
-
 		buttonEntry.addActionListener(new ActionListener() {
-
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				buttonEntry.setVisible(false);
 				entry.setVisible(false);
 				name = entry.getText().toString();
-				if (nbDeath < worstTop) {
-					if (!name.isBlank() && !name.isEmpty()) {
-						String newLeader = new String();
-						newLeader = name + "," + Integer.toString(nbDeath);
-						try {
-							write(newLeader);
-						} catch (IOException exception) {
-							exception.printStackTrace();
-						}
+				if (nbDeath < worstTop && !name.isBlank() && !name.isEmpty()) {
+					String newLeader = new String();
+					newLeader = name + "," + Integer.toString(nbDeath);
+					try {
+						write(newLeader);
+					} catch (IOException exception) {
+						exception.printStackTrace();
 					}
-
 				}
 			}
 		});
+		showRead();
 	}
 
 	public void showRead() {
@@ -164,7 +159,6 @@ public class LeaderBoard extends Box {
 			e.printStackTrace();
 		}
 		return null;
-
 	}
 
 	public void write(String newLeader) throws IOException {
@@ -196,7 +190,6 @@ public class LeaderBoard extends Box {
 	private void draw(Graphics2D g2d) {
 		g2d.drawImage(ShopImage.MENUBG, 0, 0, getWidth(), getHeight(), 0, 0, ShopImage.MENUBG.getWidth(null),
 				ShopImage.MENUBG.getHeight(null), null);
-
 		g2d.setFont(new Font("Monospaced", Font.BOLD, 50));
 		g2d.setColor(Color.white);
 		Design.printSimpleString("LeaderBoard", Main.WIDTH / 3, Main.WIDTH / 3, Main.WIDTH / 17, g2d);
