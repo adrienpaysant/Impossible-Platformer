@@ -7,13 +7,17 @@ import java.awt.Graphics2D;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
+import java.net.URI;
 import java.net.URISyntaxException;
 import java.nio.charset.Charset;
+import java.nio.file.FileSystem;
+import java.nio.file.FileSystems;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import javax.swing.Box;
@@ -127,17 +131,32 @@ public class LeaderBoard extends Box {
 		update(getGraphics());
 	}
 
+	private FileSystem initFileSystem(URI uri) throws IOException {
+		try {
+			return FileSystems.newFileSystem(uri, Collections.emptyMap());
+		} catch (IllegalArgumentException e) {
+			return FileSystems.getDefault();
+		}
+	}
+
 	public String[][] read() throws IOException {
 		try {
+			final URI uri = getClass().getResource("/data.csv").toURI();
+			FileSystem zipfs = initFileSystem(uri);
+			Path source = Paths.get(uri);
+
 			String[][] result = new String[TOP][2];
 			int i = 0;
 			List<String> list = new ArrayList<String>();
-			Path source = Paths.get(ClassLoader.getSystemResource("data.csv").toURI());
+			// Path source = Paths.get(ClassLoader.getSystemResource("data.csv").toURI());
 			list = Files.readAllLines(source);
 			for (String line : list) {
 				if (i < TOP) {
 					result[i++] = line.split(",");
 				}
+			}
+			if (zipfs != FileSystems.getDefault()) {
+				zipfs.close();
 			}
 			return result;
 		} catch (Exception e) {
@@ -149,7 +168,11 @@ public class LeaderBoard extends Box {
 
 	public void write(String newLeader) throws IOException {
 		try {
-			Path source = Paths.get(ClassLoader.getSystemResource("data.csv").toURI());
+			final URI uri = getClass().getResource("/data.csv").toURI();
+			FileSystem zipfs = initFileSystem(uri);
+			Path source = Paths.get(uri);
+
+			// Path source = Paths.get(ClassLoader.getSystemResource("data.csv").toURI());
 			Files.deleteIfExists(source);
 			Files.createFile(source);
 			String[] text = this.leadersLabel.getText().split(";");
@@ -166,6 +189,9 @@ public class LeaderBoard extends Box {
 			}
 			byte[] b = data.getBytes(Charset.forName("UTF-8"));
 			Files.write(source, b, StandardOpenOption.WRITE);
+			if (zipfs != FileSystems.getDefault()) {
+				zipfs.close();
+			}
 			showRead();
 		} catch (URISyntaxException e) {
 			e.printStackTrace();
