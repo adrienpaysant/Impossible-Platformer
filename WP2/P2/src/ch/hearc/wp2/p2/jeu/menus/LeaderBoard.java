@@ -15,7 +15,6 @@ import java.nio.file.FileSystems;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.nio.file.StandardOpenOption;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -52,6 +51,7 @@ public class LeaderBoard extends Box {
 	private boolean hasPlayedSound;
 	private int worstTop;
 	private String name = "";
+	private Path source;
 
 	// singleton
 	public static LeaderBoard getInstance() {
@@ -62,14 +62,15 @@ public class LeaderBoard extends Box {
 
 	private LeaderBoard() {
 		super(BoxLayout.Y_AXIS);
-		nbDeath = 0;
+		this.nbDeath = 0;
 		this.buttonEntry = new JButtonMenu("Validate");
 		this.entry = new JTextField();
 		this.exitButton = new ExitButton("Back to Menu", "MainMenu");
 		this.label = new JLabel();
 		this.leadersLabel = new JLabel();
-		buttonEntry.setVisible(false);
-		entry.setVisible(false);
+		this.buttonEntry.setVisible(false);
+		this.entry.setVisible(false);
+		this.hasPlayedSound = false;
 
 		JComponents.setWidth(entry, 300);
 		JComponents.setHeight(entry, 25);
@@ -78,30 +79,33 @@ public class LeaderBoard extends Box {
 		add(new JCenterH(entry));
 		add(new JCenterH(buttonEntry));
 		add(Box.createVerticalStrut(15));
-		hasPlayedSound = false;
-		showRead();
+
+		try {
+			URI uri = getClass().getResource("/data.csv").toURI();
+			initFileSystem(uri);
+			source = Paths.get(uri);
+		} catch (URISyntaxException | IOException e1) {
+			e1.printStackTrace();
+		}
 
 		buttonEntry.addActionListener(new ActionListener() {
-
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				buttonEntry.setVisible(false);
 				entry.setVisible(false);
 				name = entry.getText().toString();
-				if (nbDeath < worstTop) {
-					if (!name.isBlank() && !name.isEmpty()) {
-						String newLeader = new String();
-						newLeader = name + "," + Integer.toString(nbDeath);
-						try {
-							write(newLeader);
-						} catch (IOException exception) {
-							exception.printStackTrace();
-						}
+				if (nbDeath < worstTop && !name.isBlank() && !name.isEmpty()) {
+					String newLeader = new String();
+					newLeader = name + "," + Integer.toString(nbDeath);
+					try {
+						write(newLeader);
+					} catch (IOException exception) {
+						exception.printStackTrace();
 					}
-
 				}
 			}
 		});
+		showRead();
 	}
 
 	public void showRead() {
@@ -143,61 +147,38 @@ public class LeaderBoard extends Box {
 
 	public String[][] read() throws IOException {
 		try {
-			final URI uri = getClass().getResource("/data.csv").toURI();
-			FileSystem zipfs = initFileSystem(uri);
-			Path source = Paths.get(uri);
-
 			String[][] result = new String[TOP][2];
 			int i = 0;
 			List<String> list = new ArrayList<String>();
-			// Path source = Paths.get(ClassLoader.getSystemResource("data.csv").toURI());
 			list = Files.readAllLines(source);
 			for (String line : list) {
 				if (i < TOP) {
 					result[i++] = line.split(",");
 				}
 			}
-			if (zipfs != FileSystems.getDefault()) {
-				zipfs.close();
-			}
 			return result;
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		return null;
-
 	}
 
 	public void write(String newLeader) throws IOException {
-		try {
-			final URI uri = getClass().getResource("/data.csv").toURI();
-			FileSystem zipfs = initFileSystem(uri);
-			Path source = Paths.get(uri);
-
-			// Path source = Paths.get(ClassLoader.getSystemResource("data.csv").toURI());
-			Files.deleteIfExists(source);
-			Files.createFile(source);
-			String[] text = this.leadersLabel.getText().split(";");
-			String[] dataToWrite = new String[TOP];
-			String data = new String();
-			for (int i = 0; i < TOP - 1; i++) {
-				text[i] = text[i].replaceAll(" : ", ",");
-				text[i] = text[i].replaceAll(";", "");
-				dataToWrite[i] = text[i] + "\n";
-			}
-			dataToWrite[TOP - 1] = newLeader;
-			for (int i = 0; i < TOP; i++) {
-				data += dataToWrite[i];
-			}
-			byte[] b = data.getBytes(Charset.forName("UTF-8"));
-			Files.write(source, b, StandardOpenOption.WRITE);
-			if (zipfs != FileSystems.getDefault()) {
-				zipfs.close();
-			}
-			showRead();
-		} catch (URISyntaxException e) {
-			e.printStackTrace();
+		String[] text = this.leadersLabel.getText().split(";");
+		String[] dataToWrite = new String[TOP];
+		String data = new String();
+		for (int i = 0; i < TOP - 1; i++) {
+			text[i] = text[i].replaceAll(" : ", ",");
+			text[i] = text[i].replaceAll(";", "");
+			dataToWrite[i] = text[i] + "\n";
 		}
+		dataToWrite[TOP - 1] = newLeader;
+		for (int i = 0; i < TOP; i++) {
+			data += dataToWrite[i];
+		}
+		byte[] b = data.getBytes(Charset.forName("UTF-8"));
+		Files.write(source, b);
+		showRead();
 	}
 
 	// drawing
@@ -211,7 +192,6 @@ public class LeaderBoard extends Box {
 	private void draw(Graphics2D g2d) {
 		g2d.drawImage(ShopImage.MENUBG, 0, 0, getWidth(), getHeight(), 0, 0, ShopImage.MENUBG.getWidth(null),
 				ShopImage.MENUBG.getHeight(null), null);
-
 		g2d.setFont(new Font("Monospaced", Font.BOLD, 50));
 		g2d.setColor(Color.white);
 		Design.printSimpleString("LeaderBoard", Main.WIDTH / 3, Main.WIDTH / 3, Main.WIDTH / 17, g2d);
@@ -219,8 +199,10 @@ public class LeaderBoard extends Box {
 		g2d.setFont(new Font("Monospaced", Font.ITALIC, 25));
 		if (Map.getInstance().isHasPlay())
 			if (label.getText() == "win" && !hasPlayedSound && nbDeath >= 0) {
-				buttonEntry.setVisible(true);
-				entry.setVisible(true);
+				if (nbDeath < worstTop) {
+					buttonEntry.setVisible(true);
+					entry.setVisible(true);
+				}
 				Audio.playSound("/audio/win.wav");
 				this.hasPlayedSound = true;
 				Design.printSimpleString("You win after " + (nbDeath) + " death(s).", Main.WIDTH / 3, Main.WIDTH / 3,
