@@ -4,7 +4,7 @@ import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JComponent;
 
-//class to make a JComponent horizontaly centred
+//class to make a JComponent horizontally centred
 
 @SuppressWarnings("serial")
 public class JCenterH extends Box {

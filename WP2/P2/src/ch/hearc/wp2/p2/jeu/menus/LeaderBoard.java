@@ -108,6 +108,7 @@ public class LeaderBoard extends Box {
 		showRead();
 	}
 
+	//put the read data in a label with the good presentation
 	public void showRead() {
 		try {
 			String[][] readRawData = read();
@@ -137,6 +138,7 @@ public class LeaderBoard extends Box {
 		update(getGraphics());
 	}
 
+	//useful for jar version
 	private FileSystem initFileSystem(URI uri) throws IOException {
 		try {
 			return FileSystems.newFileSystem(uri, Collections.emptyMap());
@@ -145,6 +147,7 @@ public class LeaderBoard extends Box {
 		}
 	}
 
+	//read from the file
 	public String[][] read() throws IOException {
 		try {
 			String[][] result = new String[TOP][2];
