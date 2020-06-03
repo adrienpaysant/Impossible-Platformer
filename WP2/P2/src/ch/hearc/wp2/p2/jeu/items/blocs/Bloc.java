@@ -5,6 +5,8 @@ import java.awt.Image;
 
 import ch.hearc.wp2.p2.jeu.items.Item;
 
+//use full class to DRY
+
 @SuppressWarnings("serial")
 public class Bloc extends Item {
 

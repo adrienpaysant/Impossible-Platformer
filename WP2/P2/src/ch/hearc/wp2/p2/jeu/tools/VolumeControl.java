@@ -11,6 +11,8 @@ import javax.swing.JLabel;
 import ch.hearc.wp2.p2.jeu.tools.position.JCenter;
 import ch.hearc.wp2.p2.jeu.tools.position.JComponents;
 
+//component that carry the slider to manage the volume
+
 @SuppressWarnings("serial")
 public class VolumeControl extends Box {
 

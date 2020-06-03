@@ -35,6 +35,8 @@ import ch.hearc.wp2.p2.jeu.tools.image.ShopImage;
 import ch.hearc.wp2.p2.jeu.tools.position.JCenterH;
 import ch.hearc.wp2.p2.jeu.tools.position.JComponents;
 
+//page to rank the players & notify the current player of his score
+
 @SuppressWarnings("serial")
 public class LeaderBoard extends Box {
 

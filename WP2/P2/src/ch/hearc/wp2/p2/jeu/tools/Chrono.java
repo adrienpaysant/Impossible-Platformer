@@ -3,6 +3,7 @@ package ch.hearc.wp2.p2.jeu.tools;
 
 import ch.hearc.wp2.p2.jeu.Map;
 
+//timer to update the map
 public class Chrono implements Runnable {
 	private final int DELAY = 15;// timer between 2 repaint 60FPS
 

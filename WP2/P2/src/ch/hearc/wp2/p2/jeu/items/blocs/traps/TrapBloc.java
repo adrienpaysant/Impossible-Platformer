@@ -4,7 +4,7 @@ package ch.hearc.wp2.p2.jeu.items.blocs.traps;
 import java.awt.Image;
 
 import ch.hearc.wp2.p2.jeu.items.blocs.Bloc;
-
+//generic class for trap to DRY
 @SuppressWarnings("serial")
 public abstract class TrapBloc extends Bloc {
 
@@ -12,7 +12,7 @@ public abstract class TrapBloc extends Bloc {
 		super(x, y, w, h, v, texture);
 		this.type = type;
 	}
-
+	
 	public abstract void trapAction();
 
 	public abstract void revertAction();

@@ -17,6 +17,7 @@ import ch.hearc.wp2.p2.jeu.tools.image.ShopImage;
 import ch.hearc.wp2.p2.jeu.tools.position.JCenter;
 import ch.hearc.wp2.p2.jeu.tools.position.JCenterH;
 
+//pause page can be accessed when playing
 @SuppressWarnings("serial")
 public class PauseMenu extends JPanel {
 

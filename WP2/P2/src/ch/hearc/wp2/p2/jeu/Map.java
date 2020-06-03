@@ -27,6 +27,7 @@ import ch.hearc.wp2.p2.jeu.tools.ExitButton;
 import ch.hearc.wp2.p2.jeu.tools.Keyboard;
 import ch.hearc.wp2.p2.jeu.tools.image.ShopImage;
 
+//the Map class is the game
 @SuppressWarnings("serial")
 public class Map extends JPanel {
 
@@ -161,14 +162,15 @@ public class Map extends JPanel {
 						player.getTexture().getWidth(null) * 2, player.getTexture().getHeight(null), null);
 
 			}
-			// blocs
-			g2d.setColor(Color.green);
+			// move the blocs
+
 			for (Bloc bloc : listBloc) {
 				// - dX to move with the player
 				bloc.moveByX(-dX * SPEED);
 
 				if (DEBUG) {
 					// debug mode
+					g2d.setColor(Color.green);
 					g2d.drawRect((int) bloc.x, (int) bloc.y, (int) bloc.width, (int) bloc.height);
 				} else {
 					if (bloc.isVisible()) {
@@ -179,7 +181,7 @@ public class Map extends JPanel {
 				}
 			}
 
-			// cloud
+			// move the clouds
 			for (Bloc cld : listCloud) {
 				// - dX to move with the player
 				cld.moveByX(-dX * SPEED);
@@ -256,7 +258,7 @@ public class Map extends JPanel {
 		LeaderBoard.getInstance().setHasPlayedSound(false);
 	}
 
-	// tools to set up the bloc
+	// tools to set up  blocs
 	private void addPlainBloc(int coefX, int coefY) {
 		listBloc.add(new Bloc(-BLOC_WH / 4 + BLOC_WH * coefX, groundH + BLOC_WH * coefY, BLOC_WH, BLOC_WH, true,
 				ShopImage.STONEPATHBLOCK));

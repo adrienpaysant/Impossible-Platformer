@@ -10,6 +10,7 @@ import ch.hearc.wp2.p2.jeu.Game;
 import ch.hearc.wp2.p2.jeu.Map;
 import ch.hearc.wp2.p2.jeu.menus.PauseMenu;
 
+//listener on keyboard to move the player in the map
 public class Keyboard implements KeyListener {
 
 	private boolean left = false;

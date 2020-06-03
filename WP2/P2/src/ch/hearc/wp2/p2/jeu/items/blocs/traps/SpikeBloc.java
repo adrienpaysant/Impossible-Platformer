@@ -9,6 +9,7 @@ import ch.hearc.wp2.p2.jeu.items.blocs.Bloc;
 import ch.hearc.wp2.p2.jeu.tools.Audio;
 import ch.hearc.wp2.p2.jeu.tools.image.ShopImage;
 
+//class that define the type of trap "spike"
 @SuppressWarnings("serial")
 public class SpikeBloc extends TrapBloc {
 
@@ -17,7 +18,8 @@ public class SpikeBloc extends TrapBloc {
 
 	public SpikeBloc(double x, double y, double w, double h, boolean v, Image texture, TypeTrap type) {
 		super(x, y, w, h, false, texture, type);
-
+		
+		//add a bloc to hide the trap
 		switch (type) {
 		case SPIKER:
 			bSource = new Bloc(x, y, Map.BLOC_WH, Map.BLOC_WH, true, ShopImage.PATHBLOCK);

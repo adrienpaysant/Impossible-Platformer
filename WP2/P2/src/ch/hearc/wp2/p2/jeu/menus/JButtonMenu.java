@@ -10,6 +10,8 @@ import java.awt.geom.RoundRectangle2D;
 import javax.swing.JButton;
 import javax.swing.SwingConstants;
 
+//button with our graphic design
+
 @SuppressWarnings("serial")
 public class JButtonMenu extends JButton {
 

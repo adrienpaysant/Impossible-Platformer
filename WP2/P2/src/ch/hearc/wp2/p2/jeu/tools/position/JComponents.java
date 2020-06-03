@@ -5,6 +5,8 @@ import java.awt.Dimension;
 
 import javax.swing.JComponent;
 
+//class to set properly the widht or height of a JComponent
+
 public class JComponents {
 
 	public static void setWidth(JComponent component, int width) {

@@ -6,6 +6,7 @@ import java.io.IOException;
 
 import javax.imageio.ImageIO;
 
+//usefull class to have an easy access to our images
 public class ShopImage extends Object {
 
 	private static ShopImage shopImage = null;

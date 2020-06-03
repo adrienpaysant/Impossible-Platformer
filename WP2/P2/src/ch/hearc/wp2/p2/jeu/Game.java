@@ -6,6 +6,7 @@ import java.awt.Dimension;
 import javax.swing.JFrame;
 import javax.swing.WindowConstants;
 
+//the JFrame for the game
 @SuppressWarnings("serial")
 public class Game extends JFrame {
 	// singleton

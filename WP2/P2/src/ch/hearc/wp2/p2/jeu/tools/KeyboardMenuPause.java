@@ -9,6 +9,7 @@ import javax.swing.SwingUtilities;
 import ch.hearc.wp2.p2.jeu.Game;
 import ch.hearc.wp2.p2.jeu.Map;
 
+//keylistener to exit pause menu 
 public class KeyboardMenuPause implements KeyListener {
 
 	@Override

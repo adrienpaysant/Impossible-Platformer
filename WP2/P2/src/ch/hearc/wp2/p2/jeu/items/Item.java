@@ -4,6 +4,8 @@ package ch.hearc.wp2.p2.jeu.items;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 
+//usefull class to DRY and insure compatibility 
+
 @SuppressWarnings("serial")
 public abstract class Item extends Rectangle2D.Double {
 

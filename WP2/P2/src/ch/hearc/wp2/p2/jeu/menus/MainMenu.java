@@ -16,6 +16,8 @@ import ch.hearc.wp2.p2.jeu.tools.image.ShopImage;
 import ch.hearc.wp2.p2.jeu.tools.position.JCenter;
 import ch.hearc.wp2.p2.jeu.tools.position.JCenterH;
 
+//main menu of our game allow to start playing/checking about page/checking the leaderboard
+
 @SuppressWarnings("serial")
 public class MainMenu extends JPanel {
 

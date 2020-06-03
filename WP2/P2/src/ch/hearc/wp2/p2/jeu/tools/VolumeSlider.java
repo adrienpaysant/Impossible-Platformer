@@ -4,6 +4,8 @@ import javax.swing.JSlider;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
+//JSlider to manage the master volume of the game
+
 @SuppressWarnings("serial")
 public class VolumeSlider extends JSlider {
 

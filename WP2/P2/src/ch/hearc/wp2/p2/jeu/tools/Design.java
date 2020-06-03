@@ -2,6 +2,8 @@ package ch.hearc.wp2.p2.jeu.tools;
 
 import java.awt.Graphics2D;
 
+
+//class with 1 methode to center string
 public class Design {
 	/**
 	 * Methode to draw a centered text in a 2D graphic context

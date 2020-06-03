@@ -5,6 +5,8 @@ import ch.hearc.wp2.p2.jeu.Map;
 import ch.hearc.wp2.p2.jeu.items.blocs.traps.SpikeBloc;
 import ch.hearc.wp2.p2.jeu.items.blocs.traps.TrapBloc;
 
+
+//timer to manage the trap
 public class ChronoTrap implements Runnable {
 	private final int DELAY = 3000;
 

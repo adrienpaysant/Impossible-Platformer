@@ -16,6 +16,8 @@ import ch.hearc.wp2.p2.jeu.tools.image.ShopImage;
 import ch.hearc.wp2.p2.jeu.tools.position.JCenter;
 import ch.hearc.wp2.p2.jeu.tools.position.JCenterH;
 
+//page of the project description
+
 @SuppressWarnings("serial")
 public class About extends Box {
 

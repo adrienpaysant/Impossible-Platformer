@@ -1,5 +1,7 @@
 package ch.hearc.wp2.p2.jeu.tools;
 
+
+//quicksort class, used to sort the leaderboard
 public class QuickSort {
 	private int partition(int arr[], int low, int high) {
 		int pivot = arr[high];

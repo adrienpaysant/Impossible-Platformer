@@ -8,6 +8,8 @@ import ch.hearc.wp2.p2.jeu.menus.JButtonMenu;
 import ch.hearc.wp2.p2.jeu.menus.MainMenu;
 import ch.hearc.wp2.p2.jeu.menus.PauseMenu;
 
+//button class to exit to a page extending JButtonMenu for graphic harmony
+
 @SuppressWarnings("serial")
 public class ExitButton extends JButtonMenu {
 

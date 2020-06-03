@@ -2,6 +2,7 @@ package ch.hearc.wp2.p2.jeu.tools;
 
 import ch.hearc.wp2.p2.jeu.Map;
 
+//timer for the player's animations
 public class ChronoPlayer implements Runnable {
 
 	@Override

@@ -7,6 +7,8 @@ import java.awt.geom.Point2D;
 import ch.hearc.wp2.p2.jeu.Main;
 import ch.hearc.wp2.p2.jeu.Map;
 
+//class that define the type of trap "fall"
+
 @SuppressWarnings("serial")
 public class FallBloc extends TrapBloc {
 

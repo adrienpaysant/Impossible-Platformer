@@ -15,6 +15,8 @@ import ch.hearc.wp2.p2.jeu.items.blocs.traps.TrapBloc;
 import ch.hearc.wp2.p2.jeu.items.blocs.traps.TypeTrap;
 import ch.hearc.wp2.p2.jeu.tools.Audio;
 
+//player class  represent the object that the player will control
+
 @SuppressWarnings("serial")
 public class Player extends Item {
 
@@ -37,6 +39,8 @@ public class Player extends Item {
 	}
 
 	// methodes
+	
+	//setImage is used to change the player texture and then creating an animation
 	public void setImage() {
 		if (!(isWalking && isRunning)) {
 			try {
@@ -98,6 +102,7 @@ public class Player extends Item {
 		spriteCmpt++;
 	}
 
+	//methode to detect colisions
 	public boolean contactRight(Item it) {
 		return intersectsLine(it.x - 5, it.y + 5, it.x - 5, it.getMaxY());
 	}
@@ -113,7 +118,8 @@ public class Player extends Item {
 	public boolean contactTop(Item it) {
 		return intersectsLine(it.x, it.getMaxY() + 1, it.getMaxX(), it.getMaxY() + 1);
 	}
-
+	
+	//contactTest is used with the trap to make sure of the detection (need to redefine the tested bloc)
 	public boolean contactTest(Item it) {
 		return (contactBottom(
 				new Bloc(it.x, it.y - 5, it.width, it.height, it.isVisible(), ((TrapBloc) it).getTexture()))
@@ -136,6 +142,7 @@ public class Player extends Item {
 			trapThePlayer(it);
 		}
 	}
+
 
 	private void trapThePlayer(Item it) {
 		if (it instanceof TrapBloc) {
