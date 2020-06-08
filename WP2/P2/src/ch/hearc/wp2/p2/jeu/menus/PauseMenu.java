@@ -11,6 +11,7 @@ import javax.swing.SwingUtilities;
 import ch.hearc.wp2.p2.jeu.Game;
 import ch.hearc.wp2.p2.jeu.Map;
 import ch.hearc.wp2.p2.jeu.tools.Audio;
+import ch.hearc.wp2.p2.jeu.tools.ExitButton;
 import ch.hearc.wp2.p2.jeu.tools.KeyboardMenuPause;
 import ch.hearc.wp2.p2.jeu.tools.VolumeControl;
 import ch.hearc.wp2.p2.jeu.tools.image.ShopImage;
@@ -21,7 +22,7 @@ import ch.hearc.wp2.p2.jeu.tools.position.JCenterH;
 @SuppressWarnings("serial")
 public class PauseMenu extends JPanel {
 
-	private JButtonMenu exit;
+	private ExitButton exit;
 	private JButtonMenu resume;
 	private Game game;
 	private VolumeControl vC;
@@ -42,7 +43,7 @@ public class PauseMenu extends JPanel {
 
 		Box boxV = Box.createVerticalBox();
 		this.resume = new JButtonMenu("Resume");
-		this.exit = new JButtonMenu("Exit To Leaderboard");
+		this.exit = new ExitButton("Exit To Leaderboard","LeaderBoard");
 		boxV.add(new JCenterH(resume));
 		boxV.add(Box.createVerticalStrut(20));
 		boxV.add(vC);
@@ -64,20 +65,6 @@ public class PauseMenu extends JPanel {
 					}
 				});
 				game.setSize(game.getWidth() - 1, game.getHeight() - 1);
-			}
-		});
-
-		exit.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				Game.getInstance().setCurrent("leaderboard");
-				LeaderBoard.getInstance().setDeathCount(Map.getInstance().getNbDeath() - 1);
-				LeaderBoard.getInstance().setTextLabel("fail");
-				game.setSize(game.getWidth() + 1, game.getHeight() + 1);
-				game.setContentPane(LeaderBoard.getInstance());
-				Map.getInstance().init();
-				game.setSize(game.getWidth() - 1, game.getHeight() - 1);
-
 			}
 		});
 
