@@ -12,6 +12,7 @@ import javax.swing.JLabel;
 import javax.swing.SwingConstants;
 
 import ch.hearc.wp2.p2.jeu.Game;
+import ch.hearc.wp2.p2.jeu.tools.ExitButton;
 import ch.hearc.wp2.p2.jeu.tools.image.ShopImage;
 import ch.hearc.wp2.p2.jeu.tools.position.JCenter;
 import ch.hearc.wp2.p2.jeu.tools.position.JCenterH;
@@ -21,8 +22,7 @@ import ch.hearc.wp2.p2.jeu.tools.position.JCenterH;
 @SuppressWarnings("serial")
 public class About extends Box {
 
-	private Game game;
-	private JButtonMenu buttonExit;
+	private ExitButton buttonExit;
 	private static About about = null;
 
 	// singleton
@@ -34,8 +34,7 @@ public class About extends Box {
 
 	private About() {
 		super(BoxLayout.Y_AXIS);
-		this.game = Game.getInstance();
-		buttonExit = new JButtonMenu("Back to Menu");
+		buttonExit = new ExitButton("Back to Menu","MainMenu");
 		add(new JCenterH(buttonExit));
 		add(Box.createVerticalGlue());
 		JLabel label = new JLabel(
@@ -49,14 +48,6 @@ public class About extends Box {
 		label.setForeground(Color.WHITE);
 		add(new JCenter(label));
 		add(Box.createVerticalGlue());
-		buttonExit.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				game.setSize(game.getWidth() + 1, game.getHeight() + 1);
-				game.setContentPane(MainMenu.getInstance());
-				game.setSize(game.getWidth() - 1, game.getHeight() - 1);
-			}
-		});
 	}
 
 	@Override
