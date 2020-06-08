@@ -5,7 +5,6 @@ import java.awt.event.ActionListener;
 
 import ch.hearc.wp2.p2.jeu.Game;
 import ch.hearc.wp2.p2.jeu.menus.JButtonMenu;
-import ch.hearc.wp2.p2.jeu.menus.LeaderBoard;
 import ch.hearc.wp2.p2.jeu.menus.MainMenu;
 import ch.hearc.wp2.p2.jeu.menus.PauseMenu;
 
@@ -28,9 +27,6 @@ public class ExitButton extends JButtonMenu {
 					break;
 				case "PauseMenu":
 					Game.getInstance().setContentPane(PauseMenu.getInstance());
-					break;
-				case "LeaderBoard":
-					Game.getInstance().setContentPane(LeaderBoard.getInstance());
 					break;
 				default:
 					Game.getInstance().setContentPane(PauseMenu.getInstance());
