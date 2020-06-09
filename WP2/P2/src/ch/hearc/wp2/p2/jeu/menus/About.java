@@ -3,15 +3,12 @@ package ch.hearc.wp2.p2.jeu.menus;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JLabel;
 import javax.swing.SwingConstants;
 
-import ch.hearc.wp2.p2.jeu.Game;
 import ch.hearc.wp2.p2.jeu.tools.ExitButton;
 import ch.hearc.wp2.p2.jeu.tools.image.ShopImage;
 import ch.hearc.wp2.p2.jeu.tools.position.JCenter;
@@ -34,7 +31,7 @@ public class About extends Box {
 
 	private About() {
 		super(BoxLayout.Y_AXIS);
-		buttonExit = new ExitButton("Back to Menu","MainMenu");
+		buttonExit = new ExitButton("Back to Menu", "MainMenu");
 		add(new JCenterH(buttonExit));
 		add(Box.createVerticalGlue());
 		JLabel label = new JLabel(
@@ -54,7 +51,7 @@ public class About extends Box {
 	protected void paintComponent(Graphics g) {
 		super.paintComponent(g);
 		// allow resizeEvent by deforming Image to the good width and height
-		g.drawImage(ShopImage.MENUBG, 0, 0, getWidth(), getHeight(), 0, 0, ShopImage.MENUBG.getWidth(null), 
-				ShopImage.MENUBG.getHeight(null),null);
+		g.drawImage(ShopImage.MENUBG, 0, 0, getWidth(), getHeight(), 0, 0, ShopImage.MENUBG.getWidth(null),
+				ShopImage.MENUBG.getHeight(null), null);
 	}
 }

@@ -62,8 +62,7 @@ public class ShopImage extends Object {
 
 	// decorations
 	public static final Image CLOUD = function("/Blocks/cloud.png");
-	public static final Image BACKGROUND = function("/images/bg.png");
-	public static final Image MENUBG = function("/images/menubg2.jpg");
+	public static final Image MENUBG = function("/images/menubg.jpg");
 	public static final Image PAUSE = function("/images/pause.png");
 	public static final Image SUN = function("/Blocks/sun.png");
 	public static final Image BASEPLAYER = function("/sprites/right/idle/0.png");
